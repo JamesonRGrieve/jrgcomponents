@@ -1,1 +1,0 @@
-# JRG React Components
