@@ -1,6 +1,6 @@
-import Switch from '@mui/material/Switch';
+import { Switch } from '@mui/material';
 import { styled } from '@mui/material/styles';
-export const MenuDarkSwitch = styled(Switch)(({ theme }) => ({
+const Switch_Themed = styled(Switch)(({ theme }) => ({
   width: 62,
   height: 34,
   padding: 7,
@@ -46,3 +46,6 @@ export const MenuDarkSwitch = styled(Switch)(({ theme }) => ({
     borderRadius: 20 / 2,
   },
 }));
+export default function Switch_Dark() {
+  return <Switch_Themed />;
+}
