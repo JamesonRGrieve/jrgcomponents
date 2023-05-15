@@ -1,5 +1,6 @@
 import { Switch } from '@mui/material';
 import { styled } from '@mui/material/styles';
+import { setCookie } from 'cookies-next';
 const Switch_Themed = styled(Switch)(({ theme }) => ({
   width: 62,
   height: 34,
@@ -46,6 +47,6 @@ const Switch_Themed = styled(Switch)(({ theme }) => ({
     borderRadius: 20 / 2,
   },
 }));
-export default function Switch_Dark() {
-  return <Switch_Themed />;
+export default function Switch_Dark({dark, toggle} : {dark : boolean, toggle:any}) {
+  return <Switch_Themed checked={dark} onClick={() => {toggle()}}/>;
 }
