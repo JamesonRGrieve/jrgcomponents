@@ -48,5 +48,5 @@ const Switch_Themed = styled(Switch)(({ theme }) => ({
   },
 }));
 export default function Switch_Dark({dark, toggle} : {dark : boolean, toggle:any}) {
-  return <Switch_Themed checked={dark} onClick={() => {toggle()}}/>;
+  return <Switch_Themed checked={dark??false} onClick={() => {toggle()}}/>;
 }

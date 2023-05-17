@@ -45,5 +45,5 @@ const Switch_Themed = styled(Switch)(({ theme }) => ({
 }));
 
 export default function Switch_Colorblind({colorblind, toggle}: {colorblind: boolean, toggle: any}) {
-  return <Switch_Themed checked={colorblind} onClick={() => {toggle()}}/>;
+  return <Switch_Themed checked={colorblind??false} onClick={() => {toggle()}}/>;
 }
