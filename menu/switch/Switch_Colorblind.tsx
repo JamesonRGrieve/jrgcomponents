@@ -1,5 +1,5 @@
 import { Switch } from '@mui/material';
-import { styled } from '@mui/material/styles';
+import { styled, useTheme } from '@mui/material/styles';
 import { setCookie } from 'cookies-next';
 const Switch_Themed = styled(Switch)(({ theme }) => ({
   width: 62,
@@ -44,6 +44,10 @@ const Switch_Themed = styled(Switch)(({ theme }) => ({
   },
 }));
 
-export default function Switch_Colorblind({colorblind, toggle}: {colorblind: boolean, toggle: any}) {
-  return <Switch_Themed checked={colorblind??false} onClick={() => {toggle()}}/>;
+export default function Switch_Colorblind() {
+  const theme = useTheme();
+  return <Switch_Themed checked={theme.palette.colorblind} onClick={() => {
+    setCookie("colorblind", theme.palette.colorblind?"false":"true");
+    theme.mutate();
+  }}/>;
 }
