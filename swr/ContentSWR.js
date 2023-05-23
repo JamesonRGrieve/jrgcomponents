@@ -1,7 +1,7 @@
 import Typography from '@mui/material/Typography';
-export default function ContentSWR({ swr, content }) {
+export default function ContentSWR({ swr, authSWR=null, content }) {
   return (
-    swr.isLoading
+    swr.isLoading || (authSWR && authSWR.isLoading)
       ?
       <Typography variant="h6" component="h1" noWrap sx={{ fontWeight: "bold" }}>
         Loading...
@@ -19,7 +19,18 @@ export default function ContentSWR({ swr, content }) {
             </Typography>
           </>
           :
+          (
+          (authSWR && authSWR.error) ? <>
+          <Typography variant="h6" component="h1" noWrap sx={{ fontWeight: "bold" }}>
+              Unauthorized!
+            </Typography>
+            <Typography paragraph>
+              {authSWR.error.message}
+            </Typography> 
+            </>
+          :
           content({ data: swr.data })
+          )
       )
   );
 }
