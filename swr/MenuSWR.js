@@ -5,7 +5,7 @@ import {
 } from "@mui/material";
 export default function MenuSWR({ swr, menu }) {
   return (
-    swr.isLoading
+    swr && swr.isLoading
       ?
       <ListItem>
         <ListItemText>
@@ -16,7 +16,7 @@ export default function MenuSWR({ swr, menu }) {
       </ListItem>
       :
       (
-        swr.error
+        swr && swr.error
           ?
           <>
             <ListItem>
@@ -28,14 +28,14 @@ export default function MenuSWR({ swr, menu }) {
             </ListItem>
             <ListItem>
               <ListItemText>
-                <Typography variant="h6" component="h1" noWrap sx={{ fontWeight: "bold" }}>
+                <Typography paragraph component="p">
                   {swr.error.message}
                 </Typography>
               </ListItemText>
             </ListItem>
           </>
           :
-          menu({ data: swr.data })
+          menu({ data: swr?.data })
       )
   );
 }

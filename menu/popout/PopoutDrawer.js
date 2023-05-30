@@ -10,8 +10,10 @@ import {
     ChevronRight,
     ChevronLeft
 } from '@mui/icons-material';
-import MenuSWR from '@/components/data/MenuSWR';
+import MenuSWR from '../../swr/MenuSWR';
 export default function PopoutDrawer({ open, handleClose, side, width, heading, menu, swr }) {
+    const appBarHeight = "4rem";
+    const footerHeight = "4rem";
     const DrawerHeader = styled('div')(({ theme }) => ({
         display: 'flex',
         alignItems: 'center',
@@ -30,8 +32,9 @@ export default function PopoutDrawer({ open, handleClose, side, width, heading, 
             '& .MuiDrawer-paper': {
                 width: width,
                 boxSizing: 'border-box',
-                postition: "absolute",
-                top: "4rem",
+                position: "absolute",
+                top: appBarHeight,
+                //bottom: footerHeight,
                 left: "unset",
             },
         }}
