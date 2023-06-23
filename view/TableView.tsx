@@ -7,6 +7,7 @@ type Props = {
   }
 export default function TableView(props: Props) {
     return <TableContainer>
+              <Typography variant="h4" component="h1" gutterBottom>{props.title}</Typography>
               <Table sx={{ minWidth: 200 }} aria-label="simple table">
                 <TableHead>
                   <TableRow key={props.title}>
