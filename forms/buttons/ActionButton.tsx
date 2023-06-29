@@ -13,22 +13,25 @@ export default function IntegrationSummary(props: any) {
              color={props.color}
              size="large" 
              disabled={clicked || props.disabledCheck()} 
-             onClick={() => {
+             onClick={props.action
+                
+                /*() => {
                 console.log(props.action.constructor.name);
+                console.log(props.action);
                 if (props.action.constructor.name == "AsyncFunction")
                 {
                     setClicked(true);
                     setTimeout(() => setClicked(false), 5000);
                     props.action().then((x: any) => {
-                        props.swr.mutate();
-                        mutate("IntegrationMenuProvider");
+                        //props.swr.mutate();
+                        //mutate("IntegrationMenuProvider");
                     })
                 }
                 else
                 {
                     props.action();
                 }
-            }}>
+            }}*/}>
                 {props.name}
             </Button>
         </Item>;
