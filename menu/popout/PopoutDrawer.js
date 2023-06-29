@@ -12,7 +12,7 @@ import {
 } from '@mui/icons-material';
 import MenuSWR from '../../swr/MenuSWR';
 export default function PopoutDrawer({ open, handleClose, side, width, heading, menu, swr }) {
-    const appBarHeight = "4rem";
+    const appBarHeight = "68.5px";
     const footerHeight = "4rem";
     const DrawerHeader = styled('div')(({ theme }) => ({
         display: 'flex',
@@ -34,6 +34,7 @@ export default function PopoutDrawer({ open, handleClose, side, width, heading, 
                 boxSizing: 'border-box',
                 position: "absolute",
                 top: appBarHeight,
+                height: `calc(100% - ${appBarHeight} - ${footerHeight})`,
                 //bottom: footerHeight,
                 left: "unset",
             },
