@@ -11,7 +11,9 @@ type Props = {
   }
 export default function GridView(props: Props) {
   console.log(props);
-    return <DataGrid
+    return <> 
+    <Typography variant="h4" component="h1" gutterBottom>{props.title}</Typography>
+    <DataGrid
     autoHeight
     initialState={{
       pagination: {
@@ -27,5 +29,6 @@ export default function GridView(props: Props) {
       //
     }}
   />
+  </>
     
   };
