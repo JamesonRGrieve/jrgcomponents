@@ -8,7 +8,6 @@ type Props = {
   determineColor: any,
 }
 export default function CardView(props: Props) {
-  console.log(props.data);
   return <Grid container columns={8}>
     {props.data.map((cardData: any) => {
       return <CardViewCard key={cardData.key} title={cardData.title} subtitle={cardData.subtitle} color={cardData.color} />;

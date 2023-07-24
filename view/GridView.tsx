@@ -1,5 +1,5 @@
 import { Typography, TableContainer, Table, TableHead, TableRow, TableCell, TableBody } from "@mui/material";
-import { DataGrid } from "@mui/x-data-grid";
+import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 type Props = {
     title: string,
     columns: any[],
@@ -7,7 +7,8 @@ type Props = {
     pagination: number[],
     rowFilter: any,
     rowMap: any, 
-    rowClick: any
+    rowClick: any,
+    export: boolean | undefined
   }
 export default function GridView(props: Props) {
   console.log(props);
@@ -28,6 +29,7 @@ export default function GridView(props: Props) {
       console.log(params)
       //
     }}
+    components={{ Toolbar: GridToolbar }}
   />
   </>
     
