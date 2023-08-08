@@ -28,27 +28,32 @@ export default function GridView(props: Props) {
     rows={props.data.filter(props.rowFilter)?.map(props.rowMap) || []}
     rowsPerPageOptions={props.pagination}
     onFilterModelChange={(model :any) => {
-      console.log(model);
-      let filtered = [...props.data.filter(props.rowFilter)?.map(props.rowMap)];
+      let filtered = [...props.data.filter(props.rowFilter)?.map(props.rowMap).map((x:any) => {
+        for (let key in x) {
+          if(x[key] && typeof x[key] === 'string') x[key] = x[key].toUpperCase(); 
+        }  
+        return x;
+      })];
       for (const filter of model.items)
       {
         if (filter.value)
         {
+          const transformedFilterValue = filter.value.toUpperCase();
           if (filter.operatorValue === "contains")
           {
-            filtered = filtered.filter(x => x[filter.columnField].includes(filter.value))
+            filtered = filtered.filter(x => x[filter.columnField].includes(transformedFilterValue))
           }
           else if (filter.operatorValue === "equals")
           {
-            filtered = filtered.filter(x => x[filter.columnField] == filter.value)
+            filtered = filtered.filter(x => x[filter.columnField] == transformedFilterValue)
           }
           else if (filter.operatorValue === "startsWith")
           {
-            filtered = filtered.filter(x => x[filter.columnField].startsWith(filter.value))
+            filtered = filtered.filter(x => x[filter.columnField].startsWith(transformedFilterValue))
           }
           else if (filter.operatorValue === "endsWith")
           {
-            filtered = filtered.filter(x => x[filter.columnField].endsWith(filter.value))
+            filtered = filtered.filter(x => x[filter.columnField].endsWith(transformedFilterValue))
           }
           else if (filter.operatorValue === "isEmpty")
           {
