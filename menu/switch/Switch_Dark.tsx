@@ -50,7 +50,9 @@ const Switch_Themed = styled(Switch)(({ theme }) => ({
 export default function Switch_Dark() {
   const theme = useTheme();
   return <Switch_Themed checked={theme.palette.mode=="dark"} onClick={() => {
-    setCookie("dark", theme.palette.mode=="dark"?"false":"true");
+    const expiryDate = new Date();
+    expiryDate.setDate(expiryDate.getDate() + 365);
+    setCookie("dark", theme.palette.mode=="dark"?"false":"true", {expires: expiryDate});
     theme.mutate();
   }}/>;
 }

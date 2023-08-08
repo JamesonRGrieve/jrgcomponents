@@ -47,7 +47,9 @@ const Switch_Themed = styled(Switch)(({ theme }) => ({
 export default function Switch_Colorblind() {
   const theme = useTheme();
   return <Switch_Themed checked={theme.palette.colorblind} onClick={() => {
-    setCookie("colorblind", theme.palette.colorblind?"false":"true");
+    const expiryDate = new Date();
+    expiryDate.setDate(expiryDate.getDate() + 365);
+    setCookie("colorblind", theme.palette.colorblind?"false":"true", {expires: expiryDate} );
     theme.mutate();
   }}/>;
 }
