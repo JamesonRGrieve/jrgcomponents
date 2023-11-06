@@ -35,7 +35,12 @@ const config = {
             {
                 test: /\.(woff|woff2|ttf|eot|png|jpg|svg|gif)$/i,
                 use: ['file-loader']
-            }
+            },
+            {
+                test: /\.tsx?$/,
+                use: 'ts-loader',
+                exclude: /node_modules/,
+              }
         ]
     },
     resolve: {

@@ -19,16 +19,11 @@ export default function GridView(props: Props) {
     <Typography variant="h4" component="h1" gutterBottom>{props.title}</Typography>
     <DataGrid
     autoHeight
-    initialState={{
-      pagination: {
-        pageSize: props.pagination[0],
-      }
-    }}
+
     onStateChange={(state) => {console.log(state)}}
     onRowClick={props.rowClick}
     columns={props.columns}
     rows={props.data.filter(props.rowFilter)?.map(props.rowMap) || []}
-    rowsPerPageOptions={props.pagination}
     onFilterModelChange={(model :any) => {
       let filtered = [...props.data.filter(props.rowFilter)?.map(props.rowMap).map((x:any) => {
         for (const key in x) {

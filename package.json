@@ -1,10 +1,12 @@
 {
   "name": "jrgcomponents",
-  "version": "0.0.3",
+  "version": "0.0.15",
   "description": "Components developed by Jameson R Grieve for use in React/NextJS projects.",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
-    "test": "eslint . --ext .js,.jsx,.ts,.tsx"
+    "test": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "compile": "tsc --jsx react-jsx"
   },
   "repository": {
     "type": "git",
@@ -34,11 +36,10 @@
     "next": "^14.0.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-markdown": "^9.0.0",
-    "typescript": "^5.2.2"
+    "react-markdown": "^9.0.0"
   },
   "_moduleAliases": {
-    "@": "."
+    "@": "./src"
   },
   "devDependencies": {
     "@storybook/addon-essentials": "^7.5.3",
@@ -57,6 +58,8 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-storybook": "^0.6.15",
     "eslint-webpack-plugin": "^4.0.1",
-    "storybook": "^7.5.3"
+    "storybook": "^7.5.3",
+    "ts-loader": "^9.5.0",
+    "typescript": "^5.2.2"
   }
 }
