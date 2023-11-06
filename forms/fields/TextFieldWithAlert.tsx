@@ -1,5 +1,4 @@
-import { Paper, Button, Typography, TextField, Collapse, Alert } from '@mui/material';
-import {useTheme} from '@mui/material/styles';
+import { TextField, Collapse, Alert } from '@mui/material';
 export type TextFieldWithAlertProps = {
   id: string;
   label: string;
@@ -9,6 +8,7 @@ export type TextFieldWithAlertProps = {
   submit: any;
   error: string;
 };
+import React from "react";
 
 const TextFieldWithAlert: React.FC<TextFieldWithAlertProps> = ({ id, label, autoComplete, value, onChange, submit, error }) => {
   return (

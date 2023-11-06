@@ -1,11 +1,9 @@
 import { Button } from '@mui/material';
 import Item from '@mui/material/Grid';
 import { useState } from 'react';
-import { useSWRConfig } from 'swr'
-
+import React from 'react';
 export default function IntegrationSummary(props: any) {
     const [clicked, setClicked] = useState(false);
-    const { mutate } = useSWRConfig();
     return <Item xs={12} md={6}>
             <Button
              sx={{width:"100%"}} 

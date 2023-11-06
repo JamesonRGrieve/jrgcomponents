@@ -5,6 +5,7 @@ type Props = {
     rows: any,
     data: any
   }
+import React from "react";
 export default function TableView(props: Props) {
     return <TableContainer>
               <Typography variant="h4" component="h1" gutterBottom>{props.title}</Typography>

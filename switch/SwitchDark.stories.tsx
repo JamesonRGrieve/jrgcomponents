@@ -2,8 +2,8 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
 // Import Component and related types.
-import SwitchDarkComponent, {SwitchDarkProps} from './SwitchDark';
-
+import SwitchDarkComponent from './SwitchDark';
+import React from 'react';
 // Configure Metadata.
 const meta: Meta = {
   title: 'Styled/Switch/Dark',
@@ -25,6 +25,6 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 // Configure Component Stories.
-export const SwitchDark: Story = (args: SwitchDarkProps) => <SwitchDarkComponent {...args} />;
+export const SwitchDark: Story = (args: any) => <SwitchDarkComponent {...args} />;
 SwitchDark.args = {};
 

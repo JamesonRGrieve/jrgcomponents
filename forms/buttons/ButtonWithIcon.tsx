@@ -1,7 +1,8 @@
-import { Delete } from '@mui/icons-material';
-import { Button, Typography, Box } from '@mui/material';
+import { Button } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { ReactNode } from 'react';
+import React from "react";
+
 export type ButtonWithIconProps = {
   label: string 
   icon: ReactNode

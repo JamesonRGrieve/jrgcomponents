@@ -4,7 +4,9 @@ import { Switch } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { setCookie } from 'cookies-next';
 import { useContext } from 'react';
-export type SwitchDarkProps = {}
+
+import React from "react";
+
 const SwitchThemed = styled(Switch)(({ theme }) => ({
   width: 62,
   height: 34,

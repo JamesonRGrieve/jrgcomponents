@@ -1,6 +1,5 @@
 import path from "path";
-import { ProvidePlugin } from "webpack";
-import * as webPackDevServer from 'webpack-dev-server'
+import {  ProvidePlugin } from "webpack";
 
 import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
@@ -9,7 +8,7 @@ import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin'
 const config = {
     context: __dirname,
     mode: 'development',
-    entry: '../src/index.tsx',
+    entry: './index.js',
     module: {
         rules: [
             {
@@ -40,7 +39,7 @@ const config = {
         ]
     },
     resolve: {
-        extensions: ['.tsx', '.ts', '.js']
+        extensions: ['.tsx', '.ts', 'jsx', '.js']
     },
     output: {
         path: path.resolve(__dirname, 'build'),

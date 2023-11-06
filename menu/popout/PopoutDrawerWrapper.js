@@ -5,6 +5,8 @@ import {
 } from '@mui/material';
 import MuiAppBar from '@mui/material/AppBar';
 import { styled } from '@mui/material/styles';
+import React from "react";
+
 import PopoutDrawer from './PopoutDrawer';
 import PopoutDrawerWrapperAppBarButton from './PopoutDrawerWrapperAppBarButton';
 const leftDrawerWidth = 320;

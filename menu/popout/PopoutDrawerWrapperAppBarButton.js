@@ -7,6 +7,7 @@ import {
     ChevronRight,
     ChevronLeft
 } from '@mui/icons-material';
+import React from "react";
 
 export default function PopoutDrawerWrapperAppBarButton({ open, handleOpen, side, heading }) {
     return (<>

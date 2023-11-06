@@ -1,8 +1,7 @@
-import { Typography, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, Grid } from "@mui/material";
+import { Typography, Grid } from "@mui/material";
 import { Card, CardContent } from '@mui/material';
 import Item from '@mui/material/Grid';
-import { useTheme } from '@mui/material';
-
+import React from "react";
 type Props = {
   data: any,
   determineColor: any,

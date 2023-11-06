@@ -1,5 +1,7 @@
-import { Typography, TableContainer, Table, TableHead, TableRow, TableCell, TableBody } from "@mui/material";
-import { DataGrid, GridToolbar, useGridApiContext } from "@mui/x-data-grid";
+import { Typography} from "@mui/material";
+import { DataGrid, GridToolbar } from "@mui/x-data-grid";
+import React from "react";
+
 type Props = {
     title: string,
     columns: any[],
@@ -29,7 +31,7 @@ export default function GridView(props: Props) {
     rowsPerPageOptions={props.pagination}
     onFilterModelChange={(model :any) => {
       let filtered = [...props.data.filter(props.rowFilter)?.map(props.rowMap).map((x:any) => {
-        for (let key in x) {
+        for (const key in x) {
           if(x[key] && typeof x[key] === 'string') x[key] = x[key].toUpperCase(); 
         }  
         return x;

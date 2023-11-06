@@ -6,6 +6,7 @@ import {
   ListItemIcon,
 } from "@mui/material";
 import {useRouter} from 'next/router';
+import React from "react";
 export default function MenuList({ pages }) {
   const router = useRouter();
   return (

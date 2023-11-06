@@ -3,6 +3,7 @@ import {
   ListItemText,
   Typography
 } from "@mui/material";
+import React from "react";
 export default function MenuSWR({ swr, menu }) {
   return (
     swr && swr.isLoading
