@@ -1,7 +1,11 @@
+'use client';
+import { ThemeContext, ThemeState } from '@/types/ThemeState';
 import { Switch } from '@mui/material';
-import { styled, useTheme } from '@mui/material/styles';
+import { styled } from '@mui/material/styles';
 import { setCookie } from 'cookies-next';
-const Switch_Themed = styled(Switch)(({ theme }) => ({
+import { useContext } from 'react';
+export type SwitchDarkProps = {}
+const SwitchThemed = styled(Switch)(({ theme }) => ({
   width: 62,
   height: 34,
   padding: 7,
@@ -47,12 +51,13 @@ const Switch_Themed = styled(Switch)(({ theme }) => ({
     borderRadius: 20 / 2,
   },
 }));
-export default function Switch_Dark() {
-  const theme = useTheme();
-  return <Switch_Themed checked={theme.palette.mode=="dark"} onClick={() => {
+export default function StyledSwitch() {
+  const themeState = useContext(ThemeContext) as ThemeState;
+  return <SwitchThemed checked={themeState.dark} onClick={() => {
+    themeState.mutate({...themeState, dark: !themeState.dark});
     const expiryDate = new Date();
     expiryDate.setDate(expiryDate.getDate() + 365);
-    setCookie("dark", theme.palette.mode=="dark"?"false":"true", {expires: expiryDate});
-    theme.mutate();
+    // TODO: Figure out how to move this into an effect hook in theme.tsx.
+    setCookie("dark", !themeState.dark?"true":"false", {expires: expiryDate, domain: process.env.NEXT_PUBLIC_COOKIE_DOMAIN});
   }}/>;
 }

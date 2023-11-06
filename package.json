@@ -1,0 +1,55 @@
+{
+  "name": "jrgcomponents",
+  "version": "0.0.1",
+  "description": "Components developed by Jameson R Grieve for use in React/NextJS projects.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JamesonRGrieve/jrgcomponents.git"
+  },
+  "keywords": [
+    "react",
+    "nextjs",
+    "components"
+  ],
+  "author": "Jameson R Grieve",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JamesonRGrieve/jrgcomponents/issues"
+  },
+  "homepage": "https://github.com/JamesonRGrieve/jrgcomponents#readme",
+  "dependencies": {
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "@mui/icons-material": "^5.14.16",
+    "@mui/material": "^5.14.17",
+    "@mui/system": "^5.14.17",
+    "eslint": "^8.53.0",
+    "module-alias": "^2.2.3",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-markdown": "^9.0.0",
+    "typescript": "^5.2.2"
+  },
+  "_moduleAliases": {
+    "@": "."
+  },
+  "devDependencies": {
+    "@storybook/addon-essentials": "^7.5.3",
+    "@storybook/addon-interactions": "^7.5.3",
+    "@storybook/addon-links": "^7.5.3",
+    "@storybook/addon-onboarding": "^1.0.8",
+    "@storybook/addon-styling": "^1.3.7",
+    "@storybook/blocks": "^7.5.3",
+    "@storybook/react": "^7.5.3",
+    "@storybook/testing-library": "^0.2.2",
+    "@types/node": "^20.8.10",
+    "@types/react": "^18.2.36",
+    "@types/react-dom": "^18.2.14",
+    "eslint-plugin-storybook": "^0.6.15",
+    "storybook": "^7.5.3"
+  }
+}
