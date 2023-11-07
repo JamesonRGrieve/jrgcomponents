@@ -1,19 +1,12 @@
 'use client';
-import { ThemeState, ThemeContext } from '../types/ThemeState';
+import { ThemeState } from '../types/Theming';
+import {ThemeContext} from './ThemeWrapper';
 import { Switch } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { setCookie } from 'cookies-next';
 import { useContext } from 'react';
 import React from 'react';
 
-declare module '@mui/material/styles' {
-  interface Palette {
-    colorblind: boolean;
-  }
-  interface PaletteOptions {
-    colorblind?: boolean;
-  }
-}
 const SwitchThemed = styled(Switch)(({ theme }) => ({
   width: 62,
   height: 34,
@@ -57,12 +50,13 @@ const SwitchThemed = styled(Switch)(({ theme }) => ({
   },
 }));
 
-export default function StyledSwitch(props: any) {
-  return <SwitchThemed checked={props.colorblind} onClick={() => {
-    props.mutate({...props, colorblind: !props.colorblind});
+export default function StyledSwitch() {
+  const themeState = useContext(ThemeContext) as ThemeState;
+  return <SwitchThemed checked={themeState.colorblind} onClick={() => {
+    themeState.mutate({...themeState, colorblind: !themeState.colorblind});
     const expiryDate = new Date();
     expiryDate.setDate(expiryDate.getDate() + 365);
     // TODO: Figure out how to move this into an effect hook in theme.tsx.
-    setCookie("colorblind", !props.colorblind?"true":"false", {expires: expiryDate, domain: process.env.NEXT_PUBLIC_COOKIE_DOMAIN} );
+    setCookie("colorblind", !themeState.colorblind?"true":"false", {expires: expiryDate, domain: process.env.NEXT_PUBLIC_COOKIE_DOMAIN} );
   }}/>;
 }

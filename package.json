@@ -1,6 +1,6 @@
 {
   "name": "jrgcomponents",
-  "version": "0.0.15",
+  "version": "0.0.35",
   "description": "Components developed by Jameson R Grieve for use in React/NextJS projects.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -23,6 +23,18 @@
     "url": "https://github.com/JamesonRGrieve/jrgcomponents/issues"
   },
   "homepage": "https://github.com/JamesonRGrieve/jrgcomponents#readme",
+  "exports": {
+    ".": "./dist/index.js",
+    "./theming/SwitchDark": "./dist/theming/SwitchDark.js",
+    "./theming/SwitchColorblind": "./dist/theming/SwitchColorblind.js",
+    "./theming/ThemeWrapper": "./dist/theming/ThemeWrapper.js",
+    "./types/Theming": "./dist/types/Theming.js",
+    "./forms/buttons/ButtonWithIcon": "./dist/forms/buttons/ButtonWithIcon.js",
+    "./forms/fields/TextFieldWithAlert": "./dist/forms/fields/TextFieldWithAlert.js",
+    "./storybook/ComparisonGrid": "./dist/storybook/ComparisonGrid.js",
+    "./storybook/ReferenceGrid": "./dist/storybook/ReferenceGrid.js",
+    "./logging/log": "./dist/logging/log.js"
+  },
   "dependencies": {
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
@@ -39,7 +51,7 @@
     "react-markdown": "^9.0.0"
   },
   "_moduleAliases": {
-    "@": "./src"
+    "@": "."
   },
   "devDependencies": {
     "@storybook/addon-essentials": "^7.5.3",
