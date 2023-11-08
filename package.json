@@ -1,12 +1,12 @@
 {
   "name": "jrgcomponents",
-  "version": "0.0.35",
+  "version": "0.0.40",
   "description": "Components developed by Jameson R Grieve for use in React/NextJS projects.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "test": "eslint . --ext .js,.jsx,.ts,.tsx",
-    "compile": "tsc --jsx react-jsx"
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "build": "tsc --jsx react-jsx"
   },
   "repository": {
     "type": "git",
@@ -33,7 +33,14 @@
     "./forms/fields/TextFieldWithAlert": "./dist/forms/fields/TextFieldWithAlert.js",
     "./storybook/ComparisonGrid": "./dist/storybook/ComparisonGrid.js",
     "./storybook/ReferenceGrid": "./dist/storybook/ReferenceGrid.js",
-    "./logging/log": "./dist/logging/log.js"
+    "./logging/log": "./dist/logging/log.js",
+    "./views/Card": "./dist/views/CardView",
+    "./views/Table": "./dist/views/TableView",
+    "./views/Grid": "./dist/views/GridView",
+    "./swr/Content": "./dist/swr/ContentSWR",
+    "./swr/Menu": "./dist/swr/MenuSWR",
+    "./media/FeatheredImage": "./dist/media/FeatheredImage",
+    "./popout/Wrapper": "./dist/popout/PopoutDrawerWrapper"
   },
   "dependencies": {
     "@emotion/react": "^11.11.1",

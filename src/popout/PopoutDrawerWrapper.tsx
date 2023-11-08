@@ -12,7 +12,7 @@ import PopoutDrawerWrapperAppBarButton from './PopoutDrawerWrapperAppBarButton';
 const leftDrawerWidth = 320;
 const rightDrawerWidth = 320;
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'openLeft' && prop !== 'openRight' })(
-    ({ theme, openLeft, openRight }) => ({
+    ({ theme, openLeft, openRight }: {theme?: any, openLeft: any, openRight: any}) => ({
         flexGrow: 1,
         padding: theme.spacing(3),
         transition: theme.transitions.create('margin', {
@@ -37,7 +37,7 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'openLeft' &
 );
 const AppBar = styled(MuiAppBar, {
     shouldForwardProp: (prop) => prop !== 'openLeft' && prop !== 'openRight',
-})(({ theme, openLeft, openRight }) => ({
+})(({ openLeft, openRight }: {openLeft: any, openRight: any}) => ({
     ...(openLeft && {
         width: `calc(100% - ${leftDrawerWidth}px)`,
         marginLeft: `${leftDrawerWidth}px`,
@@ -50,7 +50,7 @@ const AppBar = styled(MuiAppBar, {
         width: `calc(100% - ${rightDrawerWidth}px - ${leftDrawerWidth}px)`,
     })
 }));
-export default function PopoutDrawerWrapper({ title, leftHeading, leftSWR, leftMenu, rightHeading, rightSWR, rightMenu, children }) {
+export default function PopoutDrawerWrapper({ title, leftHeading, leftSWR, leftMenu, rightHeading, rightSWR, rightMenu, children }: {title: any, leftHeading: any, leftSWR: any, leftMenu: any, rightHeading:any, rightSWR: any, rightMenu: any, children: any}) {
     const [openLeft, setOpenLeft] = useState(Boolean(leftHeading));
     const handleDrawerOpenLeft = () => {
         setOpenLeft(true);

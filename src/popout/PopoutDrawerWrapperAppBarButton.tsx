@@ -9,7 +9,7 @@ import {
 } from '@mui/icons-material';
 import React from "react";
 
-export default function PopoutDrawerWrapperAppBarButton({ open, handleOpen, side, heading }) {
+export default function PopoutDrawerWrapperAppBarButton({ open, handleOpen, side, heading }: {open: any, handleOpen: any, side: any, heading: any}) {
     return (<>
         {open || !heading
             ?

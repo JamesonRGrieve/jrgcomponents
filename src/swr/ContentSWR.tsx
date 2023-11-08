@@ -1,7 +1,7 @@
 import Typography from '@mui/material/Typography';
 import React from "react";
 
-export default function ContentSWR({ swr, authSWR=null, content }) {
+export default function ContentSWR({ swr, authSWR=null, content }: {swr: any, authSWR: any, content: any}) {
   //console.log(swr.data);
   console.log(swr);
   return (

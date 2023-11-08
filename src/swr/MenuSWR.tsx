@@ -4,7 +4,7 @@ import {
   Typography
 } from "@mui/material";
 import React from "react";
-export default function MenuSWR({ swr, menu }) {
+export default function MenuSWR({ swr, menu }: {swr: any, menu: any}) {
   return (
     swr && swr.isLoading
       ?

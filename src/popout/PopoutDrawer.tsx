@@ -13,7 +13,7 @@ import {
     ChevronLeft
 } from '@mui/icons-material';
 import MenuSWR from '../swr/MenuSWR';
-export default function PopoutDrawer({ open, handleClose, side, width, heading, menu, swr }) {
+export default function PopoutDrawer({ open, handleClose, side, width, heading, menu, swr }: {open: any, handleClose: any, side: any, width: any, heading: any, menu: any, swr: any}) {
     const appBarHeight = "68.5px";
     const footerHeight = "4rem";
     const DrawerHeader = styled('div')(({ theme }) => ({
