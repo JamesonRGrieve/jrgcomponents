@@ -1,10 +1,7 @@
 import { Story, useOf } from '@storybook/blocks';
 import Image, { StaticImageData } from 'next/image';
 import React from 'react';
-interface ComparisonGridProps {
-  of?: any
-}
-export default function ComparisonGrid({ of }: ComparisonGridProps) {
+export default function ComparisonGrid() {
   const resolvedOf = useOf('story', ['story', 'meta']);
 
   switch (resolvedOf.type) {
