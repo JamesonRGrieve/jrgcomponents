@@ -23,6 +23,9 @@
     "url": "https://github.com/JamesonRGrieve/jrgcomponents/issues"
   },
   "homepage": "https://github.com/JamesonRGrieve/jrgcomponents#readme",
+  "files": [
+    "dist"
+  ],
   "exports": {
     ".": "./dist/index.js",
     "./theming/SwitchDark": "./dist/theming/SwitchDark.js",
