@@ -1,29 +1,30 @@
-import { Typography, Grid } from "@mui/material";
+import { Typography, CardActionArea, Box } from "@mui/material";
 import { Card, CardContent } from '@mui/material';
-import Item from '@mui/material/Grid';
 import React from "react";
 type Props = {
   data: any,
   determineColor: any,
+  cardAction: any
 }
-export default function CardView(props: Props) {
-  return <Grid container columns={8}>
-    {props.data.map((cardData: any) => {
-      return <CardViewCard key={cardData.key} title={cardData.title} subtitle={cardData.subtitle} color={cardData.color} />;
+export default function CardView({data, cardAction}: Props) {
+  return <Box display="grid" gridTemplateColumns="repeat(8, 1fr)" gap="1rem" my="1rem">
+    {data.map((cardData: any) => {
+      return <CardViewCard key={cardData.key} title={cardData.title} subtitle={cardData.subtitle} color={cardData.color} action={() => cardAction(cardData.key)}/>;
     }
     )}
-  </Grid>
+  </Box>
 };
 
 type SubProps = {
   key: any,
   title: any,
   subtitle: any,
-  color: any
+  color: any,
+  action: any
 }
 const CardViewCard = (props: SubProps) => {
-  return <Item item xs={8} md={4} xl={1} sx={{ flexGrow: 1, display: "flex", flexDirection: "column" }}>
-    <Card variant="outlined" sx={{ flexGrow: 1, backgroundColor: props.color }}>
+  return <Card sx={{ backgroundColor: props.color, boxShadow: "0.3rem 0.45rem #555" }} >
+    <CardActionArea onClick={props.action}>
       <CardContent>
         <Typography variant="h5" component="p" sx={{ mv: "0.5rem", fontWeight: "bold", cursor: "pointer", textAlign: "center" }}>
           {props.title}
@@ -32,6 +33,6 @@ const CardViewCard = (props: SubProps) => {
           {props.subtitle}
         </Typography>
       </CardContent>
+      </CardActionArea>
     </Card>
-  </Item>
 }

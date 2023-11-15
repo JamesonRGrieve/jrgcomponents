@@ -6,7 +6,10 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
-    "compile": "tsc --jsx react-jsx"
+    "compile": "tsc --jsx react-jsx",
+    "prettier": "prettier --write .",
+    "storybook": "storybook dev -p 6009",
+    "storybook-build": "storybook build"
   },
   "repository": {
     "type": "git",
@@ -64,7 +67,6 @@
     "@mui/system": "^5.14.17",
     "@mui/x-data-grid": "^6.18.0",
     "cookies-next": "^4.0.0",
-    "eslint": "^8.53.0",
     "module-alias": "^2.2.3",
     "next": "^14.0.1",
     "react": "^18.2.0",
@@ -87,6 +89,7 @@
     "@types/react": "^18.2.36",
     "@types/react-dom": "^18.2.14",
     "@typescript-eslint/eslint-plugin": "^6.10.0",
+    "eslint": "^8.53.0",
     "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-storybook": "^0.6.15",

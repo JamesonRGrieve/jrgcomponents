@@ -19,7 +19,6 @@ export default function GridView(props: Props) {
     <Typography variant="h4" component="h1" gutterBottom>{props.title}</Typography>
     <DataGrid
     autoHeight
-
     onStateChange={(state) => {console.log(state)}}
     onRowClick={props.rowClick}
     columns={props.columns}
@@ -35,35 +34,39 @@ export default function GridView(props: Props) {
       {
         if (filter.value)
         {
+          console.log("Pre Filter", filtered);
+          console.log("Applying Filter", filter);
           const transformedFilterValue = filter.value.toUpperCase();
-          if (filter.operatorValue === "contains")
+          if (filter.operator === "contains")
           {
-            filtered = filtered.filter(x => x[filter.columnField].includes(transformedFilterValue))
+            filtered = filtered.filter(x => x[filter.field].includes(transformedFilterValue))
           }
-          else if (filter.operatorValue === "equals")
+          else if (filter.operator === "equals")
           {
-            filtered = filtered.filter(x => x[filter.columnField] == transformedFilterValue)
+            filtered = filtered.filter(x => x[filter.field] == transformedFilterValue)
           }
-          else if (filter.operatorValue === "startsWith")
+          else if (filter.operator === "startsWith")
           {
-            filtered = filtered.filter(x => x[filter.columnField].startsWith(transformedFilterValue))
+            filtered = filtered.filter(x => x[filter.field].startsWith(transformedFilterValue))
           }
-          else if (filter.operatorValue === "endsWith")
+          else if (filter.operator === "endsWith")
           {
-            filtered = filtered.filter(x => x[filter.columnField].endsWith(transformedFilterValue))
+            filtered = filtered.filter(x => x[filter.field].endsWith(transformedFilterValue))
           }
-          else if (filter.operatorValue === "isEmpty")
+          else if (filter.operator === "isEmpty")
           {
-            filtered = filtered.filter(x => !x[filter.columnField])
+            filtered = filtered.filter(x => !x[filter.field])
           }
-          else if (filter.operatorValue === "isNotEmpty")
+          else if (filter.operator === "isNotEmpty")
           {
-            filtered = filtered.filter(x => x[filter.columnField])
+            filtered = filtered.filter(x => x[filter.field])
           }
           // TODO: Add support for "any of".
+          console.log("Post Filter", filtered);
         }
         
       }
+      console.log("Filtered in GridView", filtered);
       props.filteredDataCallback(filtered);
     }}
     onCellClick={(params) => {
