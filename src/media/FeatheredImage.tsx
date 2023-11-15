@@ -1,10 +1,12 @@
 import Box from '@mui/material/Box';
 import React from 'react';
 export default function FeatheredImage(props: any) {
-    return <Box sx={{
+  return (
+    <Box
+      sx={{
         width: props.width,
         backgroundSize: 'cover',
-        height: props.height??"unset",
+        height: props.height ?? 'unset',
         backgroundImage: `url(${props.url})`,
         marginTop: '60px',
         /*boxShadow: `0 0 ${props.fadePx}px ${props.fadePx}px ${props.backgroundColor} inset`*/
@@ -13,7 +15,9 @@ export default function FeatheredImage(props: any) {
             25px -15px 0 0 RGBA(180,180,180,0.5),
             50px -30px 0 0 RGBA(180,180,180,0.4),
             75px -45px 0 0 RGBA(180,180,180,0.3)`,
-        borderRadius: '3rem',
+        borderRadius: '3rem'
         /*border: '0.2rem solid RGB(180,180,180)'*/
-    }}></Box>
-};
+      }}
+    ></Box>
+  );
+}

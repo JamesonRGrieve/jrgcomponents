@@ -8,7 +8,9 @@ import { Delete } from '@mui/icons-material';
 type Story = StoryObj<typeof meta>;
 
 // Configure Component Stories.
-export const ButtonWithIcon: Story = (args: ButtonWithIconProps) => <ButtonWithIconComponent {...args} />;
+export const ButtonWithIcon: Story = (args: ButtonWithIconProps) => (
+  <ButtonWithIconComponent {...args} />
+);
 ButtonWithIcon.args = {
   label: 'Button Label',
   icon: <Delete />,
@@ -29,7 +31,8 @@ const meta: Meta = {
     componentSubtitle: 'A ButtonWithIcon Component',
     docs: {
       description: {
-        component: 'This component is meant to illustrate how to effectively document components.'
+        component:
+          'This component is meant to illustrate how to effectively document components.'
       }
     },
     references: []

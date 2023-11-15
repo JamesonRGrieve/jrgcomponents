@@ -2,30 +2,40 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
 // Import Component and related types.
-import TextFieldWithAlertComponent, { TextFieldWithAlertProps } from './TextFieldWithAlert';
+import TextFieldWithAlertComponent, {
+  TextFieldWithAlertProps
+} from './TextFieldWithAlert';
 import { useState } from 'react';
 
 type Story = StoryObj<typeof meta>;
-import React from "react";
+import React from 'react';
 
 // Configure Component Stories.
-export const TextFieldWithAlert: Story = (args: TextFieldWithAlertProps) => 
-{
+export const TextFieldWithAlert: Story = (args: TextFieldWithAlertProps) => {
   const TextFieldWithAlertWrapper = () => {
-    const [value, setValue] = useState("");
-    const [error, setError] = useState("");
+    const [value, setValue] = useState('');
+    const [error, setError] = useState('');
     return (
-      <TextFieldWithAlertComponent {...args} value={value} onChange={(e: any) => setValue(e.target.value)} error={error} submit={() => {setError(error?"":"An error has occured, hit enter again to remove.")}} />
+      <TextFieldWithAlertComponent
+        {...args}
+        value={value}
+        onChange={(e: any) => setValue(e.target.value)}
+        error={error}
+        submit={() => {
+          setError(
+            error ? '' : 'An error has occured, hit enter again to remove.'
+          );
+        }}
+      />
     );
-  
-  }
+  };
   return <TextFieldWithAlertWrapper />;
-}
+};
 
 TextFieldWithAlert.args = {
-  id: "sample-text-field",
-  label: "Text Field (Hit Enter to Submit)",
-  autoComplete: ""
+  id: 'sample-text-field',
+  label: 'Text Field (Hit Enter to Submit)',
+  autoComplete: ''
 };
 
 // Configure Metadata.
@@ -42,7 +52,8 @@ const meta: Meta = {
     componentSubtitle: 'A TextFieldWithAlert Component',
     docs: {
       description: {
-        component: 'This component is meant to illustrate how to effectively document components.'
+        component:
+          'This component is meant to illustrate how to effectively document components.'
       }
     },
     references: []

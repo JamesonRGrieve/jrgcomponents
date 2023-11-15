@@ -9,13 +9,13 @@ const meta: Meta = {
   title: 'Styled/Switch/Colorblind',
   component: SwitchColorblindComponent,
   tags: ['autodocs'],
-  argTypes: {
-  },
+  argTypes: {},
   parameters: {
     componentSubtitle: 'A Sample Component',
     docs: {
       description: {
-        component: 'This component is meant to illustrate how to effectively document components.'
+        component:
+          'This component is meant to illustrate how to effectively document components.'
       }
     },
     references: []
@@ -25,6 +25,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 // Configure Component Stories.
-export const SwitchColorblind: Story = (args: any) => <SwitchColorblindComponent {...args} />;
+export const SwitchColorblind: Story = (args: any) => (
+  <SwitchColorblindComponent {...args} />
+);
 SwitchColorblind.args = {};
-

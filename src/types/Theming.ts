@@ -1,4 +1,4 @@
-import { Theme } from "@mui/material";
+import { Theme } from '@mui/material';
 declare module '@mui/material/styles' {
   interface Palette {
     colorblind: boolean;
@@ -8,13 +8,13 @@ declare module '@mui/material/styles' {
   }
 }
 export type Themes = {
-  light: Theme
-  dark: Theme
-  lightColorblind: Theme
-  darkColorblind: Theme
-}
+  light: Theme;
+  dark: Theme;
+  lightColorblind: Theme;
+  darkColorblind: Theme;
+};
 export type ThemeState = {
-  dark: boolean,
-  colorblind: boolean,
-  mutate: any
-}
+  dark: boolean;
+  colorblind: boolean;
+  mutate: any;
+};
