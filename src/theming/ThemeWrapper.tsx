@@ -34,9 +34,9 @@ export function ThemeWrapper({
               ? themes.light
               : themes.lightColorblind
             : // Dark Themes
-            !themeState.colorblind
-            ? themes.dark
-            : themes.darkColorblind
+              !themeState.colorblind
+              ? themes.dark
+              : themes.darkColorblind
         }
       >
         <CssBaseline />

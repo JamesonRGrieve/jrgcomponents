@@ -1,7 +1,7 @@
 'use client';
 import { ThemeState } from '../types/Theming';
 import { ThemeContext } from './ThemeWrapper';
-import { Switch } from '@mui/material';
+import { Switch, Tooltip } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { setCookie } from 'cookies-next';
 import { useContext } from 'react';
@@ -35,8 +35,8 @@ const SwitchThemed = styled(Switch)(({ theme }) => ({
         ? '#000'
         : '#fff'
       : theme.palette.mode === 'dark'
-      ? '#003892'
-      : '#f0e70a',
+        ? '#003892'
+        : '#f0e70a',
     width: 32,
     height: 32,
     '&:before': {
@@ -62,18 +62,22 @@ const SwitchThemed = styled(Switch)(({ theme }) => ({
 export default function StyledSwitch() {
   const themeState = useContext(ThemeContext) as ThemeState;
   return (
-    <SwitchThemed
-      checked={themeState.dark}
-      onClick={() => {
-        themeState.mutate({ ...themeState, dark: !themeState.dark });
-        const expiryDate = new Date();
-        expiryDate.setDate(expiryDate.getDate() + 365);
-        // TODO: Figure out how to move this into an effect hook in theme.tsx.
-        setCookie('dark', !themeState.dark ? 'true' : 'false', {
-          expires: expiryDate,
-          domain: process.env.NEXT_PUBLIC_COOKIE_DOMAIN
-        });
-      }}
-    />
+    <Tooltip
+      title={themeState.dark ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+    >
+      <SwitchThemed
+        checked={themeState.dark}
+        onClick={() => {
+          themeState.mutate({ ...themeState, dark: !themeState.dark });
+          const expiryDate = new Date();
+          expiryDate.setDate(expiryDate.getDate() + 365);
+          // TODO: Figure out how to move this into an effect hook in theme.tsx.
+          setCookie('dark', !themeState.dark ? 'true' : 'false', {
+            expires: expiryDate,
+            domain: process.env.NEXT_PUBLIC_COOKIE_DOMAIN
+          });
+        }}
+      />
+    </Tooltip>
   );
 }
