@@ -1,90 +1,91 @@
-import { useState } from 'react';
-import { Toolbar, Typography } from '@mui/material';
+import { ReactNode, useState } from 'react';
+import { Box, Toolbar, Typography } from '@mui/material';
 import MuiAppBar from '@mui/material/AppBar';
 import { styled } from '@mui/material/styles';
 import React from 'react';
 
 import PopoutDrawer from './PopoutDrawer';
 import PopoutDrawerWrapperAppBarButton from './PopoutDrawerWrapperAppBarButton';
-const leftDrawerWidth = 320;
-const rightDrawerWidth = 320;
-const Main = styled('main', {
-  shouldForwardProp: (prop) => prop !== 'openLeft' && prop !== 'openRight'
-})(
-  ({
-    theme,
-    openLeft,
-    openRight
-  }: {
-    theme?: any;
-    openLeft: any;
-    openRight: any;
-  }) => ({
-    flexGrow: 1,
-    padding: theme.spacing(3),
-    transition: theme.transitions.create('margin', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen
-    }),
-    ...(openLeft && {
-      transition: theme.transitions.create('margin', {
-        easing: theme.transitions.easing.easeOut,
-        duration: theme.transitions.duration.enteringScreen
-      }),
-      marginLeft: `${leftDrawerWidth}px`
-    }),
-    ...(openRight && {
-      transition: theme.transitions.create('margin', {
-        easing: theme.transitions.easing.easeOut,
-        duration: theme.transitions.duration.enteringScreen
-      }),
-      marginRight: `${rightDrawerWidth}px`
-    })
-  })
-);
-const AppBar = styled(MuiAppBar, {
-  shouldForwardProp: (prop) => prop !== 'openLeft' && prop !== 'openRight'
-})(({ openLeft, openRight }: { openLeft: any; openRight: any }) => ({
-  ...(openLeft && {
-    width: `calc(100% - ${leftDrawerWidth}px)`,
-    marginLeft: `${leftDrawerWidth}px`
-  }),
-  ...(openRight && {
-    width: `calc(100% - ${rightDrawerWidth}px)`,
-    marginRight: `${rightDrawerWidth}px`
-  }),
-  ...(openLeft &&
-    openRight && {
-      width: `calc(100% - ${rightDrawerWidth}px - ${leftDrawerWidth}px)`
-    })
-}));
-export default function PopoutDrawerWrapper({
+
+
+type Menu = {
+  heading?: string;
+  swr: any;
+  menu: any;
+  width: string;
+};
+
+export default function MenuWrapper({
   title,
-  leftHeading,
-  leftSWR,
-  leftMenu,
-  rightHeading,
-  rightSWR,
-  rightMenu,
+  height,
+  left,
+  right,
   children
 }: {
-  title: any;
-  leftHeading: any;
-  leftSWR: any;
-  leftMenu: any;
-  rightHeading: any;
-  rightSWR: any;
-  rightMenu: any;
-  children: any;
+  title: string;
+  height: string;
+  left?: Menu | ReactNode;
+  right?: Menu | ReactNode;
+  children: ReactNode | ReactNode[];
 }) {
-  const [openLeft, setOpenLeft] = useState(Boolean(leftHeading));
+  const Main = styled('main', {
+    shouldForwardProp: (prop) => prop !== 'openLeft' && prop !== 'openRight'
+  })(
+    ({
+      theme,
+      openLeft,
+      openRight
+    }: {
+      theme?: any;
+      openLeft: any;
+      openRight: any;
+    }) => ({
+      flexGrow: 1,
+      transition: theme.transitions.create('margin', {
+        easing: theme.transitions.easing.sharp,
+        duration: theme.transitions.duration.leavingScreen
+      }),
+      ...(openLeft && {
+        transition: theme.transitions.create('margin', {
+          easing: theme.transitions.easing.easeOut,
+          duration: theme.transitions.duration.enteringScreen
+        }),
+        marginLeft: `${(left as Menu)?.width}`
+      }),
+      ...(openRight && {
+        transition: theme.transitions.create('margin', {
+          easing: theme.transitions.easing.easeOut,
+          duration: theme.transitions.duration.enteringScreen
+        }),
+        marginRight: (left as Menu)?.width
+      })
+    })
+  );
+  const AppBar = styled(MuiAppBar, {
+    shouldForwardProp: (prop) => prop !== 'openLeft' && prop !== 'openRight'
+  })(({ openLeft, openRight }: { openLeft: any; openRight: any }) => ({
+    height: height,
+    ...(openLeft && {
+      width: `calc(100% - ${(left as Menu)?.width})`,
+      marginLeft: `${(left as Menu)?.width}`
+    }),
+    ...(openRight && {
+      width: `calc(100% - ${(right as Menu)?.width})`,
+      marginRight: `${(right as Menu)?.width}`
+    }),
+    ...(openLeft &&
+      openRight && {
+        width: `calc(100% - ${(right as Menu)?.width}px - ${(left as Menu)?.width}px)`
+      })
+  }));
+  const [openLeft, setOpenLeft] = useState(Boolean((left as Menu)?.width));
   const handleDrawerOpenLeft = () => {
     setOpenLeft(true);
   };
   const handleDrawerCloseLeft = () => {
     setOpenLeft(false);
   };
-  const [openRight, setOpenRight] = useState(Boolean(rightHeading));
+  const [openRight, setOpenRight] = useState(Boolean((right as Menu)?.heading));
   const handleDrawerOpenRight = () => {
     setOpenRight(true);
   };
@@ -94,47 +95,53 @@ export default function PopoutDrawerWrapper({
   return (
     <>
       <AppBar position='relative' openLeft={openLeft} openRight={openRight}>
-        <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: "center", height: "100%" }}>
+          {(left as Menu)?.heading !== undefined ?
           <PopoutDrawerWrapperAppBarButton
             open={openLeft}
             handleOpen={handleDrawerOpenLeft}
             side='left'
-            heading={leftHeading}
-          />
+            heading={(left as Menu)?.heading}
+          /> : <Box sx={{flex: 1, ml: "1rem"}}>{left as ReactNode}</Box>} 
           <Typography variant='h6' component='h1' noWrap>
             {title}
           </Typography>
+          {(right as Menu)?.heading !== undefined ?
           <PopoutDrawerWrapperAppBarButton
             open={openRight}
             handleOpen={handleDrawerOpenRight}
             side='right'
-            heading={rightHeading}
-          />
-        </Toolbar>
+            heading={(right as Menu)?.heading}
+          /> : <Box sx={{flex: 1, display: "flex", justifyContent: "flex-end", mr: "1rem"}}>{right as ReactNode}</Box>}
+        </Box>
       </AppBar>
-      {leftHeading ? (
+      {(left as Menu)?.heading !== undefined ? (
         <PopoutDrawer
           side='left'
-          width={leftDrawerWidth}
+          width={(left as Menu)?.width}
           open={openLeft}
           handleClose={handleDrawerCloseLeft}
-          heading={leftHeading}
-          menu={leftMenu}
-          swr={leftSWR}
+          heading={(left as Menu).heading}
+          menu={(left as Menu).menu}
+          swr={(left as Menu).swr}
+          top={"0px"}
+          height={height}
         />
       ) : null}
       <Main openLeft={openLeft} openRight={openRight}>
         {children}
       </Main>
-      {rightHeading ? (
+      {(right as Menu)?.heading !== undefined ? (
         <PopoutDrawer
           side='right'
-          width={rightDrawerWidth}
+          width={(left as Menu)?.width}
           open={openRight}
           handleClose={handleDrawerCloseRight}
-          heading={rightHeading}
-          menu={rightMenu}
-          swr={rightSWR}
+          heading={(right as Menu).heading}
+          menu={(right as Menu).menu}
+          swr={(right as Menu).swr}
+          top={"0px"}
+          height={height}
         />
       ) : null}
     </>

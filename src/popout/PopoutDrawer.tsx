@@ -11,7 +11,9 @@ export default function PopoutDrawer({
   width,
   heading,
   menu,
-  swr
+  swr,
+  top,
+  height
 }: {
   open: any;
   handleClose: any;
@@ -20,8 +22,9 @@ export default function PopoutDrawer({
   heading: any;
   menu: any;
   swr: any;
+  top: string;
+  height: string;
 }) {
-  const appBarHeight = '68.5px';
   const footerHeight = '4rem';
   const DrawerHeader = styled('div')(({ theme }) => ({
     display: 'flex',
@@ -43,8 +46,8 @@ export default function PopoutDrawer({
           width: width,
           boxSizing: 'border-box',
           position: 'absolute',
-          top: appBarHeight,
-          height: `calc(100% - ${appBarHeight} - ${footerHeight})`,
+          top: top,
+          height: `calc(100% - ${top} - ${footerHeight})`,
           //bottom: footerHeight,
           left: 'unset'
         }
@@ -55,7 +58,7 @@ export default function PopoutDrawer({
     >
       <DrawerHeader
         color='primary'
-        sx={{ justifyContent: 'space-between', px: '1rem', direction: 'ltr' }}
+        sx={{ justifyContent: 'space-between', px: '1rem', direction: 'ltr', height: height, minHeight: "unset !important" }}
       >
         {side == 'left' ? (
           <IconButton onClick={handleClose}>
@@ -72,7 +75,7 @@ export default function PopoutDrawer({
         ) : null}
       </DrawerHeader>
       <Divider />
-      <List sx={{ direction: 'ltr' }}>
+      <List sx={{ direction: 'ltr', padding: "0" }}>
         <MenuSWR swr={swr} menu={menu} />
       </List>
     </Drawer>

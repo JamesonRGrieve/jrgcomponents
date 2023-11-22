@@ -22,7 +22,9 @@ export default function PopoutDrawerWrapperAppBarButton({
           aria-label='open drawer'
           onClick={handleOpen}
           sx={{
-            ml: 2,
+            margin: `0 ${side === 'right' ? "1rem" : "0"} 0 ${side === 'left' ? "1rem" : "0"}`,
+            justifyContent: side === 'left' ? "flex-start" : "flex-end",
+            flex: "1",
             display: 'flex',
             alignItems: 'center',
             cursor: 'pointer',

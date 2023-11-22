@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import {
-  List,
   ListItemText,
   ListItemButton,
   ListItemIcon
@@ -9,9 +8,7 @@ import { useRouter } from 'next/router';
 import React from 'react';
 export default function MenuList({ pages }: { pages: any }) {
   const router = useRouter();
-  return (
-    <List>
-      {pages.map(
+  return <>{pages.map(
         ({ name, href, Icon }: { name: any; href: any; Icon: any }) => (
           <ListItemButton
             key={name}
@@ -25,7 +22,5 @@ export default function MenuList({ pages }: { pages: any }) {
             </Link>
           </ListItemButton>
         )
-      )}
-    </List>
-  );
+      )}</>;
 }
