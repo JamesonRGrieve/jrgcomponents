@@ -1,14 +1,12 @@
 import Link from 'next/link';
-import {
-  ListItemText,
-  ListItemButton,
-  ListItemIcon
-} from '@mui/material';
+import { ListItemText, ListItemButton, ListItemIcon } from '@mui/material';
 import { useRouter } from 'next/router';
 import React from 'react';
 export default function MenuList({ pages }: { pages: any }) {
   const router = useRouter();
-  return <>{pages.map(
+  return (
+    <>
+      {pages.map(
         ({ name, href, Icon }: { name: any; href: any; Icon: any }) => (
           <ListItemButton
             key={name}
@@ -22,5 +20,7 @@ export default function MenuList({ pages }: { pages: any }) {
             </Link>
           </ListItemButton>
         )
-      )}</>;
+      )}
+    </>
+  );
 }

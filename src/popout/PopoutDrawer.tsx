@@ -7,7 +7,7 @@ import MenuSWR from '../swr/MenuSWR';
 export default function PopoutDrawer({
   open,
   handleClose,
-  side,
+  rightSide = false,
   width,
   heading,
   menu,
@@ -17,7 +17,7 @@ export default function PopoutDrawer({
 }: {
   open: any;
   handleClose: any;
-  side: any;
+  rightSide?: boolean;
   width: any;
   heading: any;
   menu: any;
@@ -39,7 +39,7 @@ export default function PopoutDrawer({
   return (
     <Drawer
       sx={{
-        direction: side === 'left' ? 'rtl' : 'ltr',
+        direction: !rightSide ? 'rtl' : 'ltr',
         width: width,
         flexShrink: 0,
         '& .MuiDrawer-paper': {
@@ -53,14 +53,20 @@ export default function PopoutDrawer({
         }
       }}
       variant='persistent'
-      anchor={side}
+      anchor={!rightSide ? 'left' : 'right'}
       open={open}
     >
       <DrawerHeader
         color='primary'
-        sx={{ justifyContent: 'space-between', px: '1rem', direction: 'ltr', height: height, minHeight: "unset !important" }}
+        sx={{
+          justifyContent: 'space-between',
+          px: '1rem',
+          direction: 'ltr',
+          height: height,
+          minHeight: 'unset !important'
+        }}
       >
-        {side == 'left' ? (
+        {!rightSide ? (
           <IconButton onClick={handleClose}>
             <ChevronLeft fontSize='large' sx={{ color: 'white' }} />
           </IconButton>
@@ -68,14 +74,14 @@ export default function PopoutDrawer({
         <Typography variant='h6' component='h1' noWrap>
           {heading}
         </Typography>
-        {side == 'right' ? (
+        {rightSide ? (
           <IconButton onClick={handleClose}>
             <ChevronRight fontSize='large' sx={{ color: 'white' }} />
           </IconButton>
         ) : null}
       </DrawerHeader>
       <Divider />
-      <List sx={{ direction: 'ltr', padding: "0" }}>
+      <List sx={{ direction: 'ltr', padding: '0' }}>
         <MenuSWR swr={swr} menu={menu} />
       </List>
     </Drawer>
