@@ -13,14 +13,14 @@ import { Box } from '@mui/material';
 type Story = StoryObj<typeof meta>;
 
 // Configure Component Stories.
-export const PopoutDrawerWrapper: Story = (args: PopoutDrawerWrapperProps) => (
-  <Box>
-    <PopoutDrawerWrapperComponent {...args}>
-      <p>Page Contents</p>
-    </PopoutDrawerWrapperComponent>
-  </Box>
+export const DoubleMenuSingleLayer: Story = (
+  args: PopoutDrawerWrapperProps
+) => (
+  <PopoutDrawerWrapperComponent {...args}>
+    <p>Page Contents</p>
+  </PopoutDrawerWrapperComponent>
 );
-PopoutDrawerWrapper.args = {
+DoubleMenuSingleLayer.args = {
   title: 'Popout Menu',
   left: {
     heading: 'Left Menu',
@@ -40,7 +40,56 @@ PopoutDrawerWrapper.args = {
   },
   height: '3rem'
 };
-
+export const DoubleMenuDoubleLayer: Story = (args: any) => (
+  <PopoutDrawerWrapperComponent {...args.outer}>
+    <PopoutDrawerWrapperComponent {...args.inner}>
+      <p>Page Contents</p>
+    </PopoutDrawerWrapperComponent>
+  </PopoutDrawerWrapperComponent>
+);
+DoubleMenuDoubleLayer.args = {
+  inner: {
+    title: 'Inner Popout Menu',
+    left: {
+      heading: 'Inner Left Menu',
+      swr: null,
+      menu: () => {
+        return <div>Inner Left Menu Contents</div>;
+      },
+      width: '20rem'
+    },
+    right: {
+      heading: 'Inner Right Menu',
+      swr: null,
+      menu: () => {
+        return <div>Inner Right Menu Contents</div>;
+      },
+      width: '20rem'
+    },
+    height: '3rem',
+    topOffset: '3rem'
+  },
+  outer: {
+    title: 'Outer Popout Menu',
+    left: {
+      heading: 'Outer Left Menu',
+      swr: null,
+      menu: () => {
+        return <div>Outer Left Menu Contents</div>;
+      },
+      width: '20rem'
+    },
+    right: {
+      heading: 'Outer Right Menu',
+      swr: null,
+      menu: () => {
+        return <div>Outer Right Menu Contents</div>;
+      },
+      width: '20rem'
+    },
+    height: '3rem'
+  }
+};
 // Configure Metadata.
 const meta: Meta = {
   title: 'Popout Menu',

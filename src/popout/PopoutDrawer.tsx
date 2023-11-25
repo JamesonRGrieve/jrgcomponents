@@ -13,17 +13,19 @@ export default function PopoutDrawer({
   menu,
   swr,
   top,
-  height
+  height,
+  zIndex
 }: {
   open: any;
   handleClose: any;
   rightSide?: boolean;
   width: any;
-  heading: any;
+  heading?: any;
   menu: any;
   swr: any;
   top: string;
   height: string;
+  zIndex: number;
 }) {
   const footerHeight = '4rem';
   const DrawerHeader = styled('div')(({ theme }) => ({
@@ -42,6 +44,7 @@ export default function PopoutDrawer({
         direction: !rightSide ? 'rtl' : 'ltr',
         width: width,
         flexShrink: 0,
+        zIndex: zIndex,
         '& .MuiDrawer-paper': {
           width: width,
           boxSizing: 'border-box',
@@ -67,7 +70,12 @@ export default function PopoutDrawer({
         }}
       >
         {!rightSide ? (
-          <IconButton onClick={handleClose}>
+          <IconButton
+            onClick={() => {
+              handleClose();
+              console.log('Clicked ' + heading);
+            }}
+          >
             <ChevronLeft fontSize='large' sx={{ color: 'white' }} />
           </IconButton>
         ) : null}
@@ -75,7 +83,12 @@ export default function PopoutDrawer({
           {heading}
         </Typography>
         {rightSide ? (
-          <IconButton onClick={handleClose}>
+          <IconButton
+            onClick={() => {
+              handleClose();
+              console.log('Clicked ' + heading);
+            }}
+          >
             <ChevronRight fontSize='large' sx={{ color: 'white' }} />
           </IconButton>
         ) : null}

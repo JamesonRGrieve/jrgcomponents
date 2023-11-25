@@ -1,4 +1,4 @@
-import { ReactNode, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import { Box, Typography } from '@mui/material';
 import MuiAppBar from '@mui/material/AppBar';
 import { styled } from '@mui/material/styles';
@@ -19,13 +19,17 @@ export type PopoutDrawerWrapperProps = {
   left?: Menu | ReactNode;
   right?: Menu | ReactNode;
   children: ReactNode | ReactNode[];
+  topOffset?: string;
+  nestedDepth?: number;
 };
 export default function MenuWrapper({
   title,
   height,
   left,
   right,
-  children
+  topOffset = '0px',
+  children,
+  nestedDepth = 0
 }: PopoutDrawerWrapperProps) {
   const Main = styled('main', {
     shouldForwardProp: (prop) => prop !== 'open'
@@ -54,24 +58,17 @@ export default function MenuWrapper({
     shouldForwardProp: (prop) => prop !== 'open'
   })(({ theme, open }: { theme?: any; open: any }) => ({
     height: height,
-    transition: theme.transitions.create('margin', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen
-    }),
-    ...(open.left && {
-      transition: theme.transitions.create('margin', {
-        easing: theme.transitions.easing.easeOut,
-        duration: theme.transitions.duration.enteringScreen
+    transition: 'width 0.3s ease',
+    ...(open.left &&
+      !open.right && {
+        width: `calc(100% - ${(left as Menu)?.width})`,
+        marginLeft: `${(left as Menu)?.width}`
       }),
-      width: `calc(100% - ${(left as Menu)?.width})`,
-      marginLeft: `${(left as Menu)?.width}`
-    }),
-    ...(open.right && {
-      easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.enteringScreen,
-      width: `calc(100% - ${(right as Menu)?.width})`,
-      marginRight: `${(right as Menu)?.width}`
-    }),
+    ...(open.right &&
+      !open.left && {
+        width: `calc(100% - ${(right as Menu)?.width})`,
+        marginRight: `${(right as Menu)?.width}`
+      }),
     ...(open.left &&
       open.right && {
         width: `calc(100% - ${(right as Menu)?.width}px - ${(left as Menu)
@@ -79,6 +76,9 @@ export default function MenuWrapper({
       })
   }));
   const [open, setOpen] = useState({ left: false, right: false });
+  useEffect(() => {
+    console.log('Open State of ' + title + ' changed: ', open);
+  }, [open, title]);
   return (
     <>
       <AppBar position='relative' open={open}>
@@ -91,14 +91,18 @@ export default function MenuWrapper({
           }}
         >
           {(left as Menu)?.heading !== undefined ? (
-            <PopoutDrawerWrapperAppBarButton
-              open={open.left}
-              handleOpen={() => {
-                setOpen({ ...open, left: true });
-              }}
-              side='left'
-              heading={(left as Menu)?.heading}
-            />
+            !open.left ? (
+              <PopoutDrawerWrapperAppBarButton
+                open={open.left}
+                handleOpen={() => {
+                  setOpen({ ...open, left: true });
+                }}
+                side='left'
+                heading={(left as Menu)?.heading}
+              />
+            ) : (
+              <Box sx={{ flex: 1 }}></Box>
+            )
           ) : (
             <Box sx={{ flex: 1, ml: '1rem' }}>{left as ReactNode}</Box>
           )}
@@ -110,14 +114,18 @@ export default function MenuWrapper({
             title
           )}
           {(right as Menu)?.heading !== undefined ? (
-            <PopoutDrawerWrapperAppBarButton
-              open={open.right}
-              handleOpen={() => {
-                setOpen({ ...open, right: true });
-              }}
-              side='right'
-              heading={(right as Menu)?.heading}
-            />
+            !open.right ? (
+              <PopoutDrawerWrapperAppBarButton
+                open={open.right}
+                handleOpen={() => {
+                  setOpen({ ...open, right: true });
+                }}
+                side='right'
+                heading={(right as Menu)?.heading}
+              />
+            ) : (
+              <Box sx={{ flex: 1 }}></Box>
+            )
           ) : (
             <Box
               sx={{
@@ -134,32 +142,28 @@ export default function MenuWrapper({
       </AppBar>
       {(left as Menu)?.heading !== undefined ? (
         <PopoutDrawer
-          width={(left as Menu)?.width}
           open={open.left}
           handleClose={() => {
             setOpen({ ...open, left: false });
           }}
-          heading={(left as Menu).heading}
-          menu={(left as Menu).menu}
-          swr={(left as Menu).swr}
-          top={'0px'}
+          {...(left as Menu)}
+          top={topOffset}
           height={height}
+          zIndex={1200 - 100 * nestedDepth}
         />
       ) : null}
       <Main open={open}>{children}</Main>
       {(right as Menu)?.heading !== undefined ? (
         <PopoutDrawer
           rightSide
-          width={(left as Menu)?.width}
           open={open.right}
           handleClose={() => {
             setOpen({ ...open, right: false });
           }}
-          heading={(right as Menu).heading}
-          menu={(right as Menu).menu}
-          swr={(right as Menu).swr}
-          top={'0px'}
+          {...(right as Menu)}
+          top={topOffset}
           height={height}
+          zIndex={1200 - 100 * nestedDepth}
         />
       ) : null}
     </>
