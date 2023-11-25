@@ -14,20 +14,20 @@ type Menu = {
   menu: any;
   width: string;
 };
-
+export type PopoutDrawerWrapperProps = {
+  title: string;
+  height: string;
+  left?: Menu | ReactNode;
+  right?: Menu | ReactNode;
+  children: ReactNode | ReactNode[];
+};
 export default function MenuWrapper({
   title,
   height,
   left,
   right,
   children
-}: {
-  title: string;
-  height: string;
-  left?: Menu | ReactNode;
-  right?: Menu | ReactNode;
-  children: ReactNode | ReactNode[];
-}) {
+}: PopoutDrawerWrapperProps) {
   const Main = styled('main', {
     shouldForwardProp: (prop) => prop !== 'openLeft' && prop !== 'openRight'
   })(

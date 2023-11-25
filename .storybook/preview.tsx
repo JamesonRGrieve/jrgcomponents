@@ -5,7 +5,7 @@ import {
   themeDark,
   themeLightColorblind,
   themeDarkColorblind
-} from '../app/theme';
+} from '../src/theming/sample-theme';
 import { ThemeProvider, CssBaseline } from '@mui/material';
 import React from 'react';
 import {
@@ -16,8 +16,8 @@ import {
   Controls,
   Stories
 } from '@storybook/blocks';
-import ReferenceGrid from './blocks/ReferenceGrid';
-import ComparisonGrid from './blocks/ComparisonGrid';
+import ReferenceGrid from '../src/storybook/ReferenceGrid';
+import ComparisonGrid from '../src/storybook/ComparisonGrid';
 
 const themes = {
   light: themeLight,
