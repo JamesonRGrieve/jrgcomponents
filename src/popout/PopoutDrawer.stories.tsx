@@ -21,7 +21,7 @@ export const DoubleMenuSingleLayer: Story = (
   </PopoutDrawerWrapperComponent>
 );
 DoubleMenuSingleLayer.args = {
-  title: 'Popout Menu',
+  title: 'Menus/Popout Menu',
   left: {
     heading: 'Left Menu',
     swr: null,

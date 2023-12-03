@@ -2,21 +2,19 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
 // Import Component and related types.
-import TextFieldWithAlertComponent, {
-  TextFieldWithAlertProps
-} from './TextFieldWithAlert';
+import InputWithAlertComponent, { InputWithAlertProps } from './InputWithAlert';
 import { useState } from 'react';
 
 type Story = StoryObj<typeof meta>;
 import React from 'react';
 
 // Configure Component Stories.
-export const TextFieldWithAlert: Story = (args: TextFieldWithAlertProps) => {
+export const TextFieldWithAlert: Story = (args: InputWithAlertProps) => {
   const TextFieldWithAlertWrapper = () => {
     const [value, setValue] = useState('');
     const [error, setError] = useState('');
     return (
-      <TextFieldWithAlertComponent
+      <InputWithAlertComponent
         {...args}
         value={value}
         onChange={(e: any) => setValue(e.target.value)}
@@ -40,8 +38,8 @@ TextFieldWithAlert.args = {
 
 // Configure Metadata.
 const meta: Meta = {
-  title: 'Components/TextFieldWithAlert',
-  component: TextFieldWithAlertComponent,
+  title: 'Forms/TextFieldWithAlert',
+  component: InputWithAlertComponent,
   tags: ['autodocs'],
   argTypes: {
     heading: { control: 'text' },

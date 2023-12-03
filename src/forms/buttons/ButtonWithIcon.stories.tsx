@@ -19,7 +19,7 @@ ButtonWithIcon.args = {
 
 // Configure Metadata.
 const meta: Meta = {
-  title: 'Components/ButtonWithIcon',
+  title: 'Forms/ButtonWithIcon',
   component: ButtonWithIconComponent,
   tags: ['autodocs'],
   argTypes: {

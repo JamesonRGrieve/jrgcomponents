@@ -1,6 +1,7 @@
 import { ReactNode, useEffect, useState } from 'react';
 import { Box, Typography } from '@mui/material';
 import MuiAppBar from '@mui/material/AppBar';
+import MuiBox from '@mui/material/Box';
 import { styled } from '@mui/material/styles';
 import React from 'react';
 
@@ -31,7 +32,7 @@ export default function MenuWrapper({
   children,
   nestedDepth = 0
 }: PopoutDrawerWrapperProps) {
-  const Main = styled('main', {
+  const MainBox = styled(MuiBox, {
     shouldForwardProp: (prop) => prop !== 'open'
   })(({ theme, open }: { theme?: any; open: any }) => ({
     flexGrow: 1,
@@ -152,7 +153,9 @@ export default function MenuWrapper({
           zIndex={1200 - 100 * nestedDepth}
         />
       ) : null}
-      <Main open={open}>{children}</Main>
+      <MainBox component='main' open={open}>
+        {children}
+      </MainBox>
       {(right as Menu)?.heading !== undefined ? (
         <PopoutDrawer
           rightSide

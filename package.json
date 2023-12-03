@@ -37,6 +37,7 @@
     "./types/Theming": "./dist/types/Theming.js",
     "./forms/buttons/ButtonWithIcon": "./dist/forms/buttons/ButtonWithIcon.js",
     "./forms/fields/TextFieldWithAlert": "./dist/forms/fields/TextFieldWithAlert.js",
+    "./dialogs/Confirmation": "./dist/dialogs/ConfirmationDialog.js",
     "./storybook/ComparisonGrid": "./dist/storybook/ComparisonGrid.js",
     "./storybook/ReferenceGrid": "./dist/storybook/ReferenceGrid.js",
     "./logging/log": "./dist/logging/log.js",

@@ -6,7 +6,7 @@ import SwitchColorblindComponent from './SwitchColorblind';
 import React from 'react';
 // Configure Metadata.
 const meta: Meta = {
-  title: 'Styled/Switch/Colorblind',
+  title: 'Theming/Colorblind Switch',
   component: SwitchColorblindComponent,
   tags: ['autodocs'],
   argTypes: {},

@@ -6,7 +6,7 @@ import SwitchDarkComponent from './SwitchDark';
 import React from 'react';
 // Configure Metadata.
 const meta: Meta = {
-  title: 'Styled/Switch/Dark',
+  title: 'Theming/Dark Switch',
   component: SwitchDarkComponent,
   tags: ['autodocs'],
   argTypes: {},
