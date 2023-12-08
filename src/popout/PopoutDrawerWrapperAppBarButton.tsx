@@ -1,17 +1,19 @@
 import { Box, Typography, IconButton } from '@mui/material';
 import { ChevronRight, ChevronLeft } from '@mui/icons-material';
-import React from 'react';
+import React, { ReactNode } from 'react';
 
 export default function PopoutDrawerWrapperAppBarButton({
   open,
   handleOpen,
   side,
-  heading
+  heading,
+  icon
 }: {
   open: any;
   handleOpen: any;
   side: any;
   heading: any;
+  icon?: ReactNode;
 }) {
   return (
     <>
@@ -38,9 +40,10 @@ export default function PopoutDrawerWrapperAppBarButton({
               <ChevronLeft />
             </IconButton>
           ) : null}
+          {icon || 
           <Typography variant='h6' component='h1' noWrap>
             {heading}
-          </Typography>
+          </Typography>}
           {side === 'left' ? (
             <IconButton color='inherit' edge='start' sx={{ ml: '0.2rem' }}>
               <ChevronRight />

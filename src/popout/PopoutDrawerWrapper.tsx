@@ -10,6 +10,7 @@ import PopoutDrawerWrapperAppBarButton from './PopoutDrawerWrapperAppBarButton';
 
 type Menu = {
   heading?: string;
+  icon?: ReactNode;
   swr: any;
   menu: any;
   width: string;
@@ -34,7 +35,8 @@ export default function MenuWrapper({
 }: PopoutDrawerWrapperProps) {
   const MainBox = styled(MuiBox, {
     shouldForwardProp: (prop) => prop !== 'open'
-  })(({ theme, open }: { theme?: any; open: any }) => ({
+  })(({ theme, open }: { theme?: any; open: {left: boolean, right: boolean} }) => ({
+    height: `calc(100% - ${height})`,
     flexGrow: 1,
     transition: theme.transitions.create('margin', {
       easing: theme.transitions.easing.sharp,
@@ -57,7 +59,7 @@ export default function MenuWrapper({
   }));
   const AppBar = styled(MuiAppBar, {
     shouldForwardProp: (prop) => prop !== 'open'
-  })(({ theme, open }: { theme?: any; open: any }) => ({
+  })(({ open }: { open:  {left: boolean, right: boolean} }) => ({
     height: height,
     transition: 'width 0.3s ease',
     ...(open.left &&
@@ -78,8 +80,8 @@ export default function MenuWrapper({
   }));
   const [open, setOpen] = useState({ left: false, right: false });
   useEffect(() => {
-    console.log('Open State of ' + title + ' changed: ', open);
-  }, [open, title]);
+    console.log('Open State of popout changed: ', open);
+  }, [open]);
   return (
     <>
       <AppBar position='relative' open={open}>
@@ -100,6 +102,7 @@ export default function MenuWrapper({
                 }}
                 side='left'
                 heading={(left as Menu)?.heading}
+                icon={(left as Menu)?.icon}
               />
             ) : (
               <Box sx={{ flex: 1 }}></Box>
@@ -123,6 +126,7 @@ export default function MenuWrapper({
                 }}
                 side='right'
                 heading={(right as Menu)?.heading}
+                icon={(right as Menu)?.icon}
               />
             ) : (
               <Box sx={{ flex: 1 }}></Box>
