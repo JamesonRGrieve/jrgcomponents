@@ -18,7 +18,7 @@ export default function PopoutDrawerWrapperAppBarButton({
   return (
     <>
       {open || !heading ? (
-        <span></span>
+        <Box flex="1"></Box>
       ) : heading ? (
         <Box
           aria-label='open drawer'
@@ -35,16 +35,16 @@ export default function PopoutDrawerWrapperAppBarButton({
             ...(open && { display: 'none' })
           }}
         >
-          {side === 'right' ? (
+          {side === 'right' && !icon ? (
             <IconButton color='inherit' edge='start' sx={{ ml: '0.2rem' }}>
               <ChevronLeft />
             </IconButton>
           ) : null}
-          {icon || 
+          {icon ? icon : 
           <Typography variant='h6' component='h1' noWrap>
             {heading}
           </Typography>}
-          {side === 'left' ? (
+          {side === 'left' && !icon ? (
             <IconButton color='inherit' edge='start' sx={{ ml: '0.2rem' }}>
               <ChevronRight />
             </IconButton>

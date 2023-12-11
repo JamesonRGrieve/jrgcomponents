@@ -101,8 +101,8 @@ export default function MenuWrapper({
                   setOpen({ ...open, left: true });
                 }}
                 side='left'
-                heading={(left as Menu)?.heading}
-                icon={(left as Menu)?.icon}
+                heading={(left as Menu)?.heading??""}
+                icon={(left as Menu)?.icon??null}
               />
             ) : (
               <Box sx={{ flex: 1 }}></Box>
@@ -125,8 +125,8 @@ export default function MenuWrapper({
                   setOpen({ ...open, right: true });
                 }}
                 side='right'
-                heading={(right as Menu)?.heading}
-                icon={(right as Menu)?.icon}
+                heading={(right as Menu)?.heading??""}
+                icon={(right as Menu)?.icon??null}
               />
             ) : (
               <Box sx={{ flex: 1 }}></Box>
