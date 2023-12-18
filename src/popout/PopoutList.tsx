@@ -1,11 +1,11 @@
-import { ListItemText, ListItemButton, ListItemIcon, Box } from '@mui/material';
+import { ListItemText, ListItemButton, ListItemIcon } from '@mui/material';
 import { usePathname, useRouter } from 'next/navigation';
 import React, { ReactNode } from 'react';
 export default function MenuList({ items }: { items: (MenuListItem|ReactNode)[] }) {
   return (
     <>
       {items.map((item: MenuListItem|ReactNode, index: number) => (
-        item && typeof item === 'object' && 'label' in item ? <MenuItem key={index} item={item} /> : <Box key={index}>item</Box>
+        item && typeof item === 'object' && 'label' in item ? <MenuItem key={index} item={item} /> : item
       ))}
     </>
   );
@@ -18,19 +18,16 @@ function MenuItem({ item }: { item: MenuListItem }) {
     <>
       <ListItemButton
         onClick={(e: any) => {
-          item.href
-            ? router.push(item.href)
-            : item.click
-              ? item.click(e)
-              : null;
-          if (item.subItems.length > 0) setOpen((old) => !old);
+          if (item.click) item.click(e);
+          if (item.subItems && item.subItems.length > 0) setOpen((old) => !old);
+          if (item.href) router.push(item.href);
         }}
         selected={item.selected || pathname.split('/')[1] == item.label}
-        sx={{ pl: `${item.indent ? item.indent : 0}rem` }}
+        sx={{ pl: `${item.indent ? item.indent+1 : 1}rem` }}
       >
-        <ListItemIcon>{item.Icon}</ListItemIcon>
+        {item.Icon && <ListItemIcon>{item.Icon}</ListItemIcon>}
         <ListItemText primary={item.label} />
-        {item.buttons.map((button, index) => (
+        {item.buttons && item.buttons.length>0 && item.buttons.map((button, index) => (
           <ListItemIcon
             key={index}
             onClick={(e: any) => {
@@ -45,25 +42,25 @@ function MenuItem({ item }: { item: MenuListItem }) {
           </ListItemIcon>
         ))}
       </ListItemButton>
-      {open && item.subItems.length > 0
-        ? item.subItems.map((item) => <MenuItem key={item.label} item={item} />)
-        : null}
+      {open && item.subItems && item.subItems.length > 0 &&
+        item.subItems.map((item) => <MenuItem key={item.label} item={item} />)
+        }
     </>
   );
 }
 export type MenuListItem = {
   label: string;
-  Icon: ReactNode;
+  Icon?: ReactNode;
   tooltip?: string;
   href?: string;
   click?: (e: MouseEvent) => void;
   selected?: boolean;
   indent?: number;
-  buttons: {
+  buttons?: {
     Icon: ReactNode;
     tooltip?: string;
     href?: string;
     click?: (e: MouseEvent) => void;
   }[];
-  subItems: MenuListItem[];
+  subItems?: MenuListItem[];
 };
