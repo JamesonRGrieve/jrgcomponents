@@ -35,33 +35,43 @@ export default function MenuWrapper({
 }: PopoutDrawerWrapperProps) {
   const MainBox = styled(MuiBox, {
     shouldForwardProp: (prop) => prop !== 'open'
-  })(({ theme, open }: { theme?: any; open: {left: boolean, right: boolean} }) => ({
-    height: `calc(100% - ${height})`,
-    flexGrow: 1,
-    transition: theme.transitions.create('margin', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen
-    }),
-    ...(open.left && {
+  })(
+    ({
+      theme,
+      open
+    }: {
+      theme?: any;
+      open: { left: boolean; right: boolean };
+    }) => ({
+      height: `calc(100% - ${height})`,
+      flexGrow: 1,
       transition: theme.transitions.create('margin', {
-        easing: theme.transitions.easing.easeOut,
-        duration: theme.transitions.duration.enteringScreen
+        easing: theme.transitions.easing.sharp,
+        duration: theme.transitions.duration.leavingScreen
       }),
-      marginLeft: `${(left as Menu)?.width}`
-    }),
-    ...(open.right && {
-      transition: theme.transitions.create('margin', {
-        easing: theme.transitions.easing.easeOut,
-        duration: theme.transitions.duration.enteringScreen
+      ...(open.left && {
+        transition: theme.transitions.create('margin', {
+          easing: theme.transitions.easing.easeOut,
+          duration: theme.transitions.duration.enteringScreen
+        }),
+        marginLeft: `${(left as Menu)?.width}`
       }),
-      marginRight: (left as Menu)?.width
+      ...(open.right && {
+        transition: theme.transitions.create('margin', {
+          easing: theme.transitions.easing.easeOut,
+          duration: theme.transitions.duration.enteringScreen
+        }),
+        marginRight: (left as Menu)?.width
+      })
     })
-  }));
+  );
   const AppBar = styled(MuiAppBar, {
     shouldForwardProp: (prop) => prop !== 'open'
-  })(({ open }: { open:  {left: boolean, right: boolean} }) => ({
+  })(({ open }: { open: { left: boolean; right: boolean } }) => ({
     height: height,
     transition: 'width 0.3s ease',
+    paddingLeft: '0.5rem',
+    paddingRight: '0.5rem',
     ...(open.left &&
       !open.right && {
         width: `calc(100% - ${(left as Menu)?.width})`,
@@ -74,8 +84,9 @@ export default function MenuWrapper({
       }),
     ...(open.left &&
       open.right && {
-        width: `calc(100% - ${(right as Menu)?.width}px - ${(left as Menu)
-          ?.width}px)`
+        width: `calc(100% - ${(right as Menu)?.width} - ${(left as Menu)
+          ?.width})`,
+        marginLeft: `${(left as Menu)?.width}`
       })
   }));
   const [open, setOpen] = useState({ left: false, right: false });
@@ -101,12 +112,10 @@ export default function MenuWrapper({
                   setOpen({ ...open, left: true });
                 }}
                 side='left'
-                heading={(left as Menu)?.heading??""}
-                icon={(left as Menu)?.icon??null}
+                heading={(left as Menu)?.heading ?? ''}
+                icon={(left as Menu)?.icon ?? null}
               />
-            ) : (
-              <Box sx={{ flex: 1 }}></Box>
-            )
+            ) : null
           ) : (
             <Box sx={{ flex: 1, ml: '1rem' }}>{left as ReactNode}</Box>
           )}
@@ -125,12 +134,10 @@ export default function MenuWrapper({
                   setOpen({ ...open, right: true });
                 }}
                 side='right'
-                heading={(right as Menu)?.heading??""}
-                icon={(right as Menu)?.icon??null}
+                heading={(right as Menu)?.heading ?? ''}
+                icon={(right as Menu)?.icon ?? null}
               />
-            ) : (
-              <Box sx={{ flex: 1 }}></Box>
-            )
+            ) : null
           ) : (
             <Box
               sx={{
