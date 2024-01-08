@@ -36,7 +36,7 @@
     "./theming/ThemeWrapper": "./dist/theming/ThemeWrapper.js",
     "./types/Theming": "./dist/types/Theming.js",
     "./forms/buttons/ButtonWithIcon": "./dist/forms/buttons/ButtonWithIcon.js",
-    "./forms/fields/TextFieldWithAlert": "./dist/forms/fields/TextFieldWithAlert.js",
+    "./forms/fields/TextFieldWithAlert": "./dist/forms/fields/InputWithAlert.js",
     "./dialogs/Confirmation": "./dist/dialogs/ConfirmationDialog.js",
     "./storybook/ComparisonGrid": "./dist/storybook/ComparisonGrid.js",
     "./storybook/ReferenceGrid": "./dist/storybook/ReferenceGrid.js",
