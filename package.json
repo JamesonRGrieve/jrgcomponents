@@ -7,11 +7,13 @@
   "scripts": {
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "lint-fix": "eslint . --ext .js,.jsx,.ts,.tsx --fix",
+    "prettier": "prettier .",
+    "prettier-fix": "prettier --write .",
+    "fix": "prettier --write . && eslint . --ext .js,.jsx,.ts,.tsx --fix",
     "compile": "tsc --jsx react-jsx",
     "prettier": "prettier --write .",
     "storybook": "storybook dev -p 6009",
     "storybook-build": "storybook build"
-    
   },
   "repository": {
     "type": "git",

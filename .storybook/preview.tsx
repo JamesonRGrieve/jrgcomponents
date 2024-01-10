@@ -1,21 +1,9 @@
 import type { Preview } from '@storybook/react';
 import { useMemo } from 'react';
-import {
-  themeLight,
-  themeDark,
-  themeLightColorblind,
-  themeDarkColorblind
-} from '../src/theming/sample-theme';
+import { themeLight, themeDark, themeLightColorblind, themeDarkColorblind } from '../src/theming/sample-theme';
 import { ThemeProvider, CssBaseline } from '@mui/material';
 import React from 'react';
-import {
-  Title,
-  Subtitle,
-  Description,
-  Primary,
-  Controls,
-  Stories
-} from '@storybook/blocks';
+import { Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/blocks';
 import ReferenceGrid from '../src/storybook/ReferenceGrid';
 import ComparisonGrid from '../src/storybook/ComparisonGrid';
 
@@ -23,7 +11,7 @@ const themes = {
   light: themeLight,
   light_cb: themeLightColorblind,
   dark: themeDark,
-  dark_cb: themeDarkColorblind
+  dark_cb: themeDarkColorblind,
 };
 
 export const globalTypes = {
@@ -39,10 +27,10 @@ export const globalTypes = {
         { value: 'light', left: '☀️🌈', title: 'Light Mode' },
         { value: 'light_cb', left: '☀️🩶', title: 'Light Colorblind Mode' },
         { value: 'dark', left: '🌙🌈', title: 'Dark Mode' },
-        { value: 'dark_cb', left: '🌙🩶', title: 'Dark Colorblind Mode' }
-      ]
-    }
-  }
+        { value: 'dark_cb', left: '🌙🩶', title: 'Dark Colorblind Mode' },
+      ],
+    },
+  },
 };
 
 const preview: Preview = {
@@ -51,8 +39,8 @@ const preview: Preview = {
     controls: {
       matchers: {
         color: /(background|color)$/i,
-        date: /Date$/
-      }
+        date: /Date$/,
+      },
     },
     docs: {
       page: () => (
@@ -66,19 +54,16 @@ const preview: Preview = {
           <Controls />
           <Stories />
         </>
-      )
-    }
-  }
+      ),
+    },
+  },
 };
 
 export const withTheme = (Story: any, context: any) => {
   const { theme: themeKey } = context.globals;
 
   // Only recompute the theme if the themeKey changes.
-  const theme = useMemo(
-    () => themes[themeKey as keyof typeof themes] || themes['light'],
-    [themeKey]
-  );
+  const theme = useMemo(() => themes[themeKey as keyof typeof themes] || themes['light'], [themeKey]);
 
   return (
     <ThemeProvider theme={theme}>

@@ -19,7 +19,7 @@
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "incremental": true,
+    "incremental": true
   },
   "include": ["src/**/*", "src/index.ts"],
   "exclude": ["node_modules", "dist"]
