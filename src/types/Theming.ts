@@ -1,4 +1,5 @@
 import { Theme } from '@mui/material';
+
 declare module '@mui/material/styles' {
   interface Palette {
     colorblind: boolean;

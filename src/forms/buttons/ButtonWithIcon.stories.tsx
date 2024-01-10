@@ -2,19 +2,17 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import React from 'react';
 // Import Component and related types.
-import ButtonWithIconComponent, { ButtonWithIconProps } from './ButtonWithIcon';
 import { Delete } from '@mui/icons-material';
+import ButtonWithIconComponent, { ButtonWithIconProps } from './ButtonWithIcon';
 
 type Story = StoryObj<typeof meta>;
 
 // Configure Component Stories.
-export const ButtonWithIcon: Story = (args: ButtonWithIconProps) => (
-  <ButtonWithIconComponent {...args} />
-);
+export const ButtonWithIcon: Story = (args: ButtonWithIconProps) => <ButtonWithIconComponent {...args} />;
 ButtonWithIcon.args = {
   label: 'Button Label',
   icon: <Delete />,
-  action: () => {}
+  action: () => {},
 };
 
 // Configure Metadata.
@@ -25,17 +23,16 @@ const meta: Meta = {
   argTypes: {
     heading: { control: 'text' },
     bodyText: { control: 'text' },
-    buttonText: { control: 'text' }
+    buttonText: { control: 'text' },
   },
   parameters: {
     componentSubtitle: 'A ButtonWithIcon Component',
     docs: {
       description: {
-        component:
-          'This component is meant to illustrate how to effectively document components.'
-      }
+        component: 'This component is meant to illustrate how to effectively document components.',
+      },
     },
-    references: []
-  }
+    references: [],
+  },
 };
 export default meta;

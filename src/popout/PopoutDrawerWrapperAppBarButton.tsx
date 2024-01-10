@@ -7,7 +7,7 @@ export default function PopoutDrawerWrapperAppBarButton({
   handleOpen,
   side,
   heading,
-  icon
+  icon,
 }: {
   open: any;
   handleOpen: any;
@@ -18,21 +18,19 @@ export default function PopoutDrawerWrapperAppBarButton({
   return (
     <>
       {open || !heading ? (
-        <Box flex='1'></Box>
+        <Box flex='1' />
       ) : heading ? (
         <Box
           aria-label='open drawer'
           onClick={handleOpen}
           sx={{
-            margin: `0 ${side === 'right' ? '1rem' : '0'} 0 ${
-              side === 'left' ? '1rem' : '0'
-            }`,
+            margin: `0 ${side === 'right' ? '1rem' : '0'} 0 ${side === 'left' ? '1rem' : '0'}`,
             justifyContent: side === 'left' ? 'flex-start' : 'flex-end',
             flex: '1',
             display: 'flex',
             alignItems: 'center',
             cursor: 'pointer',
-            ...(open && { display: 'none' })
+            ...(open && { display: 'none' }),
           }}
         >
           {side === 'right' && !icon ? (

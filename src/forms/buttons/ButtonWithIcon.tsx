@@ -1,7 +1,6 @@
 import { Button } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { ReactNode } from 'react';
-import React from 'react';
+import React, { ReactNode } from 'react';
 
 export type ButtonWithIconProps = {
   label: string;
@@ -14,22 +13,13 @@ const ButtonThemed = styled(Button)(() => ({
   flexDirection: 'column',
   alignItems: 'center',
   '& .MuiButton-endIcon': {
-    margin: 0
-  }
+    margin: 0,
+  },
 }));
 
-const StyledButtonWithIcon: React.FC<ButtonWithIconProps> = ({
-  label,
-  icon,
-  action
-}) => {
+const StyledButtonWithIcon: React.FC<ButtonWithIconProps> = ({ label, icon, action }) => {
   return (
-    <ButtonThemed
-      variant='outlined'
-      size='large'
-      onClick={action}
-      endIcon={icon}
-    >
+    <ButtonThemed variant='outlined' size='large' onClick={action} endIcon={icon}>
       {label}
     </ButtonThemed>
   );

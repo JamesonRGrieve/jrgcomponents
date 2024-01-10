@@ -1,11 +1,4 @@
-import {
-  FormControl,
-  FormControlLabel,
-  FormLabel,
-  Radio,
-  RadioGroup,
-  Typography
-} from '@mui/material';
+import { FormControl, FormControlLabel, FormLabel, Radio, RadioGroup, Typography } from '@mui/material';
 import React from 'react';
 
 export default function SelectField(props: any) {
@@ -20,13 +13,7 @@ export default function SelectField(props: any) {
         {props.desc}
       </Typography>
       ,
-      <RadioGroup
-        key={'field'}
-        aria-labelledby={props.id}
-        id={props.id}
-        name={props.id}
-        defaultValue={0}
-      >
+      <RadioGroup key={'field'} aria-labelledby={props.id} id={props.id} name={props.id} defaultValue={0}>
         {props.items?.map((item: any, index: number) => {
           return (
             <FormControlLabel

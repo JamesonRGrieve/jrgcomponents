@@ -2,11 +2,11 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
 // Import Component and related types.
-import InputWithAlertComponent, { InputWithAlertProps } from './InputWithAlert';
 import { useState } from 'react';
+import React from 'react';
+import InputWithAlertComponent, { InputWithAlertProps } from './InputWithAlert';
 
 type Story = StoryObj<typeof meta>;
-import React from 'react';
 
 // Configure Component Stories.
 export const TextFieldWithAlert: Story = (args: InputWithAlertProps) => {
@@ -20,9 +20,7 @@ export const TextFieldWithAlert: Story = (args: InputWithAlertProps) => {
         onChange={(e: any) => setValue(e.target.value)}
         error={error}
         submit={() => {
-          setError(
-            error ? '' : 'An error has occured, hit enter again to remove.'
-          );
+          setError(error ? '' : 'An error has occured, hit enter again to remove.');
         }}
       />
     );
@@ -33,7 +31,7 @@ export const TextFieldWithAlert: Story = (args: InputWithAlertProps) => {
 TextFieldWithAlert.args = {
   id: 'sample-text-field',
   label: 'Text Field (Hit Enter to Submit)',
-  autoComplete: ''
+  autoComplete: '',
 };
 
 // Configure Metadata.
@@ -44,17 +42,16 @@ const meta: Meta = {
   argTypes: {
     heading: { control: 'text' },
     bodyText: { control: 'text' },
-    buttonText: { control: 'text' }
+    buttonText: { control: 'text' },
   },
   parameters: {
     componentSubtitle: 'A TextFieldWithAlert Component',
     docs: {
       description: {
-        component:
-          'This component is meant to illustrate how to effectively document components.'
-      }
+        component: 'This component is meant to illustrate how to effectively document components.',
+      },
     },
-    references: []
-  }
+    references: [],
+  },
 };
 export default meta;

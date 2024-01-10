@@ -1,9 +1,8 @@
-import { ReactNode, useEffect, useState } from 'react';
+import React, { ReactNode, useEffect, useState } from 'react';
 import { Box, Typography } from '@mui/material';
 import MuiAppBar from '@mui/material/AppBar';
 import MuiBox from '@mui/material/Box';
 import { styled } from '@mui/material/styles';
-import React from 'react';
 
 import PopoutDrawer from './PopoutDrawer';
 import PopoutDrawerWrapperAppBarButton from './PopoutDrawerWrapperAppBarButton';
@@ -31,42 +30,34 @@ export default function MenuWrapper({
   right,
   topOffset = '0px',
   children,
-  nestedDepth = 0
+  nestedDepth = 0,
 }: PopoutDrawerWrapperProps) {
   const MainBox = styled(MuiBox, {
-    shouldForwardProp: (prop) => prop !== 'open'
-  })(
-    ({
-      theme,
-      open
-    }: {
-      theme?: any;
-      open: { left: boolean; right: boolean };
-    }) => ({
-      height: `calc(100% - ${height})`,
-      flexGrow: 1,
+    shouldForwardProp: (prop) => prop !== 'open',
+  })(({ theme, open }: { theme?: any; open: { left: boolean; right: boolean } }) => ({
+    height: `calc(100% - ${height})`,
+    flexGrow: 1,
+    transition: theme.transitions.create('margin', {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+    ...(open.left && {
       transition: theme.transitions.create('margin', {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.leavingScreen
+        easing: theme.transitions.easing.easeOut,
+        duration: theme.transitions.duration.enteringScreen,
       }),
-      ...(open.left && {
-        transition: theme.transitions.create('margin', {
-          easing: theme.transitions.easing.easeOut,
-          duration: theme.transitions.duration.enteringScreen
-        }),
-        marginLeft: `${(left as Menu)?.width}`
+      marginLeft: `${(left as Menu)?.width}`,
+    }),
+    ...(open.right && {
+      transition: theme.transitions.create('margin', {
+        easing: theme.transitions.easing.easeOut,
+        duration: theme.transitions.duration.enteringScreen,
       }),
-      ...(open.right && {
-        transition: theme.transitions.create('margin', {
-          easing: theme.transitions.easing.easeOut,
-          duration: theme.transitions.duration.enteringScreen
-        }),
-        marginRight: (left as Menu)?.width
-      })
-    })
-  );
+      marginRight: (left as Menu)?.width,
+    }),
+  }));
   const AppBar = styled(MuiAppBar, {
-    shouldForwardProp: (prop) => prop !== 'open'
+    shouldForwardProp: (prop) => prop !== 'open',
   })(({ open }: { open: { left: boolean; right: boolean } }) => ({
     height: height,
     transition: 'width 0.3s ease',
@@ -75,19 +66,18 @@ export default function MenuWrapper({
     ...(open.left &&
       !open.right && {
         width: `calc(100% - ${(left as Menu)?.width})`,
-        marginLeft: `${(left as Menu)?.width}`
+        marginLeft: `${(left as Menu)?.width}`,
       }),
     ...(open.right &&
       !open.left && {
         width: `calc(100% - ${(right as Menu)?.width})`,
-        marginRight: `${(right as Menu)?.width}`
+        marginRight: `${(right as Menu)?.width}`,
       }),
     ...(open.left &&
       open.right && {
-        width: `calc(100% - ${(right as Menu)?.width} - ${(left as Menu)
-          ?.width})`,
-        marginLeft: `${(left as Menu)?.width}`
-      })
+        width: `calc(100% - ${(right as Menu)?.width} - ${(left as Menu)?.width})`,
+        marginLeft: `${(left as Menu)?.width}`,
+      }),
   }));
   const [open, setOpen] = useState({ left: false, right: false });
   useEffect(() => {
@@ -101,7 +91,7 @@ export default function MenuWrapper({
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
-            height: '100%'
+            height: '100%',
           }}
         >
           {(left as Menu)?.heading !== undefined ? (
@@ -144,7 +134,7 @@ export default function MenuWrapper({
                 flex: 1,
                 display: 'flex',
                 justifyContent: 'flex-end',
-                mr: '1rem'
+                mr: '1rem',
               }}
             >
               {right as ReactNode}

@@ -1,20 +1,12 @@
-import {
-  Typography,
-  TableContainer,
-  Table,
-  TableHead,
-  TableRow,
-  TableCell,
-  TableBody,
-  Link
-} from '@mui/material';
+import { Typography, TableContainer, Table, TableHead, TableRow, TableCell, TableBody, Link } from '@mui/material';
 import Router from 'next/router';
+import React from 'react';
+
 type Props = {
   title: string;
   rows: any;
   data: any;
 };
-import React from 'react';
 export default function TableView(props: Props) {
   return (
     <TableContainer>
@@ -38,17 +30,12 @@ export default function TableView(props: Props) {
               </TableCell>
               {row.linkAccessor ? (
                 <TableCell align='center'>
-                  <Link
-                    sx={{ cursor: 'pointer' }}
-                    onClick={() => Router.push(row.linkAccessor(props.data))}
-                  >
+                  <Link sx={{ cursor: 'pointer' }} onClick={() => Router.push(row.linkAccessor(props.data))}>
                     {row.valueAccessor(props.data) ?? 'Not Available'}
                   </Link>
                 </TableCell>
               ) : (
-                <TableCell align='center'>
-                  {row.valueAccessor(props.data) ?? 'Not Available'}
-                </TableCell>
+                <TableCell align='center'>{row.valueAccessor(props.data) ?? 'Not Available'}</TableCell>
               )}
               <TableCell align='center'>Coming Soon</TableCell>
               <TableCell align='center'>Coming Soon</TableCell>

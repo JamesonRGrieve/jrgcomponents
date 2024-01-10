@@ -5,17 +5,12 @@ import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 
 // Import Component.
-import PopoutDrawerWrapperComponent, {
-  PopoutDrawerWrapperProps
-} from './PopoutDrawerWrapper';
-import { Box } from '@mui/material';
+import PopoutDrawerWrapperComponent, { PopoutDrawerWrapperProps } from './PopoutDrawerWrapper';
 
 type Story = StoryObj<typeof meta>;
 
 // Configure Component Stories.
-export const DoubleMenuSingleLayer: Story = (
-  args: PopoutDrawerWrapperProps
-) => (
+export const DoubleMenuSingleLayer: Story = (args: PopoutDrawerWrapperProps) => (
   <PopoutDrawerWrapperComponent {...args}>
     <p>Page Contents</p>
   </PopoutDrawerWrapperComponent>
@@ -28,7 +23,7 @@ DoubleMenuSingleLayer.args = {
     menu: () => {
       return <div>Left Menu Contents</div>;
     },
-    width: '20rem'
+    width: '20rem',
   },
   right: {
     heading: 'Right Menu',
@@ -36,9 +31,9 @@ DoubleMenuSingleLayer.args = {
     menu: () => {
       return <div>Left Menu Contents</div>;
     },
-    width: '20rem'
+    width: '20rem',
   },
-  height: '3rem'
+  height: '3rem',
 };
 export const DoubleMenuDoubleLayer: Story = (args: any) => (
   <PopoutDrawerWrapperComponent {...args.outer}>
@@ -56,7 +51,7 @@ DoubleMenuDoubleLayer.args = {
       menu: () => {
         return <div>Inner Left Menu Contents</div>;
       },
-      width: '20rem'
+      width: '20rem',
     },
     right: {
       heading: 'Inner Right Menu',
@@ -64,10 +59,10 @@ DoubleMenuDoubleLayer.args = {
       menu: () => {
         return <div>Inner Right Menu Contents</div>;
       },
-      width: '20rem'
+      width: '20rem',
     },
     height: '3rem',
-    topOffset: '3rem'
+    topOffset: '3rem',
   },
   outer: {
     title: 'Outer Popout Menu',
@@ -77,7 +72,7 @@ DoubleMenuDoubleLayer.args = {
       menu: () => {
         return <div>Outer Left Menu Contents</div>;
       },
-      width: '20rem'
+      width: '20rem',
     },
     right: {
       heading: 'Outer Right Menu',
@@ -85,10 +80,10 @@ DoubleMenuDoubleLayer.args = {
       menu: () => {
         return <div>Outer Right Menu Contents</div>;
       },
-      width: '20rem'
+      width: '20rem',
     },
-    height: '3rem'
-  }
+    height: '3rem',
+  },
 };
 // Configure Metadata.
 const meta: Meta = {
@@ -99,14 +94,14 @@ const meta: Meta = {
     componentSubtitle: 'A Double-Sided Popout Menu',
     docs: {
       description: {
-        component: 'Provides an app bar with popout menus on either side.'
-      }
+        component: 'Provides an app bar with popout menus on either side.',
+      },
     },
     references: [],
     argTypes: {
-      title: { control: 'text' }
+      title: { control: 'text' },
     },
-    layout: 'fullscren'
-  }
+    layout: 'fullscren',
+  },
 } satisfies Meta<typeof PopoutDrawerWrapperComponent>;
 export default meta;

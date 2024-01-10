@@ -4,6 +4,7 @@ import React from 'react';
 
 import { ChevronRight, ChevronLeft } from '@mui/icons-material';
 import MenuSWR from '../swr/MenuSWR';
+
 export default function PopoutDrawer({
   open,
   handleClose,
@@ -14,7 +15,7 @@ export default function PopoutDrawer({
   swr,
   top,
   height,
-  zIndex
+  zIndex,
 }: {
   open: any;
   handleClose: any;
@@ -36,7 +37,7 @@ export default function PopoutDrawer({
     ...theme.mixins.toolbar,
     justifyContent: 'flex-end',
     backgroundColor: theme.palette.primary.main,
-    color: 'white'
+    color: 'white',
   }));
   return (
     <Drawer
@@ -52,8 +53,8 @@ export default function PopoutDrawer({
           top: top,
           height: `calc(100% - ${top} - ${footerHeight})`,
           //bottom: footerHeight,
-          left: 'unset'
-        }
+          left: 'unset',
+        },
       }}
       variant='persistent'
       anchor={!rightSide ? 'left' : 'right'}
@@ -66,7 +67,7 @@ export default function PopoutDrawer({
           px: '1rem',
           direction: 'ltr',
           height: height,
-          minHeight: 'unset !important'
+          minHeight: 'unset !important',
         }}
       >
         {!rightSide ? (

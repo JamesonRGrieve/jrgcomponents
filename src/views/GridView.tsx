@@ -35,11 +35,12 @@ export default function GridView(props: Props) {
               ?.map(props.rowMap)
               .map((x: any) => {
                 for (const key in x) {
-                  if (x[key] && typeof x[key] === 'string')
+                  if (x[key] && typeof x[key] === 'string') {
                     x[key] = x[key].toUpperCase();
+                  }
                 }
                 return x;
-              })
+              }),
           ];
           for (const filter of model.items) {
             if (filter.value) {
@@ -47,21 +48,13 @@ export default function GridView(props: Props) {
               console.log('Applying Filter', filter);
               const transformedFilterValue = filter.value.toUpperCase();
               if (filter.operator === 'contains') {
-                filtered = filtered.filter((x) =>
-                  x[filter.field].includes(transformedFilterValue)
-                );
+                filtered = filtered.filter((x) => x[filter.field].includes(transformedFilterValue));
               } else if (filter.operator === 'equals') {
-                filtered = filtered.filter(
-                  (x) => x[filter.field] == transformedFilterValue
-                );
+                filtered = filtered.filter((x) => x[filter.field] == transformedFilterValue);
               } else if (filter.operator === 'startsWith') {
-                filtered = filtered.filter((x) =>
-                  x[filter.field].startsWith(transformedFilterValue)
-                );
+                filtered = filtered.filter((x) => x[filter.field].startsWith(transformedFilterValue));
               } else if (filter.operator === 'endsWith') {
-                filtered = filtered.filter((x) =>
-                  x[filter.field].endsWith(transformedFilterValue)
-                );
+                filtered = filtered.filter((x) => x[filter.field].endsWith(transformedFilterValue));
               } else if (filter.operator === 'isEmpty') {
                 filtered = filtered.filter((x) => !x[filter.field]);
               } else if (filter.operator === 'isNotEmpty') {

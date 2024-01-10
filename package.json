@@ -6,10 +6,12 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "lint-fix": "eslint . --ext .js,.jsx,.ts,.tsx --fix",
     "compile": "tsc --jsx react-jsx",
     "prettier": "prettier --write .",
     "storybook": "storybook dev -p 6009",
     "storybook-build": "storybook build"
+    
   },
   "repository": {
     "type": "git",
@@ -111,6 +113,7 @@
     "eslint-plugin-unused-imports": "^3.0.0",
     "storybook": "^7.5.3",
     "ts-loader": "^9.5.0",
-    "typescript": "^5.2.2"
+    "typescript": "^5.2.2",
+    "prettier": "^3.0.0"
   }
 }

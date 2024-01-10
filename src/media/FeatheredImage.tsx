@@ -1,5 +1,6 @@
 import Box from '@mui/material/Box';
 import React from 'react';
+
 export default function FeatheredImage(props: any) {
   return (
     <Box
@@ -15,9 +16,9 @@ export default function FeatheredImage(props: any) {
             25px -15px 0 0 RGBA(180,180,180,0.5),
             50px -30px 0 0 RGBA(180,180,180,0.4),
             75px -45px 0 0 RGBA(180,180,180,0.3)`,
-        borderRadius: '3rem'
+        borderRadius: '3rem',
         /*border: '0.2rem solid RGB(180,180,180)'*/
       }}
-    ></Box>
+    />
   );
 }

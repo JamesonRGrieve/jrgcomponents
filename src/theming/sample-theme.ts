@@ -1,6 +1,6 @@
 'use client';
-import { darken, lighten } from '@mui/material';
-import { createTheme } from '@mui/material';
+import { darken, lighten, createTheme } from '@mui/material';
+
 import { deepmerge } from '@mui/utils';
 // Replace with import { Themes } from 'jrgcomponents/types/Theming';
 import { Themes } from '../types/Theming';
@@ -9,23 +9,23 @@ import { Themes } from '../types/Theming';
 const palette = {
   colorblind: false,
   primary: {
-    main: '#273043'
+    main: '#273043',
   },
   secondary: {
-    main: '#9c27b0'
+    main: '#9c27b0',
   },
   error: {
-    main: '#d32f2f'
+    main: '#d32f2f',
   },
   warning: {
-    main: '#ed6c02'
+    main: '#ed6c02',
   },
   info: {
-    main: '#0288d1'
+    main: '#0288d1',
   },
   success: {
-    main: '#2e7d32'
-  }
+    main: '#2e7d32',
+  },
 };
 
 const baseTheme = {
@@ -37,28 +37,28 @@ const baseTheme = {
           fontWeight: 'bold',
           fontSize: '14px',
           fontFamily: 'Encode Sans Semi Expanded, Arial, sans-serif',
-          textTransform: 'capitalize' as const
+          textTransform: 'capitalize' as const,
         },
         outlined: {
           backgroundColor: palette.primary.main,
           color: 'white',
           '&:hover': {
-            backgroundColor: lighten(palette.primary.main, 0.1)
+            backgroundColor: lighten(palette.primary.main, 0.1),
           },
           '&:disabled': {
             backgroundColor: '#000000',
-            color: '#666666'
-          }
-        }
-      }
-    }
+            color: '#666666',
+          },
+        },
+      },
+    },
   },
   palette: {
-    ...palette
+    ...palette,
   },
   typography: {
-    fontFamily: 'Ubuntu Mono, sans-serif'
-  }
+    fontFamily: 'Ubuntu Mono, sans-serif',
+  },
 };
 const darkOverrides = {
   components: {
@@ -67,18 +67,18 @@ const darkOverrides = {
         outlined: {
           backgroundColor: darken(palette.primary.main, 0.4),
           '&:hover': {
-            backgroundColor: darken(palette.primary.main, 0.3)
-          }
-        }
-      }
-    }
+            backgroundColor: darken(palette.primary.main, 0.3),
+          },
+        },
+      },
+    },
   },
   palette: {
     mode: 'dark',
     background: {
-      paper: darken(palette.primary.main, 0.4)
-    }
-  }
+      paper: darken(palette.primary.main, 0.4),
+    },
+  },
 };
 
 const colorblindOverrides = {
@@ -88,53 +88,49 @@ const colorblindOverrides = {
         outlined: {
           backgroundColor: '#333',
           '&:hover': {
-            backgroundColor: '#333'
-          }
-        }
-      }
-    }
+            backgroundColor: '#333',
+          },
+        },
+      },
+    },
   },
   palette: {
     colorblind: true,
     primary: {
       light: '#CCC',
       main: '#999',
-      dark: '#333'
+      dark: '#333',
     },
     secondary: {
       light: '#CCC',
       main: '#999',
-      dark: '#333'
+      dark: '#333',
     },
     error: {
-      main: '#AAA'
+      main: '#AAA',
     },
     warning: {
-      main: '#AAA'
+      main: '#AAA',
     },
     info: {
-      main: '#AAA'
+      main: '#AAA',
     },
     success: {
-      main: '#AAA'
+      main: '#AAA',
     },
     background: {
-      paper: '#333'
-    }
-  }
+      paper: '#333',
+    },
+  },
 };
 export const themeLight = createTheme(baseTheme);
 export const themeDark = createTheme(deepmerge(baseTheme, darkOverrides));
-export const themeLightColorblind = createTheme(
-  deepmerge(baseTheme, colorblindOverrides)
-);
-export const themeDarkColorblind = createTheme(
-  deepmerge(deepmerge(baseTheme, darkOverrides), colorblindOverrides)
-);
+export const themeLightColorblind = createTheme(deepmerge(baseTheme, colorblindOverrides));
+export const themeDarkColorblind = createTheme(deepmerge(deepmerge(baseTheme, darkOverrides), colorblindOverrides));
 const themes = {
   light: themeLight,
   dark: themeDark,
   lightColorblind: themeLightColorblind,
-  darkColorblind: themeDarkColorblind
+  darkColorblind: themeDarkColorblind,
 } as Themes;
 export default themes;

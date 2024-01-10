@@ -1,18 +1,18 @@
 'use client';
 import React, { Context, useState } from 'react';
-import { ThemeState, Themes } from '../types/Theming';
 import { CssBaseline, ThemeProvider } from '@mui/material';
-export const ThemeContext: Context<ThemeState> =
-  React.createContext<ThemeState>({
-    dark: false,
-    colorblind: false,
-    mutate: null
-  });
+import { ThemeState, Themes } from '../types/Theming';
+
+export const ThemeContext: Context<ThemeState> = React.createContext<ThemeState>({
+  dark: false,
+  colorblind: false,
+  mutate: null,
+});
 export function ThemeWrapper({
   children,
   themes,
   defaultDark = false,
-  defaultColorblind = false
+  defaultColorblind = false,
 }: {
   children: any;
   themes: Themes;
@@ -22,7 +22,7 @@ export function ThemeWrapper({
   const [themeState, setThemeState] = useState<ThemeState>({
     dark: defaultDark,
     colorblind: defaultColorblind,
-    mutate: null
+    mutate: null,
   });
   return (
     <ThemeContext.Provider value={{ ...themeState, mutate: setThemeState }}>

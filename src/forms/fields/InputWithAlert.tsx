@@ -8,8 +8,10 @@ import {
   FormControlLabel,
   Checkbox,
   RadioGroup,
-  Radio
+  Radio,
 } from '@mui/material';
+import React from 'react';
+
 export type InputWithAlertProps = {
   id: string;
   label: string;
@@ -26,7 +28,6 @@ export type InputWithAlertProps = {
   }[];
   sx?: any;
 };
-import React from 'react';
 
 const InputWithAlert: React.FC<InputWithAlertProps> = ({
   id,
@@ -39,7 +40,7 @@ const InputWithAlert: React.FC<InputWithAlertProps> = ({
   info = '',
   variant = 'text',
   items,
-  sx
+  sx,
 }) => {
   const variants = {
     text: (
@@ -56,7 +57,9 @@ const InputWithAlert: React.FC<InputWithAlertProps> = ({
         onKeyUp={
           submit
             ? (e: any) => {
-                if (e.key === 'Enter') submit();
+                if (e.key === 'Enter') {
+                  submit();
+                }
               }
             : undefined
         }
@@ -76,21 +79,16 @@ const InputWithAlert: React.FC<InputWithAlertProps> = ({
         onKeyUp={
           submit
             ? (e: any) => {
-                if (e.key === 'Enter') submit();
+                if (e.key === 'Enter') {
+                  submit();
+                }
               }
             : undefined
         }
       />
     ),
     select: (
-      <Select
-        sx={sx}
-        id={id}
-        label={label}
-        variant='filled'
-        value={value}
-        onChange={(e: any) => onChange(e)}
-      >
+      <Select sx={sx} id={id} label={label} variant='filled' value={value} onChange={(e: any) => onChange(e)}>
         {items?.map((item: any) => {
           return (
             <MenuItem key={item.value} value={item.value}>
@@ -111,9 +109,7 @@ const InputWithAlert: React.FC<InputWithAlertProps> = ({
                   checked={
                     value
                       .split('|')
-                      .filter(
-                        (itemValue) => itemValue.split('=')[0] == item.value
-                      )[0]
+                      .filter((itemValue) => itemValue.split('=')[0] == item.value)[0]
                       .split('=')[1] === 'true'
                   }
                 />
@@ -130,16 +126,10 @@ const InputWithAlert: React.FC<InputWithAlertProps> = ({
     radio: (
       <RadioGroup value={value} onChange={(e: any) => onChange(e)} id={id}>
         {items?.map((item: any) => {
-          return (
-            <FormControlLabel
-              key={item.value}
-              control={<Radio />}
-              label={item.label}
-            />
-          );
+          return <FormControlLabel key={item.value} control={<Radio />} label={item.label} />;
         })}
       </RadioGroup>
-    )
+    ),
   };
   return (
     <>
