@@ -1,6 +1,6 @@
 'use client';
 import { darken, lighten, createTheme } from '@mui/material';
-
+import NextLinkInjector from 'jrgcomponents/themeing/NextLinkInjector';
 import { deepmerge } from '@mui/utils';
 // Replace with import { Themes } from 'jrgcomponents/types/Theming';
 import { Themes } from '../types/Theming';
@@ -50,6 +50,16 @@ const baseTheme = {
             color: '#666666',
           },
         },
+      },
+    },
+    MuiLink: {
+      defaultProps: {
+        component: NextLinkInjector,
+      },
+    },
+    MuiButtonBase: {
+      defaultProps: {
+        LinkComponent: NextLinkInjector,
       },
     },
   },
