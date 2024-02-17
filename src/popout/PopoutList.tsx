@@ -17,36 +17,49 @@ function MenuItem({ item }: { item: MenuListItem }) {
   const [open, setOpen] = React.useState(false);
   return (
     <>
-      <ListItemButton
-        onClick={(e: any) => {
-          if (item.click) {
-            item.click(e);
-          }
-          if (item.subItems && item.subItems.length > 0) {
-            setOpen((old) => !old);
-          }
-          if (item.href) {
-            router.push(item.href);
-          }
-        }}
-        selected={item.selected || pathname.split('/')[1] == item.label}
-        sx={{ pl: `${item.indent ? item.indent + 1 : 1}rem` }}
-      >
-        {item.Icon && <ListItemIcon>{item.Icon}</ListItemIcon>}
-        <ListItemText primary={item.label} />
+      <div style={{ display: 'flex', alignItems: 'center', position: 'relative' }}>
+        <ListItemButton
+          onClick={(e: any) => {
+            if (item.click) {
+              item.click(e);
+            }
+            if (item.subItems && item.subItems.length > 0) {
+              setOpen((old) => !old);
+            }
+            if (item.href) {
+              router.push(item.href);
+            }
+          }}
+          selected={item.selected || pathname.split('/')[1] == item.label}
+          sx={{ pl: `${item.indent ? item.indent + 1 : 1}rem`, flexGrow: 1 }}
+        >
+          {item.Icon && <ListItemIcon>{item.Icon}</ListItemIcon>}
+          <ListItemText primary={item.label} />
+        </ListItemButton>
         {item.buttons &&
           item.buttons.length > 0 &&
           item.buttons.map((button, index) => (
-            <ListItemIcon
+            <ListItemButton
               key={index}
               onClick={(e: any) => {
                 button.href ? router.push(button.href) : button.click ? button.click(e) : null;
               }}
+              sx={{
+                position: 'absolute',
+                right: '1rem',
+                borderRadius: '50%',
+                height: '40px',
+                width: '40px',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
             >
               {button.Icon}
-            </ListItemIcon>
+            </ListItemButton>
           ))}
-      </ListItemButton>
+      </div>
+
       {open &&
         item.subItems &&
         item.subItems.length > 0 &&
