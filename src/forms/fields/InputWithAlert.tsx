@@ -9,6 +9,7 @@ import {
   Checkbox,
   RadioGroup,
   Radio,
+  AlertColor,
 } from '@mui/material';
 import React from 'react';
 
@@ -19,8 +20,10 @@ export type InputWithAlertProps = {
   value: string;
   onChange: any;
   submit?: any;
-  error?: string;
-  info?: string;
+  placeholder?: string;
+  error?: string | string[];
+  warning?: string | string[];
+  info?: string | string[];
   variant?: 'text' | 'password' | 'select' | 'checkbox' | 'radio';
   items?: {
     value: string;
@@ -36,7 +39,9 @@ const InputWithAlert: React.FC<InputWithAlertProps> = ({
   value,
   onChange,
   submit,
+  placeholder = '',
   error = '',
+  warning = '',
   info = '',
   variant = 'text',
   items,
@@ -52,6 +57,7 @@ const InputWithAlert: React.FC<InputWithAlertProps> = ({
         autoComplete={autoComplete}
         variant='filled'
         margin='normal'
+        placeholder={placeholder}
         value={value}
         onChange={(e: any) => onChange(e)}
         onKeyUp={
@@ -131,12 +137,22 @@ const InputWithAlert: React.FC<InputWithAlertProps> = ({
       </RadioGroup>
     ),
   };
+  const renderSeverity = (severity: AlertColor, strOrArray: string | string[]): JSX.Element => {
+    return typeof strOrArray === 'string' ? (
+      <Alert severity={severity}>{strOrArray}</Alert>
+    ) : (
+      (strOrArray.map((alert: string) => {
+        <Alert severity={severity}>{alert}</Alert>;
+      }) as unknown as JSX.Element)
+    );
+  };
   return (
     <>
       {variants[variant]}
-      <Collapse in={error != '' || info != ''}>
-        {info ? <Alert severity='info'>{info}</Alert> : null}
-        {error ? <Alert severity='error'>{error}</Alert> : null}
+      <Collapse in={Boolean(error || warning || info)}>
+        {renderSeverity('error', error)}
+        {renderSeverity('warning', warning)}
+        {renderSeverity('info', info)}
       </Collapse>
     </>
   );

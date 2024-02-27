@@ -63,7 +63,9 @@
     "./forms/fields/PasswordField": "./dist/forms/fields/PasswordField.js",
     "./forms/fields/SelectField": "./dist/forms/fields/SelectField.js",
     "./forms/fields/TextField": "./dist/forms/fields/TextField.js",
-    "./forms/fields/TimeField": "./dist/forms/fields/TimeField.js"
+    "./forms/fields/TimeField": "./dist/forms/fields/TimeField.js",
+    "./Header": "./dist/header/Header.js",
+    "./Footer": "./dist/footer/Footer.js"
   },
   "dependencies": {
     "@emotion/react": "^11.11.3",
