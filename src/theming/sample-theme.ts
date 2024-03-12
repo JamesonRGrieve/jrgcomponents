@@ -1,6 +1,7 @@
 'use client';
 import { darken, lighten, createTheme } from '@mui/material';
-import NextLinkInjector from 'jrgcomponents/themeing/NextLinkInjector';
+// Replace with import { Themes } from 'jrgcomponents/theming/NextLinkInjector';
+import NextLinkInjector from '../theming/NextLinkInjector';
 import { deepmerge } from '@mui/utils';
 // Replace with import { Themes } from 'jrgcomponents/types/Theming';
 import { Themes } from '../types/Theming';

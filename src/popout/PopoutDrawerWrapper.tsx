@@ -38,46 +38,21 @@ export default function MenuWrapper({
     height: `calc(100% - ${height})`,
     flexGrow: 1,
     transition: theme.transitions.create('margin', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
+      easing: theme.transitions.easing[open.left || open.right ? 'easeOut' : 'sharp'],
+      duration: theme.transitions.duration[open.left || open.right ? 'enteringScreen' : 'leavingScreen'],
     }),
-    ...(open.left && {
-      transition: theme.transitions.create('margin', {
-        easing: theme.transitions.easing.easeOut,
-        duration: theme.transitions.duration.enteringScreen,
-      }),
-      marginLeft: `${(left as Menu)?.width}`,
-    }),
-    ...(open.right && {
-      transition: theme.transitions.create('margin', {
-        easing: theme.transitions.easing.easeOut,
-        duration: theme.transitions.duration.enteringScreen,
-      }),
-      marginRight: (left as Menu)?.width,
-    }),
+    margin: `0 ${open.right ? (right as Menu)?.width : 0} 0 ${open.left ? (left as Menu)?.width : 0}`,
   }));
   const AppBar = styled(MuiAppBar, {
     shouldForwardProp: (prop) => prop !== 'open',
   })(({ open }: { open: { left: boolean; right: boolean } }) => ({
     height: height,
-    transition: 'width 0.3s ease',
-    paddingLeft: '0.5rem',
-    paddingRight: '0.5rem',
-    ...(open.left &&
-      !open.right && {
-        width: `calc(100% - ${(left as Menu)?.width})`,
-        marginLeft: `${(left as Menu)?.width}`,
-      }),
-    ...(open.right &&
-      !open.left && {
-        width: `calc(100% - ${(right as Menu)?.width})`,
-        marginRight: `${(right as Menu)?.width}`,
-      }),
-    ...(open.left &&
-      open.right && {
-        width: `calc(100% - ${(right as Menu)?.width} - ${(left as Menu)?.width})`,
-        marginLeft: `${(left as Menu)?.width}`,
-      }),
+    transitionProperty: 'width',
+    transitionDuration: '2s',
+    transitionTimingFunction: 'ease',
+    padding: '0 0.5rem',
+    width: `calc(100%${open.left ? ' - ' + (left as Menu)?.width : ''}${open.right ? ' - ' + (right as Menu)?.width : ''})`,
+    margin: `0 ${open.right ? (right as Menu)?.width : 0} 0 ${open.left ? (left as Menu)?.width : 0}`,
   }));
   const [open, setOpen] = useState({ left: false, right: false });
   useEffect(() => {
