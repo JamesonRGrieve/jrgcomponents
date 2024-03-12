@@ -5,7 +5,7 @@ import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 
 // Import Component.
-import PopoutDrawerWrapperComponent, { PopoutDrawerWrapperProps } from './PopoutDrawerWrapper';
+import PopoutDrawerWrapperComponent, { PopoutDrawerWrapperProps } from './Wrapper';
 
 type Story = StoryObj<typeof meta>;
 
@@ -29,7 +29,7 @@ DoubleMenuSingleLayer.args = {
     heading: 'Right Menu',
     swr: null,
     menu: () => {
-      return <div>Left Menu Contents</div>;
+      return <div>Right Menu Contents</div>;
     },
     width: '20rem',
   },
@@ -62,7 +62,7 @@ DoubleMenuDoubleLayer.args = {
       width: '20rem',
     },
     height: '3rem',
-    topOffset: '3rem',
+    innerMost: true,
   },
   outer: {
     title: 'Outer Popout Menu',
@@ -83,6 +83,10 @@ DoubleMenuDoubleLayer.args = {
       width: '20rem',
     },
     height: '3rem',
+    footer: {
+      height: '2rem',
+      children: ['Created by Jameson Grieve'],
+    },
   },
 };
 // Configure Metadata.
