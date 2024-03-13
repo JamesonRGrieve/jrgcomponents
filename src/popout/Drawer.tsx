@@ -41,7 +41,7 @@ export default function PopoutDrawer({
           left: side == 'left' ? '0' : 'unset',
           right: side == 'right' ? '0' : 'unset',
           top: topSpacing,
-          overflowY: 'scroll',
+          overflowY: 'auto',
         },
       }}
       variant='persistent'

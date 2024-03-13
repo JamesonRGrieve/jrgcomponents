@@ -15,19 +15,17 @@ export default function PopoutDrawerWrapperAppBarButton({
   heading: string;
   icon?: ReactNode;
 }) {
-  return !heading ? (
-    <Box flex='1' />
-  ) : (
+  return (
     <Box
       aria-label='open drawer'
       onClick={handleToggle}
       sx={{
         margin: `0 ${side === 'right' ? '1rem' : '0'} 0 ${side === 'left' ? '1rem' : '0'}`,
         justifyContent: 'flex-end',
-        flex: '1',
         display: 'flex',
         alignItems: 'center',
         cursor: 'pointer',
+        height: '100%',
         flexDirection: side == 'left' ? 'row-reverse' : 'row',
       }}
     >

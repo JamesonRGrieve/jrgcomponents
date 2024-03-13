@@ -45,58 +45,58 @@ export default function MenuWrapper({ title, height, left, right, inner, footer,
         position: 'absolute',
       }}
     >
-      <AppBar sx={{ height: height, position: 'static' }}>
-        <Box
-          sx={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            height: '100%',
-          }}
-        >
-          {(left as Menu)?.heading ? (
-            <PopoutButton
-              open={open.left}
-              handleToggle={() => {
-                setOpen((previousState: any) => ({ ...previousState, left: !previousState.left }));
-              }}
-              side='left'
-              heading={(left as Menu)?.heading ?? ''}
-              icon={(left as Menu)?.icon ?? null}
-            />
-          ) : (
-            <Box sx={{ flex: 1, ml: '1rem' }}>{left as ReactNode}</Box>
-          )}
-          {typeof title === 'string' ? (
-            <Typography variant='h6' component='h1' noWrap>
-              {title}
-            </Typography>
-          ) : (
-            title
-          )}
-          {(right as Menu)?.heading !== undefined ? (
-            <PopoutButton
-              open={open.right}
-              handleToggle={() => {
-                setOpen((previousState: any) => ({ ...previousState, right: !previousState.right }));
-              }}
-              side='right'
-              heading={(right as Menu)?.heading ?? ''}
-              icon={(right as Menu)?.icon}
-            />
-          ) : (
-            <Box
-              sx={{
-                flex: 1,
-                display: 'flex',
-                justifyContent: 'flex-end',
-                mr: '1rem',
-              }}
-            >
-              {right as ReactNode}
-            </Box>
-          )}
-        </Box>
+      <AppBar
+        sx={{
+          height: height,
+          position: 'static',
+          display: 'grid',
+          gridTemplateColumns: '1fr 4fr 1fr',
+        }}
+      >
+        {(left as Menu)?.heading ? (
+          <PopoutButton
+            open={open.left}
+            handleToggle={() => {
+              setOpen((previousState: any) => ({ ...previousState, left: !previousState.left }));
+            }}
+            side='left'
+            heading={(left as Menu)?.heading ?? ''}
+            icon={(left as Menu)?.icon ?? null}
+          />
+        ) : (
+          <Box sx={{ flex: 1, ml: '1rem' }}>{left as ReactNode}</Box>
+        )}
+        {typeof title === 'string' ? (
+          <Typography variant='h6' component='h1' textAlign='center' noWrap>
+            {title}
+          </Typography>
+        ) : (
+          <Box display='flex' justifyContent='space-between' alignItems='center' height='100%'>
+            {title}
+          </Box>
+        )}
+        {(right as Menu)?.heading !== undefined ? (
+          <PopoutButton
+            open={open.right}
+            handleToggle={() => {
+              setOpen((previousState: any) => ({ ...previousState, right: !previousState.right }));
+            }}
+            side='right'
+            heading={(right as Menu)?.heading ?? ''}
+            icon={(right as Menu)?.icon}
+          />
+        ) : (
+          <Box
+            sx={{
+              flex: 1,
+              display: 'flex',
+              justifyContent: 'flex-end',
+              mr: '1rem',
+            }}
+          >
+            {right as ReactNode}
+          </Box>
+        )}
       </AppBar>
       {(left as Menu)?.menu && (
         <PopoutDrawer
@@ -114,7 +114,7 @@ export default function MenuWrapper({ title, height, left, right, inner, footer,
           height: `calc(100% - ${height})`,
           flexGrow: 1,
           position: 'relative',
-          overflowY: 'scroll',
+          overflowY: 'auto',
           transition: theme.transitions.create('margin', {
             easing: theme.transitions.easing[open.left || open.right ? 'easeOut' : 'sharp'],
             duration: theme.transitions.duration[open.left || open.right ? 'enteringScreen' : 'leavingScreen'],

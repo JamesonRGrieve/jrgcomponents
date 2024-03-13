@@ -6,6 +6,9 @@ import type { Meta, StoryObj } from '@storybook/react';
 
 // Import Component.
 import PopoutDrawerWrapperComponent, { PopoutDrawerWrapperProps } from './Wrapper';
+import { Box, Typography } from '@mui/material';
+import SwitchDark from '../theming/SwitchDark';
+import SwitchColorblind from '../theming/SwitchColorblind';
 
 type Story = StoryObj<typeof meta>;
 
@@ -66,6 +69,19 @@ DoubleMenuDoubleLayer.args = {
   },
   outer: {
     title: 'Outer Popout Menu',
+    /*(
+      <>
+
+        <Typography flexGrow='1' flexBasis='0' variant='h3' height='100%'>
+          Outer Popout Menu
+        </Typography>
+
+        <Box flexGrow='1' display='flex' justifyContent='flex-end' flexBasis='0' height='100%'>
+          <SwitchDark />
+          <SwitchColorblind />
+        </Box>
+      </>
+    ),*/
     left: {
       heading: 'Outer Left Menu',
       swr: null,
