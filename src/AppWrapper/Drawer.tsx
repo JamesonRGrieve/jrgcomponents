@@ -1,10 +1,6 @@
-import { Drawer, List, Typography, Divider, IconButton } from '@mui/material';
-import { styled } from '@mui/material/styles';
+import { Drawer, List } from '@mui/material';
+import MenuSWR from '../SWR/MenuSWR';
 import React from 'react';
-
-import { ChevronRight, ChevronLeft } from '@mui/icons-material';
-import MenuSWR from '../swr/MenuSWR';
-
 export default function PopoutDrawer({
   open,
   side,

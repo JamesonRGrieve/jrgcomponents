@@ -1,61 +1,82 @@
 'use client';
-import { darken, lighten, createTheme } from '@mui/material';
-// Replace with import { Themes } from 'jrgcomponents/theming/NextLinkInjector';
-import NextLinkInjector from '../theming/NextLinkInjector';
+import { SxProps, Theme, createTheme, ThemeOptions } from '@mui/material';
 import { deepmerge } from '@mui/utils';
-// Replace with import { Themes } from 'jrgcomponents/types/Theming';
 import { Themes } from '../types/Theming';
-// Uncomment this if you need to reference the default theme in overrides.
-//const defaultTheme = createTheme();
-const palette = {
-  colorblind: false,
-  primary: {
-    main: '#273043',
-  },
-  secondary: {
-    main: '#9c27b0',
-  },
-  error: {
-    main: '#d32f2f',
-  },
-  warning: {
-    main: '#ed6c02',
-  },
-  info: {
-    main: '#0288d1',
-  },
-  success: {
-    main: '#2e7d32',
-  },
-};
+// For Injecting Next Link Behaviour Into MUI Links
+import NextLinkInjector from './NextLinkInjector';
+// Font Import Example
+import { Roboto_Mono } from 'next/font/google';
+const roboto = Roboto_Mono({ subsets: ['latin'] });
 
 const baseTheme = {
   //Components
   components: {
     MuiButton: {
       styleOverrides: {
-        root: {
-          fontWeight: 'bold',
-          fontSize: '14px',
-          fontFamily: 'Encode Sans Semi Expanded, Arial, sans-serif',
-          textTransform: 'capitalize' as const,
+        root: (props: { theme: any; ownerState: any }): SxProps => {
+          return {
+            fontWeight: 'bold',
+            fontSize: '14px',
+            textTransform: 'capitalize' as const,
+            // Bind Text Colour To Normal Text
+            color: props.theme.palette.text.primary,
+            // Change Buttons Between Light and Dark Variants with Theme
+            backgroundColor: props.theme.palette[props.ownerState.color][props.theme.palette.mode],
+          };
         },
-        outlined: {
-          backgroundColor: palette.primary.main,
-          color: 'white',
-          '&:hover': {
-            backgroundColor: lighten(palette.primary.main, 0.1),
-          },
-          '&:disabled': {
-            backgroundColor: '#000000',
-            color: '#666666',
-          },
+      },
+    },
+    MuiTypography: {
+      styleOverrides: {
+        h1: ({ theme }: { theme: Theme }): SxProps => ({
+          color: theme.palette.text.primary,
+        }),
+        body1: {
+          margin: '1rem 0',
         },
+      },
+    },
+    MuiOutlinedInput: {
+      styleOverrides: {
+        root: ({ theme, ownerState }: { theme: any; ownerState: any }): SxProps => ({
+          '&:hover .MuiOutlinedInput-notchedOutline': {
+            borderColor: theme.palette[ownerState?.color ?? 'primary'][theme.palette.mode === 'dark' ? 'light' : 'dark'],
+          },
+          '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+            borderColor: theme.palette[ownerState?.color ?? 'primary'][theme.palette.mode === 'dark' ? 'light' : 'dark'],
+          },
+        }),
+      },
+    },
+    MuiInputLabel: {
+      styleOverrides: {
+        root: ({ theme, ownerState }: { theme: any; ownerState: any }): SxProps => ({
+          '&.Mui-focused': {
+            color: theme.palette[ownerState?.color ?? 'primary'][theme.palette.mode === 'dark' ? 'light' : 'dark'],
+          },
+        }),
+      },
+    },
+    MuiAppBar: {
+      styleOverrides: {
+        root: ({ theme }: { theme: Theme }): SxProps => ({
+          backgroundColor: theme.palette.primary[theme.palette.mode],
+        }),
+      },
+    },
+    MuiIconButton: {
+      styleOverrides: {
+        root: ({ theme, ownerState }: { theme: any; ownerState: any }): SxProps => ({
+          color: Object.keys(theme.palette).includes(ownerState?.color)
+            ? theme.palette[ownerState?.color ?? 'primary'][theme.palette.mode === 'dark' ? 'light' : 'dark']
+            : ownerState.color,
+        }),
       },
     },
     MuiLink: {
       defaultProps: {
         component: NextLinkInjector,
+        href: '/',
       },
     },
     MuiButtonBase: {
@@ -64,80 +85,72 @@ const baseTheme = {
       },
     },
   },
+  // Anything that you override from here https://mui.com/material-ui/customization/dark-mode/ needs to also be overridden in dark or it won't be applied.
   palette: {
-    ...palette,
+    colorblind: false,
+    primary: {
+      light: '#F00',
+      main: '#C00',
+      dark: '#900',
+    },
+    secondary: {
+      light: '#0F0',
+      main: '#0C0',
+      dark: '#090',
+    },
   },
   typography: {
-    fontFamily: 'Ubuntu Mono, sans-serif',
+    fontFamily: `${roboto.style.fontFamily}, Arial, sans-serif`,
+    h1: {
+      fontSize: '2rem',
+      fontWeight: 'bold',
+      '@media (min-width:600px)': {
+        fontSize: '1.5rem',
+      },
+    },
+    h2: {
+      fontSize: '1.5rem',
+      fontWeight: 'bold',
+      '@media (min-width:600px)': {
+        fontSize: '1.2rem',
+      },
+    },
+    body1: {
+      fontSize: '1rem',
+    },
+    button: {
+      fontWeight: 'bold',
+      fontSize: '14px',
+    },
   },
 };
 const darkOverrides = {
-  components: {
-    MuiButton: {
-      styleOverrides: {
-        outlined: {
-          backgroundColor: darken(palette.primary.main, 0.4),
-          '&:hover': {
-            backgroundColor: darken(palette.primary.main, 0.3),
-          },
-        },
-      },
-    },
-  },
   palette: {
     mode: 'dark',
-    background: {
-      paper: darken(palette.primary.main, 0.4),
-    },
   },
 };
-
+const colorblindPalette = {
+  light: '#CCC',
+  main: '#999',
+  dark: '#333',
+};
 const colorblindOverrides = {
-  components: {
-    MuiButton: {
-      styleOverrides: {
-        outlined: {
-          backgroundColor: '#333',
-          '&:hover': {
-            backgroundColor: '#333',
-          },
-        },
-      },
-    },
-  },
   palette: {
     colorblind: true,
     primary: {
-      light: '#CCC',
-      main: '#999',
-      dark: '#333',
+      ...colorblindPalette,
     },
     secondary: {
-      light: '#CCC',
-      main: '#999',
-      dark: '#333',
-    },
-    error: {
-      main: '#AAA',
-    },
-    warning: {
-      main: '#AAA',
-    },
-    info: {
-      main: '#AAA',
-    },
-    success: {
-      main: '#AAA',
-    },
-    background: {
-      paper: '#333',
+      ...colorblindPalette,
     },
   },
 };
-export const themeLight = createTheme(baseTheme);
-export const themeDark = createTheme(deepmerge(baseTheme, darkOverrides));
-export const themeLightColorblind = createTheme(deepmerge(baseTheme, colorblindOverrides));
-export const themeDarkColorblind = createTheme(deepmerge(deepmerge(baseTheme, darkOverrides), colorblindOverrides));
+export const themeLight = createTheme(baseTheme as ThemeOptions);
+export const themeDark = createTheme(deepmerge(baseTheme, darkOverrides) as ThemeOptions);
+export const themeLightColorblind = createTheme(deepmerge(baseTheme, colorblindOverrides) as ThemeOptions);
+export const themeDarkColorblind = createTheme(
+  deepmerge(deepmerge(baseTheme, darkOverrides), colorblindOverrides) as ThemeOptions,
+);
 const themes = {
   light: themeLight,
   dark: themeDark,

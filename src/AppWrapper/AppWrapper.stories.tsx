@@ -5,10 +5,10 @@ import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 
 // Import Component.
-import PopoutDrawerWrapperComponent, { PopoutDrawerWrapperProps } from './Wrapper';
+import PopoutDrawerWrapperComponent, { PopoutDrawerWrapperProps } from './AppWrapper';
 import { Box, Typography } from '@mui/material';
-import SwitchDark from '../theming/SwitchDark';
-import SwitchColorblind from '../theming/SwitchColorblind';
+import SwitchDark from '../Theming/SwitchDark';
+import SwitchColorblind from '../Theming/SwitchColorblind';
 
 type Story = StoryObj<typeof meta>;
 
@@ -19,7 +19,7 @@ export const DoubleMenuSingleLayer: Story = (args: PopoutDrawerWrapperProps) => 
   </PopoutDrawerWrapperComponent>
 );
 DoubleMenuSingleLayer.args = {
-  title: 'Menus/Popout Menu',
+  title: 'Single Layer Menu',
   left: {
     heading: 'Left Menu',
     swr: null,
@@ -68,20 +68,21 @@ DoubleMenuDoubleLayer.args = {
     innerMost: true,
   },
   outer: {
-    title: 'Outer Popout Menu',
-    /*(
+    title: (
       <>
+        <Box flex='1 1 auto' />
+        <Box flex='2 1 auto'>
+          <Typography variant='h6' component='h1' textAlign='center' height='100%'>
+            Outer Popout Menu
+          </Typography>
+        </Box>
 
-        <Typography flexGrow='1' flexBasis='0' variant='h3' height='100%'>
-          Outer Popout Menu
-        </Typography>
-
-        <Box flexGrow='1' display='flex' justifyContent='flex-end' flexBasis='0' height='100%'>
+        <Box flex='1 1 auto' display='flex' justifyContent='flex-end' flexBasis='0' height='100%'>
           <SwitchDark />
           <SwitchColorblind />
         </Box>
       </>
-    ),*/
+    ),
     left: {
       heading: 'Outer Left Menu',
       swr: null,
@@ -101,13 +102,17 @@ DoubleMenuDoubleLayer.args = {
     height: '3rem',
     footer: {
       height: '2rem',
-      children: ['Created by Jameson Grieve'],
+      children: [
+        <Typography key='by' variant='h6' component='p' textAlign='center' height='100%'>
+          Created by Jameson Grieve
+        </Typography>,
+      ],
     },
   },
 };
 // Configure Metadata.
 const meta: Meta = {
-  title: 'Popout Menu',
+  title: 'Application/AppWrapper',
   component: PopoutDrawerWrapperComponent,
   tags: ['autodocs'],
   parameters: {

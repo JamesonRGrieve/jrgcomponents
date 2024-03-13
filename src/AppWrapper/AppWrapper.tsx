@@ -1,7 +1,7 @@
 import React, { ReactNode, useEffect, useState } from 'react';
 import { Box, Typography, useTheme } from '@mui/material';
 import AppBar from '@mui/material/AppBar';
-
+import HeaderFooter from './HeaderFooter';
 import PopoutDrawer from './Drawer';
 import PopoutButton from './Button';
 
@@ -34,70 +34,49 @@ export default function MenuWrapper({ title, height, left, right, inner, footer,
     console.log('Open State of popout changed: ', open);
   }, [open]);
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        top: '0',
-        bottom: '0',
-        left: '0',
-        right: '0',
-        position: 'absolute',
-      }}
-    >
-      <AppBar
-        sx={{
-          height: height,
-          position: 'static',
-          display: 'grid',
-          gridTemplateColumns: '1fr 4fr 1fr',
+    <>
+      <HeaderFooter
+        height={height}
+        components={{
+          left: (left as Menu)?.heading ? (
+            <PopoutButton
+              open={open.left}
+              handleToggle={() => {
+                setOpen((previousState: any) => ({ ...previousState, left: !previousState.left }));
+              }}
+              side='left'
+              heading={(left as Menu)?.heading ?? ''}
+              icon={(left as Menu)?.icon ?? null}
+            />
+          ) : (
+            (left as ReactNode)
+          ),
+          center:
+            typeof title === 'string' ? (
+              <Typography variant='h6' component={inner ? 'h2' : 'h1'} textAlign='center' noWrap>
+                {title}
+              </Typography>
+            ) : (
+              <Box display='flex' justifyContent='space-between' alignItems='center' height='100%'>
+                {title}
+              </Box>
+            ),
+          right:
+            (right as Menu)?.heading !== undefined ? (
+              <PopoutButton
+                open={open.right}
+                handleToggle={() => {
+                  setOpen((previousState: any) => ({ ...previousState, right: !previousState.right }));
+                }}
+                side='right'
+                heading={(right as Menu)?.heading ?? ''}
+                icon={(right as Menu)?.icon}
+              />
+            ) : (
+              (right as ReactNode)
+            ),
         }}
-      >
-        {(left as Menu)?.heading ? (
-          <PopoutButton
-            open={open.left}
-            handleToggle={() => {
-              setOpen((previousState: any) => ({ ...previousState, left: !previousState.left }));
-            }}
-            side='left'
-            heading={(left as Menu)?.heading ?? ''}
-            icon={(left as Menu)?.icon ?? null}
-          />
-        ) : (
-          <Box sx={{ flex: 1, ml: '1rem' }}>{left as ReactNode}</Box>
-        )}
-        {typeof title === 'string' ? (
-          <Typography variant='h6' component='h1' textAlign='center' noWrap>
-            {title}
-          </Typography>
-        ) : (
-          <Box display='flex' justifyContent='space-between' alignItems='center' height='100%'>
-            {title}
-          </Box>
-        )}
-        {(right as Menu)?.heading !== undefined ? (
-          <PopoutButton
-            open={open.right}
-            handleToggle={() => {
-              setOpen((previousState: any) => ({ ...previousState, right: !previousState.right }));
-            }}
-            side='right'
-            heading={(right as Menu)?.heading ?? ''}
-            icon={(right as Menu)?.icon}
-          />
-        ) : (
-          <Box
-            sx={{
-              flex: 1,
-              display: 'flex',
-              justifyContent: 'flex-end',
-              mr: '1rem',
-            }}
-          >
-            {right as ReactNode}
-          </Box>
-        )}
-      </AppBar>
+      />
       {(left as Menu)?.menu && (
         <PopoutDrawer
           open={open.left}
@@ -134,20 +113,7 @@ export default function MenuWrapper({ title, height, left, right, inner, footer,
           bottomSpacing={footer ? footer.height : '0'}
         />
       )}
-      {footer && (
-        <AppBar
-          sx={{
-            justifySelf: 'end',
-            height: footer.height,
-            position: 'static',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-        >
-          {footer.children}
-        </AppBar>
-      )}
-    </Box>
+      {footer && <HeaderFooter components={{ center: footer.children, right: ' ' }} height={footer.height} footer />}
+    </>
   );
 }

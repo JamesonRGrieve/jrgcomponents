@@ -29,7 +29,7 @@ export default function PopoutDrawerWrapperAppBarButton({
         flexDirection: side == 'left' ? 'row-reverse' : 'row',
       }}
     >
-      <IconButton color='inherit' edge='start' sx={{ ml: '0.2rem' }}>
+      <IconButton edge='start' color='inherit' sx={{ ml: '0.2rem' }}>
         {icon ?? ((side == 'left') !== open ? <ChevronRight /> : <ChevronLeft />)}
       </IconButton>
       <Typography variant='h6' component='h1' noWrap>

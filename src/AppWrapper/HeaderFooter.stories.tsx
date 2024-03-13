@@ -2,17 +2,15 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
 // Import Component and related types.
-import HeaderComponent, { HeaderProps } from './Header';
+import HeaderComponent, { HeaderProps } from './HeaderFooter';
 import React from 'react';
 // Configure Metadata.
 const meta: Meta = {
-  title: 'Meta/Header',
+  title: 'Application/Header & Footer',
   component: HeaderComponent,
   tags: ['autodocs'],
   argTypes: {
-    heading: { control: 'text' },
-    bodyText: { control: 'text' },
-    buttonText: { control: 'text' },
+    height: { control: 'text' },
   },
   parameters: {
     componentSubtitle: 'A Sample Component',

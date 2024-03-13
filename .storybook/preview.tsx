@@ -1,11 +1,11 @@
 import type { Preview } from '@storybook/react';
 import { useMemo } from 'react';
-import { themeLight, themeDark, themeLightColorblind, themeDarkColorblind } from '../src/theming/sample-theme';
+import { themeLight, themeDark, themeLightColorblind, themeDarkColorblind } from '../src/Theming/sample-theme';
 import { ThemeProvider, CssBaseline } from '@mui/material';
 import React from 'react';
 import { Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/blocks';
-import ReferenceGrid from '../src/storybook/ReferenceGrid';
-import ComparisonGrid from '../src/storybook/ComparisonGrid';
+import ReferenceGrid from '../src/Storybook/ReferenceGrid';
+import ComparisonGrid from '../src/Storybook/ComparisonGrid';
 
 const themes = {
   light: themeLight,
@@ -68,7 +68,21 @@ export const withTheme = (Story: any, context: any) => {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Story />
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          position: 'absolute',
+          top: 0,
+          bottom: 0,
+          left: 0,
+          right: 0,
+          overflowX: 'hidden',
+          boxSizing: 'border-box',
+        }}
+      >
+        <Story />
+      </div>
     </ThemeProvider>
   );
 };
