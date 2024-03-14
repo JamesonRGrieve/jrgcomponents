@@ -1,6 +1,6 @@
 {
   "name": "jrgcomponents",
-  "version": "0.0.86",
+  "version": "0.0.87",
   "description": "Components developed by Jameson R Grieve for use in React/NextJS projects.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -64,8 +64,9 @@
     "./Form/Field/SelectField": "./dist/Form/Field/SelectField.js",
     "./Form/Field/TextField": "./dist/Form/Field/TextField.js",
     "./Form/Field/TimeField": "./dist/Form/Field/TimeField.js",
-    "./Header": "./dist/AppWrapper/Header.js",
-    "./Footer": "./dist/AppWrapper/Footer.js"
+    "./Header": "./dist/AppWrapper/HeaderFooter.js",
+    "./Footer": "./dist/AppWrapper/HeaderFooter.js",
+    "./AppWrapper/HeaderFooter": "./dist/AppWrapper/HeaderFooter.js"
   },
   "dependencies": {
     "@emotion/react": "^11.11.4",
