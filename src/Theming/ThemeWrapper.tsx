@@ -1,8 +1,8 @@
 'use client';
-import React, { Context, useState } from 'react';
+import React, { Context, useMemo, useState } from 'react';
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import { ThemeState, Themes } from '../types/Theming';
-
+import buildThemeSet, { ThemeInjection } from './BuildThemeSet';
 export const ThemeContext: Context<ThemeState> = React.createContext<ThemeState>({
   dark: false,
   colorblind: false,
@@ -10,12 +10,12 @@ export const ThemeContext: Context<ThemeState> = React.createContext<ThemeState>
 });
 export function ThemeWrapper({
   children,
-  themes,
+  themeInjection,
   defaultDark = false,
   defaultColorblind = false,
 }: {
   children: any;
-  themes: Themes;
+  themeInjection: ThemeInjection;
   defaultDark?: boolean;
   defaultColorblind?: boolean;
 }) {
@@ -24,6 +24,9 @@ export function ThemeWrapper({
     colorblind: defaultColorblind,
     mutate: null,
   });
+  const themeSet = useMemo(() => {
+    return buildThemeSet(themeInjection);
+  }, [themeInjection]);
   return (
     <ThemeContext.Provider value={{ ...themeState, mutate: setThemeState }}>
       <ThemeProvider
@@ -31,12 +34,12 @@ export function ThemeWrapper({
           !themeState.dark
             ? // Light Themes
               !themeState.colorblind
-              ? themes.light
-              : themes.lightColorblind
+              ? themeSet.light
+              : themeSet.lightColorblind
             : // Dark Themes
               !themeState.colorblind
-              ? themes.dark
-              : themes.darkColorblind
+              ? themeSet.dark
+              : themeSet.darkColorblind
         }
       >
         <CssBaseline />

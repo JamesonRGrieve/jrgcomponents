@@ -1,6 +1,6 @@
 {
   "name": "jrgcomponents",
-  "version": "0.0.87",
+  "version": "0.0.88",
   "description": "Components developed by Jameson R Grieve for use in React/NextJS projects.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -37,7 +37,7 @@
     "./Theming/SwitchDark": "./dist/Theming/SwitchDark.js",
     "./Theming/SwitchColorblind": "./dist/Theming/SwitchColorblind.js",
     "./Theming/ThemeWrapper": "./dist/Theming/ThemeWrapper.js",
-    "./Theming/NextLinkInjector": "./dist/Theming/NextLinkInjector.js",
+    "./Theming/BuildThemeSet": "./dist/Theming/BuildThemeSet.js",
     "./types/Theming": "./dist/types/Theming.js",
     "./Form/Button/ButtonWithIcon": "./dist/Form/Button/ButtonWithIcon.js",
     "./Form/Field/TextFieldWithAlert": "./dist/Form/Field/InputWithAlert.js",
