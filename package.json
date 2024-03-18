@@ -1,6 +1,6 @@
 {
   "name": "jrgcomponents",
-  "version": "0.0.88",
+  "version": "0.0.89",
   "description": "Components developed by Jameson R Grieve for use in React/NextJS projects.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -51,6 +51,7 @@
     "./SWR/ContentSWR": "./dist/SWR/ContentSWR.js",
     "./SWR/MenuSWR": "./dist/SWR/MenuSWR.js",
     "./Media/FeatheredImage": "./dist/Media/FeatheredImage.js",
+    "./Media/AudioPlayer": "./dist/Media/AudioPlayer.js",
     "./AppWrapper/Wrapper": "./dist/AppWrapper/AppWrapper.js",
     "./AppWrapper/List": "./dist/AppWrapper/List.js",
     "./Form/Button/ActionButton": "./dist/Form/Button/ActionButton.js",
