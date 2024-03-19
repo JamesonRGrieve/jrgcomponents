@@ -19,6 +19,6 @@
     "isolatedModules": true,
     "incremental": true
   },
-  "include": ["src/**/*", "src/index.ts"],
+  "include": ["src/**/*", "src/index.ts", "src/Style/**/*.css"],
   "exclude": ["node_modules", "dist"]
 }

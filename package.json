@@ -10,7 +10,7 @@
     "prettier": "prettier .",
     "prettier-fix": "prettier --write .",
     "fix": "prettier --write . && eslint . --ext .js,.jsx,.ts,.tsx --fix",
-    "compile": "tsc --jsx react-jsx",
+    "compile": "tsc --jsx react-jsx && shx cp -r ./src/Style ./dist",
     "storybook": "storybook dev -p 6009",
     "storybook-build": "storybook build"
   },
@@ -53,6 +53,7 @@
     "./Media/FeatheredImage": "./dist/Media/FeatheredImage.js",
     "./Media/AudioPlayer": "./dist/Media/AudioPlayer.js",
     "./AppWrapper/Wrapper": "./dist/AppWrapper/AppWrapper.js",
+    "./AppWrapper/Wrapper/Themed": "./dist/AppWrapper/ThemedAppWrapper.js",
     "./AppWrapper/List": "./dist/AppWrapper/List.js",
     "./Form/Button/ActionButton": "./dist/Form/Button/ActionButton.js",
     "./Form/Button/ButtonGrid": "./dist/Form/Button/ButtonGrid.js",
@@ -67,7 +68,8 @@
     "./Form/Field/TimeField": "./dist/Form/Field/TimeField.js",
     "./Header": "./dist/AppWrapper/HeaderFooter.js",
     "./Footer": "./dist/AppWrapper/HeaderFooter.js",
-    "./AppWrapper/HeaderFooter": "./dist/AppWrapper/HeaderFooter.js"
+    "./AppWrapper/HeaderFooter": "./dist/AppWrapper/HeaderFooter.js",
+    "./Style/Global": "./dist/Style/globals.css"
   },
   "dependencies": {
     "@emotion/react": "^11.11.4",
@@ -118,6 +120,7 @@
     "eslint-plugin-storybook": "^0.6.15",
     "eslint-plugin-unused-imports": "^3.1.0",
     "prettier": "^3.2.5",
+    "shx": "^0.3.4",
     "storybook": "^7.6.17",
     "ts-loader": "^9.5.1",
     "typescript": "^5.4.2"

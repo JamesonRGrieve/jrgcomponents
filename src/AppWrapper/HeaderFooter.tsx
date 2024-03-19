@@ -26,9 +26,9 @@ export default function Header({ height = '2rem', footer = false, components }: 
       }}
       position='static'
     >
-      <Box sx={{ flex: '1 1 auto', display: 'flex', alignItems: 'center' }}>{components?.left}</Box>
+      <Box sx={{ flex: '1 1 50%', display: 'flex', alignItems: 'center' }}>{components?.left ?? '\u00A0'}</Box>
 
-      <Box sx={{ flex: '2 1 auto' }}>
+      <Box sx={{ flex: '0 0 auto' }}>
         {components?.center ? (
           components.center
         ) : (
@@ -38,7 +38,7 @@ export default function Header({ height = '2rem', footer = false, components }: 
         )}
       </Box>
 
-      <Box sx={{ flex: '1 1 auto', display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
+      <Box sx={{ flex: '1 1 50%', display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
         {components?.right ?? (
           <>
             <SwitchDark />

@@ -1,3 +1,4 @@
+'use client';
 import React, { ReactNode, useEffect, useState } from 'react';
 import { Box, Typography, useTheme } from '@mui/material';
 import AppBar from '@mui/material/AppBar';
@@ -17,17 +18,23 @@ type Footer = {
   height: string;
 };
 export type PopoutDrawerWrapperProps = {
-  title: string | ReactNode;
-  height: string;
+  title?: string | ReactNode;
+  height?: string;
   left?: Menu | ReactNode;
   right?: Menu | ReactNode;
-  children: ReactNode | ReactNode[];
-  wrappedHeaderHeightSum?: string;
-  inner: boolean;
+  inner?: boolean;
   footer?: Footer;
 };
 
-export default function MenuWrapper({ title, height, left, right, inner, footer, children }: PopoutDrawerWrapperProps) {
+export default function AppWrapper({
+  title = process.env.NEXT_PUBLIC_APP_NAME,
+  height = '2rem',
+  left,
+  right,
+  inner = false,
+  footer,
+  children,
+}: PopoutDrawerWrapperProps & { children: ReactNode | ReactNode[] }) {
   const [open, setOpen] = useState({ left: false, right: false });
   const theme = useTheme();
   useEffect(() => {
