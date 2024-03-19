@@ -31,7 +31,7 @@ export default function AppWrapper({
   height = '2rem',
   left,
   right,
-  inner = false,
+  inner = true,
   footer,
   children,
 }: PopoutDrawerWrapperProps & { children: ReactNode | ReactNode[] }) {
