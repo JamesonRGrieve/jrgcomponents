@@ -129,6 +129,6 @@
     "shx": "^0.3.4",
     "storybook": "^7.6.17",
     "ts-loader": "^9.5.1",
-    "typescript": "^5.4.2"
+    "typescript": "^5.4.3"
   }
 }
