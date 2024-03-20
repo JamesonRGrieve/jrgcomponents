@@ -11,9 +11,9 @@ import ComparisonGrid from '../src/Storybook/ComparisonGrid';
 
 export const globalTypes = {
   theme: {
-    name: 'Theme',
-    title: 'Theme',
-    description: 'Theme for your components',
+    name: 'Default Theme',
+    title: 'Default Theme',
+    description: 'The theme that stories will start in. Changing this will also change the theme live.',
     defaultValue: 'light',
     toolbar: {
       icon: 'paintbrush',
@@ -55,15 +55,13 @@ const preview: Preview = {
 };
 
 export const withTheme = (Story: any, context: any) => {
-  const { theme: themeKey, updateGlobals } = context.globals;
+  const { theme: themeKey } = context.globals;
 
   // Only recompute the theme if the themeKey changes.
   // const theme = useMemo(() => themes[themeKey as keyof typeof themes] || themes['light'], [themeKey]);
-  useEffect(() => {
-    // This function will be called whenever themeKey changes
-  }, [themeKey]);
+
   const themeChange = useCallback((dark, colorblind) => {
-    updateGlobals({ theme: `${dark ? 'dark' : 'light'}${colorblind ? 'Colorblind' : ''}` });
+    context.globals.theme = `${dark ? 'dark' : 'light'}${colorblind ? 'Colorblind' : ''}`;
   }, []);
   return (
     <ThemeWrapper

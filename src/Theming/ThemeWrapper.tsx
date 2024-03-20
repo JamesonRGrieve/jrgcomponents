@@ -31,6 +31,13 @@ export function ThemeWrapper({
     return buildThemeSet(themeInjection);
   }, [themeInjection]);
   useEffect(() => {
+    setThemeState({
+      dark: defaultDark,
+      colorblind: defaultColorblind,
+      mutate: setThemeState,
+    });
+  }, [defaultDark, defaultColorblind]);
+  useEffect(() => {
     if (themeChangeCallback) themeChangeCallback(themeState.dark, themeState.colorblind);
   }, [themeState, themeChangeCallback]);
   return (
