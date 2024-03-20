@@ -1,7 +1,11 @@
 import Box from '@mui/material/Box';
 import React from 'react';
-
-export default function FeatheredImage(props: any) {
+export type FeatheredImageProps = {
+  width: string;
+  height: string;
+  url: string;
+};
+export default function FeatheredImage(props: FeatheredImageProps) {
   return (
     <Box
       sx={{

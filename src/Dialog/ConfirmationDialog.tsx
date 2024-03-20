@@ -6,15 +6,14 @@ import DialogActions from '@mui/material/DialogActions';
 import Dialog from '@mui/material/Dialog';
 import { Typography } from '@mui/material';
 
-export interface ConfirmationDialogRawProps {
+export interface ConfirmationDialogProps {
   id: string;
-  keepMounted: boolean;
   open: boolean;
   warning: string;
   onClose: (value?: boolean) => void;
 }
 
-export default function ConfirmationDialog(props: ConfirmationDialogRawProps) {
+export default function ConfirmationDialog(props: ConfirmationDialogProps) {
   const handleCancel = () => {
     props.onClose(false);
   };

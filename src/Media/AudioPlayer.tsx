@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Button, Box, Slider, Typography } from '@mui/material';
 import { PlayArrow, Pause, Stop } from '@mui/icons-material';
 
-type AudioPlayerProps = {
+export type AudioPlayerProps = {
   base64audio: string;
 };
 
