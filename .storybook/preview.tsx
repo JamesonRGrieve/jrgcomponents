@@ -64,13 +64,25 @@ export const withTheme = (Story: any, context: any) => {
     context.globals.theme = `${dark ? 'dark' : 'light'}${colorblind ? 'Colorblind' : ''}`;
   }, []);
   return (
-    <ThemeWrapper
-      themeInjection={{ theme: theme }}
-      default={{ dark: themeKey.includes('dark'), colorblind: themeKey.includes('Colorblind') }}
-      themeChangeCallback={themeChange}
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        position: 'absolute',
+        top: '0',
+        right: '0',
+        bottom: '0',
+        left: '0',
+      }}
     >
-      <Story />
-    </ThemeWrapper>
+      <ThemeWrapper
+        themeInjection={{ theme: theme }}
+        default={{ dark: themeKey.includes('dark'), colorblind: themeKey.includes('Colorblind') }}
+        themeChangeCallback={themeChange}
+      >
+        <Story />
+      </ThemeWrapper>
+    </div>
   );
   /*
   return (

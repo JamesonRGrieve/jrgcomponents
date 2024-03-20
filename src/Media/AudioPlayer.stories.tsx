@@ -17,7 +17,7 @@ const meta: Meta = {
     docs: {
       description: {
         component:
-          'This component plays base64 audio strings with pause, stop and play buttons as well as a progress slider and time counters.',
+          'This component plays base64 audio strings with pause, stop and play buttons as well as a progress slider and time counters. Style via theming engine.',
       },
     },
     references: [],
