@@ -1,19 +1,14 @@
 import type { Preview } from '@storybook/react';
 import { useMemo } from 'react';
-import { themeLight, themeDark, themeLightColorblind, themeDarkColorblind } from '../src/Theming/sample-theme';
+import buildThemeSet from '../src/Theming/BuildThemeSet';
+import theme from '../src/Theming/sample-theme';
 import { ThemeProvider, CssBaseline } from '@mui/material';
 import React from 'react';
 import { Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/blocks';
 import ReferenceGrid from '../src/Storybook/ReferenceGrid';
 import ComparisonGrid from '../src/Storybook/ComparisonGrid';
 
-const themes = {
-  light: themeLight,
-  light_cb: themeLightColorblind,
-  dark: themeDark,
-  dark_cb: themeDarkColorblind,
-};
-
+const themes = buildThemeSet({ theme: theme });
 export const globalTypes = {
   theme: {
     name: 'Theme',

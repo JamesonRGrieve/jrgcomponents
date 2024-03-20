@@ -7,10 +7,10 @@ export default function ComparisonGrid() {
 
   switch (resolvedOf.type) {
     case 'story': {
-      return (
+      return resolvedOf.story.parameters?.references.length > 0 ? (
         <>
           <h3>Reference Image Comparisons With Component</h3>
-          {resolvedOf.story.parameters?.references.map((storySet: any) => {
+          {resolvedOf.story.parameters?.references.map((storySet: any, index: number) => {
             if (!(storySet.images.filter((image: any) => image.primary).length > 0)) {
               return null;
             }
@@ -18,6 +18,7 @@ export default function ComparisonGrid() {
             const primaryImage = primaryReference.image as StaticImageData;
             return (
               <div
+                key={index}
                 style={{
                   display: 'grid',
                   gap: '1rem',
@@ -58,7 +59,7 @@ export default function ComparisonGrid() {
             );
           })}
         </>
-      );
+      ) : null;
     }
     case 'meta': {
       return <h1>Not defined.</h1>;

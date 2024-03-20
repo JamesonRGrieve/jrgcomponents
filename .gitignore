@@ -1,5 +1,6 @@
 # Created by https://www.toptal.com/developers/gitignore/api/visualstudio,visualstudiocode,windows,macos,linux,web,node,nextjs
 # Edit at https://www.toptal.com/developers/gitignore?templates=visualstudio,visualstudiocode,windows,macos,linux,web,node,nextjs
+storybook-static
 
 ### Linux ###
 *~

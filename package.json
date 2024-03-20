@@ -1,6 +1,6 @@
 {
   "name": "jrgcomponents",
-  "version": "0.0.91",
+  "version": "0.0.94",
   "description": "Components developed by Jameson R Grieve for use in React/NextJS projects.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -12,7 +12,9 @@
     "fix": "prettier --write . && eslint . --ext .js,.jsx,.ts,.tsx --fix",
     "compile": "tsc --jsx react-jsx && shx cp -r ./src/Style ./dist",
     "storybook": "storybook dev -p 6009",
-    "storybook-build": "storybook build"
+    "storybook-build": "storybook build",
+    "predeploy": "npm run storybook-build",
+    "storybook-deploy": "gh-pages -d storybook-static"
   },
   "repository": {
     "type": "git",
@@ -28,7 +30,7 @@
   "bugs": {
     "url": "https://github.com/JamesonRGrieve/jrgcomponents/issues"
   },
-  "homepage": "https://github.com/JamesonRGrieve/jrgcomponents#readme",
+  "homepage": "http://jamesonrgrieve.github.io/jrgcomponents",
   "files": [
     "dist"
   ],
@@ -38,6 +40,7 @@
     "./Theming/SwitchColorblind": "./dist/Theming/SwitchColorblind.js",
     "./Theming/ThemeWrapper": "./dist/Theming/ThemeWrapper.js",
     "./Theming/BuildThemeSet": "./dist/Theming/BuildThemeSet.js",
+    "./Head": "./dist/Meta/Head.js",
     "./types/Theming": "./dist/types/Theming.js",
     "./Form/Button/ButtonWithIcon": "./dist/Form/Button/ButtonWithIcon.js",
     "./Form/Field/TextFieldWithAlert": "./dist/Form/Field/InputWithAlert.js",
@@ -89,6 +92,7 @@
     "@": "."
   },
   "devDependencies": {
+    "@storybook/addon-docs": "^8.0.2",
     "@storybook/addon-essentials": "^7.6.17",
     "@storybook/addon-interactions": "^7.6.17",
     "@storybook/addon-links": "^7.6.17",
@@ -119,6 +123,7 @@
     "eslint-plugin-sonarjs": "^0.23.0",
     "eslint-plugin-storybook": "^0.6.15",
     "eslint-plugin-unused-imports": "^3.1.0",
+    "gh-pages": "^6.1.1",
     "prettier": "^3.2.5",
     "shx": "^0.3.4",
     "storybook": "^7.6.17",

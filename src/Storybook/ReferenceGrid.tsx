@@ -9,7 +9,7 @@ export default function ReferenceGrid({ of }: ReferenceGridProps) {
   const resolvedOf = useOf(of || 'story', ['story', 'meta']);
   switch (resolvedOf.type) {
     case 'story': {
-      return (
+      return resolvedOf.story.parameters?.references.length > 0 ? (
         <>
           <h3>Reference Image Gallery</h3>
           {resolvedOf.story.parameters?.references.map((storySet: any) => {
@@ -47,7 +47,7 @@ export default function ReferenceGrid({ of }: ReferenceGridProps) {
             );
           })}
         </>
-      );
+      ) : null;
     }
     case 'meta': {
       return <h1>Not defined.</h1>;

@@ -1,0 +1,13 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title='Theming/Setup' />
+
+# Theming Engine
+
+The purpose of the theming engine is to create a light/dark and colorblind mode via plug and play experience, as well as to make the MUI theme customization more user-friendly.
+
+Two switch components are included, `SwitchDark` and `SwitchColorblind`, that when included anywhere inside the app within a ThemeWrapper will toggle the theme mode when clicked.
+
+`NextLinkInjector` injects NextJS link functionality into the MUI `Link` component via the `buildThemeSets()` function.
+
+`buildThemeSets()` is responsible for building the 4 theme permutation that are used by the switches given a set of included defaults and optional overrides. Additionally, it also overrides the coloring behavior of many components to toggle their light/dark variants with the theme (which MUI does not do by default).
