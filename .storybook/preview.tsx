@@ -1,6 +1,7 @@
 import type { Preview } from '@storybook/react';
-import { useMemo } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import buildThemeSet from '../src/Theming/BuildThemeSet';
+import ThemeWrapper from '../src/Theming/ThemeWrapper';
 import theme from '../src/Theming/sample-theme';
 import { ThemeProvider, CssBaseline } from '@mui/material';
 import React from 'react';
@@ -8,7 +9,6 @@ import { Title, Subtitle, Description, Primary, Controls, Stories } from '@story
 import ReferenceGrid from '../src/Storybook/ReferenceGrid';
 import ComparisonGrid from '../src/Storybook/ComparisonGrid';
 
-const themes = buildThemeSet({ theme: theme });
 export const globalTypes = {
   theme: {
     name: 'Theme',
@@ -20,9 +20,9 @@ export const globalTypes = {
       dynamicTitle: true,
       items: [
         { value: 'light', left: '☀️🌈', title: 'Light Mode' },
-        { value: 'light_cb', left: '☀️🩶', title: 'Light Colorblind Mode' },
+        { value: 'lightColorblind', left: '☀️🩶', title: 'Light Colorblind Mode' },
         { value: 'dark', left: '🌙🌈', title: 'Dark Mode' },
-        { value: 'dark_cb', left: '🌙🩶', title: 'Dark Colorblind Mode' },
+        { value: 'darkColorblind', left: '🌙🩶', title: 'Dark Colorblind Mode' },
       ],
     },
   },
@@ -55,11 +55,26 @@ const preview: Preview = {
 };
 
 export const withTheme = (Story: any, context: any) => {
-  const { theme: themeKey } = context.globals;
+  const { theme: themeKey, updateGlobals } = context.globals;
 
   // Only recompute the theme if the themeKey changes.
-  const theme = useMemo(() => themes[themeKey as keyof typeof themes] || themes['light'], [themeKey]);
-
+  // const theme = useMemo(() => themes[themeKey as keyof typeof themes] || themes['light'], [themeKey]);
+  useEffect(() => {
+    // This function will be called whenever themeKey changes
+  }, [themeKey]);
+  const themeChange = useCallback((dark, colorblind) => {
+    updateGlobals({ theme: `${dark ? 'dark' : 'light'}${colorblind ? 'Colorblind' : ''}` });
+  }, []);
+  return (
+    <ThemeWrapper
+      themeInjection={{ theme: theme }}
+      default={{ dark: themeKey.includes('dark'), colorblind: themeKey.includes('Colorblind') }}
+      themeChangeCallback={themeChange}
+    >
+      <Story />
+    </ThemeWrapper>
+  );
+  /*
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
@@ -79,7 +94,9 @@ export const withTheme = (Story: any, context: any) => {
         <Story />
       </div>
     </ThemeProvider>
+
   );
+  */
 };
 export default preview;
 export const decorators = [withTheme];
