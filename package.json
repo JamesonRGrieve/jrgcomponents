@@ -13,8 +13,7 @@
     "compile": "tsc --jsx react-jsx && shx cp -r ./src/Style ./dist",
     "storybook": "storybook dev -p 6009",
     "storybook-build": "storybook build",
-    "predeploy": "npm run storybook-build",
-    "storybook-deploy": "gh-pages -d storybook-static"
+    "storybook-deploy": "storybook build && gh-pages -d storybook-static"
   },
   "repository": {
     "type": "git",
