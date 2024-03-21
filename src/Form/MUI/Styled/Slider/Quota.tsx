@@ -35,7 +35,7 @@ const QuotaSliderStyled = styled(Slider)<QuotaSliderProps & SliderProps>(({ used
   };
 });
 QuotaSlider.defaultProps = {
-  valueLabelFormat: (value) => `New Max: ${value}`,
+  valueLabelFormat: (value: any) => `New Max: ${value}`,
   valueLabelDisplay: 'on',
 };
 export default function QuotaSlider(props: QuotaSliderProps & SliderProps) {
