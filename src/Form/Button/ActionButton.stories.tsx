@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import React from 'react';
 // Import Component and related types.
 import { Delete } from '@mui/icons-material';
-import ButtonWithIconComponent, { ButtonWithIconProps } from './ButtonWithIcon';
+import ButtonWithIconComponent, { ButtonWithIconProps } from './IconButton';
 
 type Story = StoryObj<typeof meta>;
 
