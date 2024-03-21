@@ -18,11 +18,11 @@ export default function CenterAlignedBox({ left, center, right }: CenterAlignedB
         alignItems: 'center',
       }}
     >
-      <Box sx={{ flex: '1 1 50%', display: 'flex', alignItems: 'center' }}>{left ?? '\u00A0'}</Box>
+      <Box sx={{ flex: '1 1 50%', display: 'flex', alignItems: 'center', minWidth: '25%' }}>{left ?? '\u00A0'}</Box>
 
-      <Box sx={{ flex: '0 0 auto' }}>{center ?? '\u00A0'}</Box>
+      <Box sx={{ flex: '0 0 auto', minWidth: '50%' }}>{center ?? '\u00A0'}</Box>
 
-      <Box sx={{ flex: '1 1 50%', display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
+      <Box sx={{ flex: '1 1 50%', display: 'flex', justifyContent: 'flex-end', alignItems: 'center', minWidth: '25%' }}>
         {right ?? '\u00A0'}
       </Box>
     </Box>

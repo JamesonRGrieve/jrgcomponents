@@ -9,6 +9,7 @@ import AppWrapperComponent, { AppWrapperProps } from './AppWrapper';
 import { Box, Typography } from '@mui/material';
 import SwitchDark from '../Theming/SwitchDark';
 import SwitchColorblind from '../Theming/SwitchColorblind';
+import CenterAlignedBox from '../Layout/CenterAlignedBox';
 
 type Story = StoryObj<typeof meta>;
 
@@ -79,20 +80,21 @@ DoubleMenuDoubleLayer.args = {
     header: {
       components: {
         center: (
-          <>
-            <Box flex='1 1 auto' />
-            <Box flex='2 1 auto'>
+          <CenterAlignedBox
+            center={
               <Typography variant='h6' component='h1' textAlign='center' height='100%'>
                 Outer Popout Menu
               </Typography>
-            </Box>
-
-            <Box flex='1 1 auto' display='flex' justifyContent='flex-end' flexBasis='0' height='100%'>
-              <SwitchDark />
-              <SwitchColorblind />
-            </Box>
-          </>
+            }
+            right={
+              <>
+                <SwitchDark />
+                <SwitchColorblind />
+              </>
+            }
+          />
         ),
+
         left: {
           heading: 'Outer Left Menu',
           swr: null,
@@ -120,8 +122,8 @@ DoubleMenuDoubleLayer.args = {
           </Typography>
         ),
       },
+      height: '2rem',
     },
-    height: '2rem',
   },
 };
 // Configure Metadata.

@@ -3,7 +3,7 @@ import Item from '@mui/material/Grid';
 //import { useState } from 'react';
 import React from 'react';
 
-export default function IntegrationSummary(props: any) {
+export default function ActionButton(props: any) {
   //const [clicked, setClicked] = useState(false);
   return (
     <Item xs={12} md={6}>

@@ -8,7 +8,7 @@ export type HeaderFooterProps = {
   height?: string;
   components?: CenterAlignedBoxProps;
 };
-export default function HeaderFooter({ height = '2rem', footer = false, components }: HeaderProps) {
+export default function HeaderFooter({ height = '2rem', footer = false, components }: HeaderFooterProps) {
   return (
     <AppBar
       sx={{
@@ -28,12 +28,13 @@ export default function HeaderFooter({ height = '2rem', footer = false, componen
           )
         }
         right={
-          components?.right ?? (
+          components?.right ??
+          (!footer && (
             <>
               <SwitchDark />
               <SwitchColorblind />
             </>
-          )
+          ))
         }
       />
     </AppBar>
