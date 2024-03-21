@@ -91,8 +91,8 @@ export default function AppWrapper({
       <Box
         component={inner ? 'main' : 'div'}
         sx={{
-          height: `calc(100% - ${header?.height})`,
           flexGrow: 1,
+          flexShrink: '0',
           position: 'relative',
           overflowY: 'auto',
           transition: theme.transitions.create('margin', {
