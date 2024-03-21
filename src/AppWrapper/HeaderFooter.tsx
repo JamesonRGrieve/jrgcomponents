@@ -8,12 +8,12 @@ export type HeaderFooterProps = {
   height?: string;
   components?: CenterAlignedBoxProps;
 };
-export default function HeaderFooter({ height = '2rem', footer = false, components }: HeaderFooterProps) {
+export default function HeaderFooter({ height = '3rem', footer = false, components }: HeaderFooterProps) {
   return (
     <AppBar
       sx={{
         height: height,
-        py: '1rem',
+        px: '1rem',
         justifySelf: footer ? 'end' : 'unset',
       }}
       position='static'

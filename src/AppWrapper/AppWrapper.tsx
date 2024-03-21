@@ -1,6 +1,6 @@
 'use client';
 import React, { ReactNode, useEffect, useState } from 'react';
-import { Box, Typography, useTheme } from '@mui/material';
+import { Box, SxProps, Typography, useTheme } from '@mui/material';
 import HeaderFooter, { HeaderFooterProps } from './HeaderFooter';
 import PopoutDrawer from './Drawer';
 import PopoutButton from './Button';
@@ -13,20 +13,24 @@ type Menu = {
   width: string;
 };
 export type AppWrapperProps = {
-  header: HeaderFooterProps;
+  header?: HeaderFooterProps;
   footer?: HeaderFooterProps;
   inner?: boolean;
+  mainSX?: SxProps;
 };
 
 export default function AppWrapper({
   header = {
     height: '2rem',
     components: {
+      left: null,
       center: process.env.NEXT_PUBLIC_APP_NAME,
+      right: null,
     },
   },
   footer,
   inner = true,
+  mainSX = {},
   children,
 }: AppWrapperProps & { children: ReactNode }) {
   const [open, setOpen] = useState({ left: false, right: false });
@@ -100,6 +104,7 @@ export default function AppWrapper({
             duration: theme.transitions.duration[open.left || open.right ? 'enteringScreen' : 'leavingScreen'],
           }),
           margin: `0 ${open.right ? (header.components.right as unknown as Menu)?.width : 0} 0 ${open.left ? (header.components.left as unknown as Menu)?.width : 0}`,
+          ...mainSX,
         }}
       >
         {children}
