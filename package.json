@@ -1,6 +1,6 @@
 {
   "name": "jrgcomponents",
-  "version": "0.0.94",
+  "version": "0.0.96",
   "description": "Components developed by Jameson R Grieve for use in React/NextJS projects.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -68,7 +68,8 @@
     "./Header": "./dist/AppWrapper/HeaderFooter.js",
     "./Footer": "./dist/AppWrapper/HeaderFooter.js",
     "./AppWrapper/HeaderFooter": "./dist/AppWrapper/HeaderFooter.js",
-    "./Style/Global": "./dist/Style/globals.css"
+    "./Style/Global": "./dist/Style/globals.css",
+    "./QuotaSlider": "./dist/MUI/Styled/Slider/Quota.js"
   },
   "dependencies": {
     "@emotion/react": "^11.11.4",

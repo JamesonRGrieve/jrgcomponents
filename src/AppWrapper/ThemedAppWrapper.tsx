@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react';
 import ThemeWrapper from '../Theming/ThemeWrapper';
-import AppWrapper, { PopoutDrawerWrapperProps } from './AppWrapper';
+import AppWrapper, { AppWrapperProps } from './AppWrapper';
 import { ThemeInjection } from '../Theming/BuildThemeSet';
 
 export default function ThemedAppWrapper({
@@ -8,7 +8,7 @@ export default function ThemedAppWrapper({
   themeConfig,
   children,
 }: {
-  appWrapperConfig: PopoutDrawerWrapperProps;
+  appWrapperConfig: AppWrapperProps;
   themeConfig: {
     themeInjection: ThemeInjection;
     defaultDark?: boolean;

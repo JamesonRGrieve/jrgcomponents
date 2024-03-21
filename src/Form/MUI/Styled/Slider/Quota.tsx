@@ -8,7 +8,6 @@ export type QuotaSliderProps = {
 };
 
 const QuotaSliderStyled = styled(Slider)<QuotaSliderProps & SliderProps>(({ used, limit, max }) => {
-  console.log(used, limit, max);
   return {
     '& .MuiSlider-rail': {
       position: 'relative',
@@ -27,7 +26,7 @@ const QuotaSliderStyled = styled(Slider)<QuotaSliderProps & SliderProps>(({ used
         position: 'absolute',
         top: 0,
         bottom: 0,
-        left: `${((max - limit) / max) * 100}%`,
+        left: `${(limit / max) * 100}%`,
         right: '0',
         backgroundColor: '#555',
       },

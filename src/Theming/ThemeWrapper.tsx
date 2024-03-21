@@ -11,20 +11,21 @@ export const ThemeContext: Context<ThemeState> = React.createContext<ThemeState>
 export function ThemeWrapper({
   children,
   themeInjection,
-  default: { dark: defaultDark = false, colorblind: defaultColorblind = false },
+  defaultTheme = { dark: false, colorblind: false },
   themeChangeCallback = null,
 }: {
   children: any;
   themeInjection: ThemeInjection;
-  default?: {
+  defaultTheme?: {
     dark?: boolean;
     colorblind?: boolean;
   };
   themeChangeCallback?: any;
 }) {
+  console.log(`Defaults:`, defaultTheme);
   const [themeState, setThemeState] = useState<ThemeState>({
-    dark: defaultDark,
-    colorblind: defaultColorblind,
+    dark: defaultTheme.dark,
+    colorblind: defaultTheme.colorblind,
     mutate: null,
   });
   const themeSet = useMemo(() => {
@@ -32,11 +33,11 @@ export function ThemeWrapper({
   }, [themeInjection]);
   useEffect(() => {
     setThemeState({
-      dark: defaultDark,
-      colorblind: defaultColorblind,
+      dark: defaultTheme.dark,
+      colorblind: defaultTheme.colorblind,
       mutate: setThemeState,
     });
-  }, [defaultDark, defaultColorblind]);
+  }, [defaultTheme.dark, defaultTheme.colorblind]);
   useEffect(() => {
     if (themeChangeCallback) themeChangeCallback(themeState.dark, themeState.colorblind);
   }, [themeState, themeChangeCallback]);

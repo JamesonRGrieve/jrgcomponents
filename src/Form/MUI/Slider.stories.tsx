@@ -23,7 +23,7 @@ QuotaSlider.args = {
     { label: '70 Max', value: 70 },
     { label: '140 Available', value: 140 },
   ],
-  valueLabelFormat: (value) => `New Max: ${value}`,
+  valueLabelFormat: (value: any) => `New Max: ${value}`,
   valueLabelDisplay: 'on',
   track: 'normal',
   components: {},
