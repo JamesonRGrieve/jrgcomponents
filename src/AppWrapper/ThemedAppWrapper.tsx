@@ -11,8 +11,10 @@ export default function ThemedAppWrapper({
   appWrapperConfig: AppWrapperProps;
   themeConfig: {
     themeInjection: ThemeInjection;
-    defaultDark?: boolean;
-    defaultColorblind?: boolean;
+    defaultTheme: {
+      dark: boolean;
+      colorblind: boolean;
+    };
   };
   children: any;
 }) {
