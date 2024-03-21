@@ -21,11 +21,12 @@ export default function HeaderFooter({ height = '3rem', footer = false, componen
       <CenterAlignedBox
         left={components?.left}
         center={
-          components?.center ?? (
+          components?.center ??
+          (!footer && (
             <Typography variant='subtitle1' fontWeight={'bolder'} textAlign={'center'}>
               {process.env.NEXT_PUBLIC_APP_NAME ?? 'Application Name'}
             </Typography>
-          )
+          ))
         }
         right={
           components?.right ??
