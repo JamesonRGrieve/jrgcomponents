@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import Button from '@mui/material/Button';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
@@ -6,13 +6,12 @@ import DialogActions from '@mui/material/DialogActions';
 import Dialog from '@mui/material/Dialog';
 import { Typography } from '@mui/material';
 
-export interface ConfirmationDialogProps {
-  id: string;
-  open: boolean;
-  warning: string;
-  onClose: (value?: boolean) => void;
-}
-
+export type DialogProps = {
+  message: string;
+  onCancel: () => void;
+  onConfirm: () => void;
+  sx?: { [key: string]: string };
+};
 export default function ConfirmationDialog(props: ConfirmationDialogProps) {
   const handleCancel = () => {
     props.onClose(false);

@@ -2,12 +2,12 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
 // Import Component and related types.
-import HeaderFooterComponent, { HeaderFooterProps } from './HeaderFooter';
+import DialogComponent, { DialogProps } from './Dialog';
 import React from 'react';
 // Configure Metadata.
 const meta: Meta = {
   title: 'Application/Header & Footer',
-  component: HeaderFooterComponent,
+  component: DialogComponent,
   tags: ['autodocs'],
   argTypes: {
     height: { control: 'text' },
@@ -26,5 +26,5 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 // Configure Component Stories.
-export const Header: Story = (args: HeaderFooterProps) => <HeaderFooterComponent {...args} />;
-Header.args = {};
+export const Dialog: Story = (args: DialogProps) => <DialogComponent {...args} />;
+Dialog.args = {};

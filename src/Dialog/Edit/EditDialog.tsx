@@ -2,7 +2,7 @@ import React from 'react';
 export type EditDialogProps = {
   toEdit: { [key: string]: string | number };
   imgSrc: string;
-  onCancel: () => void;
+  onConfirm: () => void;
   sx?: { [key: string]: string };
 };
 export default function EditDialog() {
