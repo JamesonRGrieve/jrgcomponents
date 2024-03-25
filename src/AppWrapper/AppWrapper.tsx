@@ -12,8 +12,16 @@ type Menu = {
   menu: any;
   width: string;
 };
+type PopoutHeaderProps = {
+  height?: string;
+  components?: {
+    left?: ReactNode | Menu;
+    center?: ReactNode;
+    right?: ReactNode | Menu;
+  };
+};
 export type AppWrapperProps = {
-  header?: HeaderFooterProps;
+  header?: HeaderFooterProps | PopoutHeaderProps;
   footer?: HeaderFooterProps;
   inner?: boolean;
   mainSX?: SxProps;
@@ -37,19 +45,20 @@ export default function AppWrapper({
         height={header?.height}
         components={
           header?.components && {
-            left: (header?.components?.left as unknown as Menu)?.heading ? (
-              <PopoutButton
-                open={open.left}
-                handleToggle={() => {
-                  setOpen((previousState: any) => ({ ...previousState, left: !previousState.left }));
-                }}
-                side='left'
-                heading={(header?.components?.left as unknown as Menu)?.heading ?? ''}
-                icon={(header?.components?.left as unknown as Menu)?.icon ?? null}
-              />
-            ) : (
-              (header?.components?.left as ReactNode)
-            ),
+            left:
+              (header?.components?.left as unknown as Menu)?.menu !== undefined ? (
+                <PopoutButton
+                  open={open.left}
+                  handleToggle={() => {
+                    setOpen((previousState: any) => ({ ...previousState, left: !previousState.left }));
+                  }}
+                  side='left'
+                  heading={(header?.components?.left as unknown as Menu)?.heading ?? ''}
+                  icon={(header?.components?.left as unknown as Menu)?.icon ?? null}
+                />
+              ) : (
+                (header?.components?.left as ReactNode)
+              ),
             center: header?.components?.center ? (
               typeof header?.components?.center === 'string' ? (
                 <Typography variant='h6' component={inner ? 'h2' : 'h1'} textAlign='center' noWrap>
@@ -62,7 +71,7 @@ export default function AppWrapper({
               )
             ) : undefined,
             right:
-              (header?.components?.right as unknown as Menu)?.heading !== undefined ? (
+              (header?.components?.right as unknown as Menu)?.menu !== undefined ? (
                 <PopoutButton
                   open={open.right}
                   handleToggle={() => {
