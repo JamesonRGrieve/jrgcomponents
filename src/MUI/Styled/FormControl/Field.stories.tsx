@@ -4,26 +4,16 @@ import type { Meta, StoryObj } from '@storybook/react';
 // Import Component and related types.
 import { useState } from 'react';
 import React from 'react';
-import InputWithAlertComponent, { InputWithAlertProps } from './InputWithAlert';
+import FieldComponent, { FieldProps } from './Field';
 
 type Story = StoryObj<typeof meta>;
 
 // Configure Component Stories.
-export const TextFieldWithAlert: Story = (args: InputWithAlertProps) => {
+export const TextFieldWithAlert: Story = (args: FieldProps) => {
   const TextFieldWithAlertWrapper = () => {
     const [value, setValue] = useState('');
     const [error, setError] = useState('');
-    return (
-      <InputWithAlertComponent
-        {...args}
-        value={value}
-        onChange={(e: any) => setValue(e.target.value)}
-        error={error}
-        submit={() => {
-          setError(error ? '' : 'An error has occured, hit enter again to remove.');
-        }}
-      />
-    );
+    return <></>;
   };
   return <TextFieldWithAlertWrapper />;
 };
@@ -37,7 +27,7 @@ TextFieldWithAlert.args = {
 // Configure Metadata.
 const meta: Meta = {
   title: 'Forms/TextFieldWithAlert',
-  component: InputWithAlertComponent,
+  component: FieldComponent,
   tags: ['autodocs'],
   argTypes: {
     heading: { control: 'text' },
