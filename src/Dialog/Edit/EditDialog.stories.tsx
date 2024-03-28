@@ -6,7 +6,7 @@ import EditDialogComponent, { EditDialogProps } from './EditDialog';
 import React from 'react';
 // Configure Metadata.
 const meta: Meta = {
-  title: 'Application/Header & Footer',
+  title: 'Dialog/EditDialog',
   component: EditDialogComponent,
   tags: ['autodocs'],
   argTypes: {

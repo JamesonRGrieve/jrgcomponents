@@ -6,7 +6,7 @@ import ConfirmationDialogComponent, { ConfirmationDialogProps } from './Confirma
 import React from 'react';
 // Configure Metadata.
 const meta: Meta = {
-  title: 'Application/Header & Footer',
+  title: 'Dialog/ConfirmationDialog',
   component: ConfirmationDialogComponent,
   tags: ['autodocs'],
   argTypes: {

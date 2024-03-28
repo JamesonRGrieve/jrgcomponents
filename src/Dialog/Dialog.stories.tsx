@@ -6,7 +6,7 @@ import DialogComponent, { DialogProps } from './Dialog';
 import React from 'react';
 // Configure Metadata.
 const meta: Meta = {
-  title: 'Application/Header & Footer',
+  title: 'Dialog/Dialog',
   component: DialogComponent,
   tags: ['autodocs'],
   argTypes: {

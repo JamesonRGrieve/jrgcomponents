@@ -1,38 +1,44 @@
 import React from 'react';
 import Button from '@mui/material/Button';
-import DialogTitle from '@mui/material/DialogTitle';
-import DialogContent from '@mui/material/DialogContent';
-import DialogActions from '@mui/material/DialogActions';
 import Dialog from '@mui/material/Dialog';
-import { Typography } from '@mui/material';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import { Box } from '@mui/system';
 
-export type DialogProps = {
-  message: string;
-  onCancel: () => void;
-  onConfirm: () => void;
-  sx?: { [key: string]: string };
+export type ConfirmationDialogProps = {
+  title: string;
+  content: string;
+  onClose: () => void;
 };
-export default function ConfirmationDialog(props: ConfirmationDialogProps) {
-  const handleCancel = () => {
-    props.onClose(false);
-  };
 
+const ConfirmationDialog: React.FC<ConfirmationDialogProps> = ({
+  title,
+  content,
+  onClose,
+}) => {
   const handleConfirm = () => {
-    props.onClose(true);
+    onClose();
   };
 
   return (
-    <Dialog sx={{ '& .MuiDialog-paper': { width: '80%', maxHeight: 435 } }} maxWidth='xs' open={props.open}>
-      <DialogTitle>Phone Ringtone</DialogTitle>
-      <DialogContent dividers>
-        <Typography gutterBottom>{props.warning}</Typography>
+    <Box>
+      <DialogTitle id="confirmation-dialog-title">{title}</DialogTitle>
+      <DialogContent>
+        <DialogContentText id="confirmation-dialog-description">
+          {content}
+        </DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button autoFocus onClick={handleCancel}>
-          Cancel
+        <Button onClick={onClose}>Cancel</Button>
+        <Button onClick={handleConfirm} color="primary" autoFocus>
+          Confirm
         </Button>
-        <Button onClick={handleConfirm}>Confirm</Button>
       </DialogActions>
-    </Dialog>
+    </Box>
+
   );
-}
+};
+
+export default ConfirmationDialog;
