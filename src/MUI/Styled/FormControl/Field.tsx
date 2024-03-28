@@ -1,17 +1,15 @@
 import { Collapse, Alert, AlertColor, FormLabel, FormControl, Typography } from '@mui/material';
 import React from 'react';
 export type Message = {
-  level: String;
-  value: String;
+  level: string;
+  value: string;
 };
 export type Field = {
   label: string;
   description?: string;
-  value: string;
-  onChange: any;
   placeholder?: string;
-  messages?: Message[];
-  type?: 'text' | 'password' | 'select' | 'checkbox' | 'radio';
+  validate?: (value: string) => boolean;
+  type?: 'text' | 'password' | 'select' | 'time' | 'date' | 'datetime' | 'checkbox' | 'radio';
   items?: {
     value: string;
     label: string;
@@ -19,15 +17,9 @@ export type Field = {
 };
 export type FieldProps = Field & {
   nameID: string;
-};
-const renderSeverity = (severity: AlertColor, strOrArray: string | string[]): JSX.Element => {
-  return typeof strOrArray === 'string' ? (
-    <Alert severity={severity}>{strOrArray}</Alert>
-  ) : (
-    (strOrArray.map((alert: string) => {
-      <Alert severity={severity}>{alert}</Alert>;
-    }) as unknown as JSX.Element)
-  );
+  value: string;
+  onChange: any;
+  messages?: Message[];
 };
 const Field: React.FC<FieldProps> = ({
   nameID,
@@ -50,8 +42,8 @@ const Field: React.FC<FieldProps> = ({
           {description}
         </Typography>
       )}
-      {/* Field Goes Here */}
-      <Collapse in={messages.length > 0}>{/* Messages go here */}</Collapse>
+      {/* Should render something from ./Input depending on the type prop. */}
+      <Collapse in={messages.length > 0}>{/* Should render messages as a map of MUI Alert's */}</Collapse>
     </FormControl>
   );
 };

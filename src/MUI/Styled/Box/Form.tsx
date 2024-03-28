@@ -6,6 +6,8 @@ export type FormProps = {
   fields: { [id: string]: Field };
   messages: Message[];
 };
-export default function Form({ fields, messages }: FormProps) {
+// Should maintain a state object
+export default function Form({ fields }: FormProps) {
+  // Should render `fields` as a map of Field components and track their state and messages.
   return <Box component='form'></Box>;
 }
