@@ -11,6 +11,8 @@ import {
   Radio,
   AlertColor,
   FormLabel,
+  FormControl,
+  Typography,
 } from '@mui/material';
 import React from 'react';
 
@@ -31,96 +33,6 @@ export type InputWithAlertProps = {
     label: string;
   }[];
   sx?: any;
-};
-const variants = {
-  text: (
-    <TextField
-      sx={sx}
-      id={id}
-      label={label}
-      type='text'
-      autoComplete={autoComplete}
-      variant='filled'
-      margin='normal'
-      placeholder={placeholder}
-      value={value}
-      onChange={(e: any) => onChange(e)}
-      onKeyUp={
-        submit
-          ? (e: any) => {
-              if (e.key === 'Enter') {
-                submit();
-              }
-            }
-          : undefined
-      }
-    />
-  ),
-  password: (
-    <TextField
-      sx={sx}
-      id={id}
-      label={label}
-      type='password'
-      autoComplete={autoComplete}
-      variant='filled'
-      margin='normal'
-      value={value}
-      onChange={(e: any) => onChange(e)}
-      onKeyUp={
-        submit
-          ? (e: any) => {
-              if (e.key === 'Enter') {
-                submit();
-              }
-            }
-          : undefined
-      }
-    />
-  ),
-  select: (
-    <Select sx={sx} id={id} label={label} variant='filled' value={value} onChange={(e: any) => onChange(e)}>
-      {items?.map((item: any) => {
-        return (
-          <MenuItem key={item.value} value={item.value}>
-            {item.label}
-          </MenuItem>
-        );
-      })}
-    </Select>
-  ),
-  checkbox: (
-    <FormGroup id={id}>
-      {items?.map((item: any) => {
-        return (
-          <FormControlLabel
-            key={item.value}
-            control={
-              <Checkbox
-                checked={
-                  value
-                    .split('|')
-                    .filter((itemValue) => itemValue.split('=')[0] == item.value)[0]
-                    .split('=')[1] === 'true'
-                }
-              />
-            }
-            onChange={(e: any) => {
-              console.log(e);
-            }}
-            label={item.label}
-          />
-        );
-      })}
-    </FormGroup>
-  ),
-  radio: (
-    <RadioGroup value={value} onChange={(e: any) => onChange(e)} id={id}>
-      {items?.map((item: any) => {
-        return <FormControlLabel key={item.value} control={<Radio />} label={item.label} />;
-      })}
-    </RadioGroup>
-  ),
 };
 const InputWithAlert: React.FC<InputWithAlertProps> = ({
   id,
@@ -152,7 +64,10 @@ const InputWithAlert: React.FC<InputWithAlertProps> = ({
       <FormLabel key={'label'} id={props.id}>
         {props.label}
       </FormLabel>
-      {variants[variant]}
+      <Typography key={'text'} variant='body1' gutterBottom>
+        {props.desc}
+      </Typography>
+      {/* Field Goes Here */}
       <Collapse in={Boolean(error || warning || info)}>
         {renderSeverity('error', error)}
         {renderSeverity('warning', warning)}
