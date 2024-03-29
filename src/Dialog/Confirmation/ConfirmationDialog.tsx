@@ -11,6 +11,7 @@ export type ConfirmationDialogProps = {
   title: string;
   content: string;
   onClose: () => void;
+  onConfirm?: () => void;
 };
 
 const ConfirmationDialog: React.FC<ConfirmationDialogProps> = ({

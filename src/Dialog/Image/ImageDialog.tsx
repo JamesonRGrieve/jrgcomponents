@@ -1,4 +1,3 @@
-// components/ImageDialog.tsx
 import { Box } from '@mui/system';
 import Image from 'next/image';
 import React from 'react';
@@ -6,15 +5,22 @@ import React from 'react';
 export type ImageDialogProps = {
   src: string;
   alt: string;
+  fill?: boolean;
   width?: number;
   height?: number;
 }
 
-const ImageDialog: React.FC<ImageDialogProps> = ({ src, alt, width = 800, height = 800 }) => {
+const ImageDialog: React.FC<ImageDialogProps> = ({ src, alt, fill, width, height }) => {
   return (
-    <Box style={{ maxWidth: "100%", maxHeight: "80vh", display: "flex", justifyContent: "center" }}>
-      {/* Using Next.js Image component for optimized images */}
-      <Image src={src} alt={alt} width={width} height={height} layout="intrinsic" objectFit="contain" />
+    <Box style={{ display: "flex", justifyContent: "center", position: 'relative' }}>
+      <Image
+        src={src}
+        alt={alt}
+        layout={fill ? "fill" : "intrinsic"}
+        objectFit="contain"
+        width={fill ? undefined : width}
+        height={fill ? undefined : height}
+      />
     </Box>
   );
 };

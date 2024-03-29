@@ -41,7 +41,6 @@ const Dialog: React.FC<DialogProps> = ({ onSubmit, onCancel, onConfirm, children
       </form>
       {onConfirm && (
         <ConfirmationDialog
-          isOpen={isOpen}
           title="Confirm Action"
           content="Are you sure you want to proceed?"
           onClose={handleClose}

@@ -9,9 +9,6 @@ const meta: Meta = {
   title: 'Dialog/ImageDialog',
   component: ImageDialogComponent,
   tags: ['autodocs'],
-  argTypes: {
-    height: { control: 'text' },
-  },
   parameters: {
     componentSubtitle: 'A Sample Component',
     docs: {

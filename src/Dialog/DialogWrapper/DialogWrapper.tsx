@@ -20,7 +20,7 @@ const DialogWrapper: React.FC<DialogWrapperProps> = ({ componentType }) => {
   const renderComponent = () => {
     switch (componentType) {
       case 'image':
-        return <ImageDialog src='https://fastly.picsum.photos/id/14/2500/1667.jpg?hmac=ssQyTcZRRumHXVbQAVlXTx-MGBxm6NHWD3SryQ48G-o' alt='alt-text' />;
+        return <ImageDialog src='https://fastly.picsum.photos/id/14/2500/1667.jpg?hmac=ssQyTcZRRumHXVbQAVlXTx-MGBxm6NHWD3SryQ48G-o' alt='alt-text' fill />;
       case 'edit':
         return <EditDialog toEdit={{ 'name': 'test' }} onClose={handleClose} />;
       case 'confirmation':
@@ -28,6 +28,7 @@ const DialogWrapper: React.FC<DialogWrapperProps> = ({ componentType }) => {
           title="Confirm Action"
           content="Are you sure you want to proceed?"
           onClose={handleClose}
+          onConfirm={handleClose}
         />;
       default:
         return null;
