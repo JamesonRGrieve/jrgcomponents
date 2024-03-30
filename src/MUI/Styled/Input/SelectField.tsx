@@ -11,7 +11,7 @@ export default function SelectField(props: any) {
             id={(item.value ?? item).replace(/[\W_]+/g, '')}
             value={item.value ?? item}
             control={<Radio />}
-            label={item.name ?? item}
+            label={item.label ?? item}
           />
         );
       })}
