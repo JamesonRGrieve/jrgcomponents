@@ -51,6 +51,7 @@ export default function buildThemeSet({
         styleOverrides: {
           root: ({ theme, ownerState }: { theme: any; ownerState: any }): SxProps => ({
             backgroundColor: theme.palette[ownerState.color][theme.palette.mode],
+            color: theme.palette.text.primary,
             borderBottom: '2px solid ' + theme.palette[ownerState.color][theme.palette.mode === 'dark' ? 'light' : 'dark'],
           }),
         },

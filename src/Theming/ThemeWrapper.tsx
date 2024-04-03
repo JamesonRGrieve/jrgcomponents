@@ -3,6 +3,7 @@ import React, { Context, useEffect, useMemo, useState } from 'react';
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import { ThemeState } from '../types/Theming';
 import buildThemeSet, { ThemeInjection } from './BuildThemeSet';
+import { setCookie } from 'cookies-next';
 export const ThemeContext: Context<ThemeState> = React.createContext<ThemeState>({
   dark: false,
   colorblind: false,
@@ -39,6 +40,16 @@ export function ThemeWrapper({
     });
   }, [defaultTheme.dark, defaultTheme.colorblind]);
   useEffect(() => {
+    const expiryDate = new Date();
+    expiryDate.setDate(expiryDate.getDate() + 365);
+    setCookie('dark', themeState.dark.toString(), {
+      expires: expiryDate,
+      domain: process.env.NEXT_PUBLIC_COOKIE_DOMAIN,
+    });
+    setCookie('colorblind', themeState.colorblind.toString(), {
+      expires: expiryDate,
+      domain: process.env.NEXT_PUBLIC_COOKIE_DOMAIN,
+    });
     if (themeChangeCallback) themeChangeCallback(themeState.dark, themeState.colorblind);
   }, [themeState, themeChangeCallback]);
   return (

@@ -15,6 +15,7 @@ export default function HeaderFooter({ height = '3rem', footer = false, componen
         height: height,
         px: '1rem',
         justifySelf: footer ? 'end' : 'unset',
+        ...(footer ? { borderBottom: 'unset' } : {}),
       }}
       position='static'
     >
