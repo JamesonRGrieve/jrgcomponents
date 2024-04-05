@@ -1,7 +1,7 @@
 import CenterAlignedBox, { CenterAlignedBoxProps } from '../Layout/CenterAlignedBox';
 import SwitchColorblind from '../Theming/SwitchColorblind';
 import SwitchDark from '../Theming/SwitchDark';
-import { AppBar, Typography } from '@mui/material';
+import { AppBar, Typography, useMediaQuery } from '@mui/material';
 import React, { ReactNode } from 'react';
 export type HeaderFooterProps = {
   footer?: boolean;
@@ -9,12 +9,14 @@ export type HeaderFooterProps = {
   components?: CenterAlignedBoxProps;
 };
 export default function HeaderFooter({ height = '3rem', footer = false, components }: HeaderFooterProps) {
+  const mobile = useMediaQuery('(max-width:600px)');
   return (
     <AppBar
       sx={{
         height: height,
-        px: '1rem',
+        px: mobile ? '0.25rem' : '1rem',
         justifySelf: footer ? 'end' : 'unset',
+        ...(footer ? { borderBottom: 'unset' } : {}),
       }}
       position='static'
     >
@@ -28,15 +30,7 @@ export default function HeaderFooter({ height = '3rem', footer = false, componen
             </Typography>
           ))
         }
-        right={
-          components?.right ??
-          (!footer && (
-            <>
-              <SwitchDark />
-              <SwitchColorblind />
-            </>
-          ))
-        }
+        right={components?.right}
       />
     </AppBar>
   );
