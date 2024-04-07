@@ -1,6 +1,7 @@
 import { Drawer, List } from '@mui/material';
-import MenuSWR from '../SWR/MenuSWR';
 import React from 'react';
+import MenuSWR from '../SWR/MenuSWR';
+
 export default function PopoutDrawer({
   open,
   side,

@@ -1,7 +1,7 @@
 'use client';
 import { Switch, Tooltip } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import React, { useContext } from 'react';
+import React, { ReactNode, useContext } from 'react';
 
 import { ThemeContext } from './ThemeWrapper';
 
@@ -52,7 +52,7 @@ const SwitchThemed = styled(Switch)(({ theme }) => ({
   },
 }));
 
-export default function StyledSwitch() {
+export default function StyledSwitch(): ReactNode {
   const themeState = useContext(ThemeContext);
   return (
     <Tooltip title={themeState.colorblind ? 'Switch to Colored Mode' : 'Switch to Colorblind Mode'}>

@@ -1,4 +1,4 @@
-import { FormControl, FormControlLabel, FormLabel, Radio, RadioGroup, Typography } from '@mui/material';
+import { FormControlLabel, Radio, RadioGroup } from '@mui/material';
 import React from 'react';
 
 export default function SelectField(props: any) {

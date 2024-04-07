@@ -2,9 +2,9 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import React from 'react';
 
-import QuotaSliderComponent, { QuotaSliderProps } from './Quota';
 import { SliderProps } from '@mui/material/Slider';
 import { Container } from '@mui/material';
+import QuotaSliderComponent, { QuotaSliderProps } from './Quota';
 
 type Story = StoryObj<typeof meta>;
 

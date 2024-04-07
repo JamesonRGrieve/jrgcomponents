@@ -1,6 +1,6 @@
 {
   "name": "jrgcomponents",
-  "version": "0.0.107",
+  "version": "0.0.108",
   "description": "Components developed by Jameson R Grieve for use in React/NextJS projects.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -73,11 +73,11 @@
   },
   "dependencies": {
     "@emotion/react": "^11.11.4",
-    "@emotion/styled": "^11.11.0",
-    "@mui/icons-material": "^5.15.14",
-    "@mui/material": "^5.15.14",
-    "@mui/system": "^5.15.14",
-    "@mui/x-data-grid": "^6.19.8",
+    "@emotion/styled": "^11.11.5",
+    "@mui/icons-material": "^5.15.15",
+    "@mui/material": "^5.15.15",
+    "@mui/system": "^5.15.15",
+    "@mui/x-data-grid": "^6.19.9",
     "cookies-next": "^4.1.1",
     "module-alias": "^2.2.3",
     "next": "^14.1.4",
@@ -89,7 +89,7 @@
     "@": "."
   },
   "devDependencies": {
-    "@storybook/addon-docs": "^8.0.2",
+    "@storybook/addon-docs": "^8.0.6",
     "@storybook/addon-essentials": "^7.6.17",
     "@storybook/addon-interactions": "^7.6.17",
     "@storybook/addon-links": "^7.6.17",
@@ -101,9 +101,9 @@
     "@storybook/nextjs": "^7.6.17",
     "@storybook/react": "^7.5.3",
     "@storybook/testing-library": "^0.2.2",
-    "@types/node": "^20.11.30",
-    "@types/react": "^18.2.67",
-    "@types/react-dom": "^18.2.22",
+    "@types/node": "^20.12.5",
+    "@types/react": "^18.2.74",
+    "@types/react-dom": "^18.2.24",
     "@typescript-eslint/eslint-plugin": "^6.21.0",
     "@typescript-eslint/parser": "^6.21.0",
     "eslint": "^8.57.0",
@@ -127,6 +127,6 @@
     "shx": "^0.3.4",
     "storybook": "^7.6.17",
     "ts-loader": "^9.5.1",
-    "typescript": "^5.4.3"
+    "typescript": "^5.4.4"
   }
 }

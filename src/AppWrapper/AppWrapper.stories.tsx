@@ -5,11 +5,11 @@ import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 
 // Import Component.
-import AppWrapperComponent, { AppWrapperProps } from './AppWrapper';
-import { Box, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
 import SwitchDark from '../Theming/SwitchDark';
 import SwitchColorblind from '../Theming/SwitchColorblind';
 import CenterAlignedBox from '../Layout/CenterAlignedBox';
+import AppWrapperComponent, { AppWrapperProps } from './AppWrapper';
 
 type Story = StoryObj<typeof meta>;
 

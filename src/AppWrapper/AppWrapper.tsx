@@ -1,12 +1,12 @@
 'use client';
-import React, { ReactNode, useEffect, useState } from 'react';
+import React, { ReactNode, useState } from 'react';
 import { Box, SxProps, Typography, useMediaQuery, useTheme } from '@mui/material';
-import HeaderFooter, { HeaderFooterProps } from './HeaderFooter';
-import PopoutDrawer from './Drawer';
-import PopoutButton from './Button';
 import { Palette } from '@mui/icons-material';
 import SwitchDark from '../Theming/SwitchDark';
 import SwitchColorblind from '../Theming/SwitchColorblind';
+import HeaderFooter, { HeaderFooterProps } from './HeaderFooter';
+import PopoutDrawer from './Drawer';
+import PopoutButton from './Button';
 
 type Menu = {
   heading?: string;

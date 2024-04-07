@@ -1,8 +1,7 @@
-import CenterAlignedBox, { CenterAlignedBoxProps } from '../Layout/CenterAlignedBox';
-import SwitchColorblind from '../Theming/SwitchColorblind';
-import SwitchDark from '../Theming/SwitchDark';
 import { AppBar, Typography, useMediaQuery } from '@mui/material';
-import React, { ReactNode } from 'react';
+import React from 'react';
+import CenterAlignedBox, { CenterAlignedBoxProps } from '../Layout/CenterAlignedBox';
+
 export type HeaderFooterProps = {
   footer?: boolean;
   height?: string;

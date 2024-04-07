@@ -13,7 +13,7 @@ export default function ReferenceGrid({ of }: ReferenceGridProps) {
         <>
           <h3>Reference Image Gallery</h3>
           {resolvedOf.story.parameters?.references.map((storySet: any) => {
-            if (!(storySet.images.length > 0)) {
+            if (storySet.images.length === 0) {
               return null;
             }
             return (

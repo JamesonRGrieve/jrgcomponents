@@ -1,9 +1,10 @@
 'use client';
 import React, { Context, useEffect, useMemo, useState } from 'react';
 import { CssBaseline, ThemeProvider } from '@mui/material';
+import { setCookie } from 'cookies-next';
 import { ThemeState } from '../types/Theming';
 import buildThemeSet, { ThemeInjection } from './BuildThemeSet';
-import { setCookie } from 'cookies-next';
+
 export const ThemeContext: Context<ThemeState> = React.createContext<ThemeState>({
   dark: false,
   colorblind: false,
@@ -50,7 +51,9 @@ export function ThemeWrapper({
       expires: expiryDate,
       domain: process.env.NEXT_PUBLIC_COOKIE_DOMAIN,
     });
-    if (themeChangeCallback) themeChangeCallback(themeState.dark, themeState.colorblind);
+    if (themeChangeCallback) {
+      themeChangeCallback(themeState.dark, themeState.colorblind);
+    }
   }, [themeState, themeChangeCallback]);
   return (
     <ThemeContext.Provider value={{ ...themeState, mutate: setThemeState }}>

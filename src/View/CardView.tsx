@@ -1,6 +1,6 @@
 import { Typography, CardActionArea, Box, Card, CardContent } from '@mui/material';
 
-import React from 'react';
+import React, { ReactNode } from 'react';
 
 type Props = {
   data: any;
@@ -32,7 +32,7 @@ type SubProps = {
   color: any;
   action: any;
 };
-const CardViewCard = (props: SubProps) => {
+const CardViewCard = (props: SubProps): ReactNode => {
   return (
     <Card sx={{ backgroundColor: props.color, boxShadow: '0.3rem 0.45rem #555' }}>
       <CardActionArea onClick={props.action}>

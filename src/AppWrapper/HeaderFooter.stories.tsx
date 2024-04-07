@@ -2,8 +2,8 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
 // Import Component and related types.
-import HeaderFooterComponent, { HeaderFooterProps } from './HeaderFooter';
 import React from 'react';
+import HeaderFooterComponent, { HeaderFooterProps } from './HeaderFooter';
 // Configure Metadata.
 const meta: Meta = {
   title: 'Application/Header & Footer',

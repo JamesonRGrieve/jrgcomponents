@@ -1,6 +1,6 @@
 import Slider, { SliderProps } from '@mui/material/Slider';
 import { styled } from '@mui/material/styles';
-import React, { ReactNode } from 'react';
+import React from 'react';
 
 export type QuotaSliderProps = {
   used: number;

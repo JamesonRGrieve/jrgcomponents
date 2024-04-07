@@ -1,6 +1,7 @@
 'use client';
 // Font Import Example
 import { Roboto_Mono } from 'next/font/google';
+
 const roboto = Roboto_Mono({ subsets: ['latin'] });
 
 const theme = {

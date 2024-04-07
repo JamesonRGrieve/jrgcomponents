@@ -1,5 +1,6 @@
 import { Box, useMediaQuery } from '@mui/material';
 import React, { ReactNode } from 'react';
+
 export type CenterAlignedBoxProps = {
   left?: ReactNode;
   center?: ReactNode;

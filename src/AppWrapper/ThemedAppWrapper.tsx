@@ -1,7 +1,7 @@
-import React, { ReactNode } from 'react';
+import React from 'react';
 import ThemeWrapper from '../Theming/ThemeWrapper';
-import AppWrapper, { AppWrapperProps } from './AppWrapper';
 import { ThemeInjection } from '../Theming/BuildThemeSet';
+import AppWrapper, { AppWrapperProps } from './AppWrapper';
 
 export default function ThemedAppWrapper({
   appWrapperConfig,
