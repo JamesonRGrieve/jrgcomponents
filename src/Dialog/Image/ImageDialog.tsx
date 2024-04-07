@@ -10,16 +10,14 @@ export type ImageDialogProps = {
   height?: number;
 }
 
-const ImageDialog: React.FC<ImageDialogProps> = ({ src, alt, fill, width, height }) => {
+const ImageDialog: React.FC<ImageDialogProps> = ({ src, alt}) => {
   return (
     <Box style={{ display: "flex", justifyContent: "center", position: 'relative' }}>
       <Image
         src={src}
         alt={alt}
-        layout={fill ? "fill" : "intrinsic"}
+        fill
         objectFit="contain"
-        width={fill ? undefined : width}
-        height={fill ? undefined : height}
       />
     </Box>
   );

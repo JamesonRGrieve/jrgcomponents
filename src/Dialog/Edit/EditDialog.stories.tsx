@@ -27,4 +27,7 @@ type Story = StoryObj<typeof meta>;
 
 // Configure Component Stories.
 export const EditDialog: Story = (args: EditDialogProps) => <EditDialogComponent {...args} />;
-EditDialog.args = {};
+EditDialog.args = {
+  toEdit: {},
+  onClose: () => console.log('Close action'),
+};

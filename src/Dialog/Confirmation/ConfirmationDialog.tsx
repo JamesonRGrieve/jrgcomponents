@@ -1,44 +1,31 @@
 import React from 'react';
-import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
-import { Box } from '@mui/system';
+import { DialogProps } from '../Dialog';
+import Dialog from '../Dialog'; // Adjust the import path as necessary
 
-export type ConfirmationDialogProps = {
+export interface ConfirmationDialogProps extends Omit<DialogProps, 'onConfirm'> {
+  onConfirm: () => void;
   title: string;
-  content: string;
-  onClose: () => void;
-  onConfirm?: () => void;
-};
+  content: React.ReactNode;
+}
 
 const ConfirmationDialog: React.FC<ConfirmationDialogProps> = ({
+  open,
+  onClose,
+  onConfirm,
   title,
   content,
-  onClose,
+  sx
 }) => {
-  const handleConfirm = () => {
-    onClose();
-  };
 
   return (
-    <Box>
-      <DialogTitle id="confirmation-dialog-title">{title}</DialogTitle>
-      <DialogContent>
-        <DialogContentText id="confirmation-dialog-description">
-          {content}
-        </DialogContentText>
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={onClose}>Cancel</Button>
-        <Button onClick={handleConfirm} color="primary" autoFocus>
-          Confirm
-        </Button>
-      </DialogActions>
-    </Box>
-
+    <Dialog
+      open={open}
+      onClose={onClose}
+      onConfirm={onConfirm}
+      title={title}
+      content={content}
+      sx={sx}
+    />
   );
 };
 

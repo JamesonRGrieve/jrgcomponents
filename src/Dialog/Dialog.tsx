@@ -1,53 +1,41 @@
-import React, { ReactNode, useState } from 'react';
+import React from 'react';
 import Button from '@mui/material/Button';
-import ConfirmationDialog from './Confirmation/ConfirmationDialog';
+import { Box, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 
 export type DialogProps = {
-  children: ReactNode;
-  onCancel: () => void;
-  onConfirm?: () => void;
+  open: boolean;
+  onClose: () => void;
+  onConfirm?: () => void; // Used to distinguish ConfirmationDialog
+  title?: string;
+  content: React.ReactNode;
   sx?: { [key: string]: string | number };
-  onSubmit: () => void;
 };
 
-const Dialog: React.FC<DialogProps> = ({ onSubmit, onCancel, onConfirm, children, sx }) => {
-  const [isOpen, setIsOpen] = useState(false); // State to manage the open status of the confirmation dialog
-  
-  const handleOpen = () => setIsOpen(true);
-  const handleClose = () => setIsOpen(false);
-  
-  const handleConfirm = () => {
-    if (onConfirm) {
-      onConfirm();
-    }
-    handleClose(); // Close the confirmation dialog after confirming
-  };
-
-  const handleSubmit = (event: React.FormEvent) => {
-    event.preventDefault();
-    if (onConfirm) {
-      handleOpen(); // Open the confirmation dialog
-    } else {
-      onSubmit(); // If no confirmation needed, proceed with submit
-    }
-  };
+const Dialog: React.FC<DialogProps> = ({
+  onClose,
+  onConfirm,
+  title,
+  content,
+  sx
+}) => {
 
   return (
-    <div style={sx}>
-      <form onSubmit={handleSubmit}>
-        {children}
-        <Button type="button" onClick={onCancel}>Cancel</Button>
-        <Button type="submit">Submit</Button>
-      </form>
+    <Box sx={{ ...sx }}>
+      {title && <DialogTitle id="confirmation-dialog-title">{title}</DialogTitle>}
+      <DialogContent>
+        <DialogContentText id="confirmation-dialog-description">
+          {content}
+        </DialogContentText>
+      </DialogContent>
       {onConfirm && (
-        <ConfirmationDialog
-          title="Confirm Action"
-          content="Are you sure you want to proceed?"
-          onClose={handleClose}
-          onConfirm={handleConfirm}
-        />
+        <DialogActions>
+          <Button onClick={onClose}>Cancel</Button>
+          <Button onClick={() => onConfirm()} color="primary" autoFocus>
+            Confirm
+          </Button>
+        </DialogActions>
       )}
-    </div>
+    </Box>
   );
 };
 

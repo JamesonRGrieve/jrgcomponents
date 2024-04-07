@@ -25,6 +25,7 @@ const DialogWrapper: React.FC<DialogWrapperProps> = ({ componentType }) => {
         return <EditDialog toEdit={{ 'name': 'test' }} onClose={handleClose} />;
       case 'confirmation':
         return <ConfirmationDialog
+          open
           title="Confirm Action"
           content="Are you sure you want to proceed?"
           onClose={handleClose}
