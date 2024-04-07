@@ -14,7 +14,7 @@ type Props = {
   filteredDataCallback?: any;
 };
 export default function GridView(props: Props) {
-  console.log(props);
+  // console.log(props);
   return (
     <>
       <Typography variant='h4' component='h1' gutterBottom>
@@ -23,7 +23,7 @@ export default function GridView(props: Props) {
       <DataGrid
         autoHeight
         onStateChange={(state) => {
-          console.log(state);
+          // console.log(state);
         }}
         onRowClick={props.rowClick}
         columns={props.columns}
@@ -44,8 +44,8 @@ export default function GridView(props: Props) {
           ];
           for (const filter of model.items) {
             if (filter.value) {
-              console.log('Pre Filter', filtered);
-              console.log('Applying Filter', filter);
+              // console.log('Pre Filter', filtered);
+              // console.log('Applying Filter', filter);
               const transformedFilterValue = filter.value.toUpperCase();
               if (filter.operator === 'contains') {
                 filtered = filtered.filter((x) => x[filter.field].includes(transformedFilterValue));
@@ -61,14 +61,14 @@ export default function GridView(props: Props) {
                 filtered = filtered.filter((x) => x[filter.field]);
               }
               // TODO: Add support for "any of".
-              console.log('Post Filter', filtered);
+              // console.log('Post Filter', filtered);
             }
           }
-          console.log('Filtered in GridView', filtered);
+          // console.log('Filtered in GridView', filtered);
           props.filteredDataCallback(filtered);
         }}
         onCellClick={(params) => {
-          console.log(params);
+          // console.log(params);
           //
         }}
         components={{ Toolbar: GridToolbar }}

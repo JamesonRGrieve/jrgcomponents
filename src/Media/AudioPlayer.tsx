@@ -19,12 +19,12 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({ base64audio }) => {
 
   useEffect(() => {
     audio.addEventListener('ended', () => {
-      console.log('Clip ended!');
+      // console.log('Clip ended!');
       setIsPlaying(false);
       setCurrentTime(0);
     });
     audio.addEventListener('loadedmetadata', () => {
-      console.log('Metadata loaded!');
+      // console.log('Metadata loaded!');
       setDuration(audio.duration);
     });
     audio.addEventListener('timeupdate', () => setCurrentTime(audio.currentTime));

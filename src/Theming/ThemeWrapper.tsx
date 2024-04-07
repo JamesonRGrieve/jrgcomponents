@@ -24,7 +24,7 @@ export function ThemeWrapper({
   };
   themeChangeCallback?: any;
 }) {
-  console.log(`Defaults:`, defaultTheme);
+  // (`Defaults:`, defaultTheme);
   const [themeState, setThemeState] = useState<ThemeState>({
     dark: defaultTheme.dark,
     colorblind: defaultTheme.colorblind,
