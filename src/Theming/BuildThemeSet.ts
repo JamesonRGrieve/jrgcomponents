@@ -18,6 +18,10 @@ export default function buildThemeSet({
       dark: '#333',
     },
     secondary: { light: '#CCC', main: '#999', dark: '#333' },
+    info: { light: '#CCC', main: '#999', dark: '#333' },
+    success: { light: '#CCC', main: '#999', dark: '#333' },
+    warning: { light: '#CCC', main: '#999', dark: '#333' },
+    error: { light: '#CCC', main: '#999', dark: '#333' },
   },
 }: ThemeInjection): Themes {
   const baseOptions = {
