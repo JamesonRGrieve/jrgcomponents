@@ -129,6 +129,8 @@ export default function AppWrapper({
       <Box
         component={inner ? 'main' : 'div'}
         sx={{
+          display: 'flex',
+          flexDirection: 'column',
           flexGrow: 1,
           flexShrink: '0',
           position: 'relative',
