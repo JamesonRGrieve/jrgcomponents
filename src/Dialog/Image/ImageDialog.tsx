@@ -1,26 +1,13 @@
-import { Box } from '@mui/system';
-import Image from 'next/image';
 import React from 'react';
+import Dialog, { CommonDialogProps } from '../Dialog'; // Adjust the import path as necessary
 
-export type ImageDialogProps = {
+export type ConfirmationDialogProps = CommonDialogProps & {
   src: string;
-  alt: string;
-  fill?: boolean;
-  width?: number;
-  height?: number;
-}
-
-const ImageDialog: React.FC<ImageDialogProps> = ({ src, alt}) => {
-  return (
-    <Box style={{ display: "flex", justifyContent: "center", position: 'relative' }}>
-      <Image
-        src={src}
-        alt={alt}
-        fill
-        objectFit="contain"
-      />
-    </Box>
-  );
 };
 
-export default ImageDialog;
+// TODO: Implement Image component to display the image from src. The ButtonComponent and ButtonProps should be a fill implementation of the image component.
+const ConfirmationDialog: React.FC<ConfirmationDialogProps> = ({ onClose, title, src, sx }) => {
+  return null; //<Dialog {...{ onClose, title, sx }} content={<Image />} />;
+};
+
+export default ConfirmationDialog;

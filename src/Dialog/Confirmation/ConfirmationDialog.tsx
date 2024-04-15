@@ -1,32 +1,15 @@
 import React from 'react';
-import { DialogProps } from '../Dialog';
-import Dialog from '../Dialog'; // Adjust the import path as necessary
+import Dialog, { CommonDialogProps } from '../Dialog'; // Adjust the import path as necessary
 
-export interface ConfirmationDialogProps extends Omit<DialogProps, 'onConfirm'> {
+export type ConfirmationDialogProps = CommonDialogProps & {
+  content: string;
   onConfirm: () => void;
-  title: string;
-  content: React.ReactNode;
-}
+  ButtonComponent: React.FC<{ onClick: () => void }>;
+  ButtonProps: any;
+};
 
-const ConfirmationDialog: React.FC<ConfirmationDialogProps> = ({
-  open,
-  onClose,
-  onConfirm,
-  title,
-  content,
-  sx
-}) => {
-
-  return (
-    <Dialog
-      open={open}
-      onClose={onClose}
-      onConfirm={onConfirm}
-      title={title}
-      content={content}
-      sx={sx}
-    />
-  );
+const ConfirmationDialog: React.FC<ConfirmationDialogProps> = (props) => {
+  return <Dialog {...props} />;
 };
 
 export default ConfirmationDialog;

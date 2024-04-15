@@ -11,12 +11,14 @@ import {
 } from '@mui/material';
 import { Close } from '@mui/icons-material';
 
-export type DialogProps = {
+export type CommonDialogProps = {
   onClose: () => void;
-  onConfirm?: () => void;
   title?: string;
-  content: React.ReactNode | string;
   sx?: { [key: string]: string | number };
+};
+export type DialogProps = CommonDialogProps & {
+  onConfirm?: () => void;
+  content: React.ReactNode | string;
   ButtonComponent: React.FC<{ onClick: () => void }>;
   ButtonProps: any;
 };
@@ -50,7 +52,13 @@ const Dialog: React.FC<DialogProps> = ({ onClose, onConfirm, title, content, But
         {onConfirm && (
           <DialogActions sx={{ justifyContent: 'center' }}>
             <Button onClick={onClose}>Cancel</Button>
-            <Button onClick={() => onConfirm()} color='primary'>
+            <Button
+              onClick={() => {
+                setDialogOpen(false);
+                onConfirm();
+              }}
+              color='primary'
+            >
               Confirm
             </Button>
           </DialogActions>
