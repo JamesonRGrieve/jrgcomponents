@@ -77,7 +77,7 @@ export const withTheme = (Story: any, context: any) => {
     >
       <ThemeWrapper
         themeInjection={{ theme: theme }}
-        default={{ dark: themeKey.includes('dark'), colorblind: themeKey.includes('Colorblind') }}
+        defaultTheme={{ dark: themeKey.includes('dark'), colorblind: themeKey.includes('Colorblind') }}
         themeChangeCallback={themeChange}
       >
         <Story />
