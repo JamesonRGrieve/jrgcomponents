@@ -1,30 +1,51 @@
-// Import Storybook.
-import type { Meta, StoryObj } from '@storybook/react';
-
-// Import Component and related types.
+import React from 'react'; // Make sure React is imported if needed by your ESLint rules
+import { Meta, StoryObj } from '@storybook/react';
+import { action } from '@storybook/addon-actions';
 import ConfirmationDialogComponent, { ConfirmationDialogProps } from './ConfirmationDialog';
-import React from 'react';
-// Configure Metadata.
-const meta: Meta = {
+import { Button } from '@mui/material';
+
+const meta: Meta<ConfirmationDialogProps> = {
   title: 'Dialog/ConfirmationDialog',
   component: ConfirmationDialogComponent,
-  tags: ['autodocs'],
   argTypes: {
-    height: { control: 'text' },
+    onClose: { action: 'Dialog closed' },
+    onConfirm: { action: 'Action confirmed' },
+    ButtonComponent: {
+      table: {
+        disable: true
+      },
+      control: {
+        type: null
+      }
+    },
+    ButtonProps: {
+      control: 'object'
+    }
   },
   parameters: {
-    componentSubtitle: 'A Sample Component',
+    componentSubtitle: 'A confirmation dialog component for critical user actions.',
     docs: {
       description: {
-        component: 'This component is meant to illustrate how to effectively document components.',
-      },
+        component: 'This component is designed to confirm user actions, such as deletions or updates, using a customizable dialog.'
+      }
     },
-    references: [],
-  },
+  }
 };
-export default meta;
-type Story = StoryObj<typeof meta>;
 
-// Configure Component Stories.
-export const ConfirmationDialog: Story = (args: ConfirmationDialogProps) => <ConfirmationDialogComponent {...args} />;
-ConfirmationDialog.args = {};
+export default meta;
+
+// Default story for the ConfirmationDialog
+export const Default: StoryObj<ConfirmationDialogProps> = {
+  args: {
+    onClose: action('Dialog closed'),
+    onConfirm: action('Action confirmed'),
+    title: 'Are you sure?',
+    content: 'Do you want to perform this action? It cannot be undone.',
+    ButtonComponent: ({ onClick }) => (
+      <Button onClick={onClick} color="primary">
+        Open Confirmation Dialog
+      </Button>
+    ),
+    ButtonProps: {}
+  }
+};
