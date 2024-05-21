@@ -29,6 +29,10 @@ const Dialog: React.FC<DialogProps> = ({ onClose, onConfirm, title, content, But
     setDialogOpen(false);
     onClose();
   }
+
+  function handleCancel() {
+    handleClose();
+  }
   return (
     <>
       <ButtonComponent
@@ -51,7 +55,7 @@ const Dialog: React.FC<DialogProps> = ({ onClose, onConfirm, title, content, But
         </DialogContent>
         {onConfirm && (
           <DialogActions sx={{ justifyContent: 'center' }}>
-            <Button onClick={onClose}>Cancel</Button>
+            <Button onClick={handleCancel}>Cancel</Button>
             <Button
               onClick={() => {
                 setDialogOpen(false);

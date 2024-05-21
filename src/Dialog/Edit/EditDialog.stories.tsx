@@ -1,33 +1,37 @@
-// Import Storybook.
-import type { Meta, StoryObj } from '@storybook/react';
-
-// Import Component and related types.
-import EditDialogComponent, { EditDialogProps } from './EditDialog';
 import React from 'react';
-// Configure Metadata.
-const meta: Meta = {
+import { Meta, StoryObj } from '@storybook/react';
+import { action } from '@storybook/addon-actions';
+import EditDialog, { EditDialogProps } from './EditDialog';
+import { Button } from '@mui/material';
+
+const meta: Meta<EditDialogProps> = {
   title: 'Dialog/EditDialog',
-  component: EditDialogComponent,
-  tags: ['autodocs'],
+  component: EditDialog,
   argTypes: {
-    height: { control: 'text' },
+    onClose: { action: 'Dialog closed' },
+    onConfirm: { action: 'Edit confirmed' },
   },
   parameters: {
-    componentSubtitle: 'A Sample Component',
     docs: {
       description: {
-        component: 'This component is meant to illustrate how to effectively document components.',
+        component: 'EditDialog allows editing of various fields within a dialog window.',
       },
     },
-    references: [],
   },
 };
-export default meta;
-type Story = StoryObj<typeof meta>;
 
-// Configure Component Stories.
-export const EditDialog: Story = (args: EditDialogProps) => <EditDialogComponent {...args} />;
-EditDialog.args = {
-  toEdit: {},
-  onClose: () => console.log('Close action'),
+export default meta;
+
+export const Default: StoryObj<EditDialogProps> = {
+  args: {
+    onClose: action('Dialog closed'),
+    onConfirm: action('Edit confirmed'),
+    title: 'Edit User Details',
+    fields: {
+      name: { value: 'John Doe', validation: (value) => value.trim().length > 0 },
+      age: { value: 30, validation: (value) => !isNaN(value) && value > 0 },
+    },
+    ButtonComponent: ({ onClick }) => <Button onClick={onClick} color="primary">Open Edit Dialog</Button>,
+    ButtonProps: {}
+  }
 };
