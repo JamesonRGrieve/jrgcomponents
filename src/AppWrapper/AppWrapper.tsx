@@ -45,6 +45,7 @@ export default function AppWrapper({
   const [open, setOpen] = useState({ left: false, right: false });
   const theme = useTheme();
   const mobile = useMediaQuery('(max-width:600px)');
+  console.log(header, footer, mainSX);
   header = header
     ? {
         height: '3rem',

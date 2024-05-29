@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { HTMLAttributes, MouseEventHandler, useState } from 'react';
 import Button from '@mui/material/Button';
 import {
   Dialog as MUIDialog,
@@ -19,7 +19,7 @@ export type CommonDialogProps = {
 export type DialogProps = CommonDialogProps & {
   onConfirm?: () => void;
   content: React.ReactNode | string;
-  ButtonComponent: React.FC<{ onClick: () => void }>;
+  ButtonComponent: React.FC<{ onClick: MouseEventHandler<any> }> | any;
   ButtonProps: any;
 };
 

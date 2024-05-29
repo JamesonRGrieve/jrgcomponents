@@ -16,15 +16,7 @@ export type EditDialogProps = CommonDialogProps & {
 // TODO Maintain a state object of the form field values. Initialize it as their incoming values if present.
 // TODO When the form is submitted, validate the fields first and call the onConfirm callback if all fields are valid.
 
-const EditDialog: React.FC<EditDialogProps> = ({
-  onClose,
-  title,
-  sx,
-  fields,
-  onConfirm,
-  ButtonComponent,
-  ButtonProps,
-}) => {
+const EditDialog: React.FC<EditDialogProps> = ({ onClose, title, sx, fields, onConfirm, ButtonComponent, ButtonProps }) => {
   const [editState, setEditState] = useState<{ [key: string]: string | number | boolean }>({});
 
   const handleChange = (key: string, value: string | number | boolean) => {
@@ -34,11 +26,11 @@ const EditDialog: React.FC<EditDialogProps> = ({
   // Initial state setup in useEffect to handle incoming props correctly
   useEffect(() => {
     const initialState = {};
-    Object.keys(fields).forEach(key => {
-      initialState[key] = fields[key].value;
+    Object.keys(fields).forEach((key) => {
+      //initialState[key as keyof typeof initialState] = fields[key].value;
     });
     setEditState(initialState);
-  }, [fields]);  // Depend on `fields` to re-initialize state when `fields` prop changes
+  }, [fields]); // Depend on `fields` to re-initialize state when `fields` prop changes
 
   return (
     <Dialog
@@ -61,7 +53,8 @@ const EditDialog: React.FC<EditDialogProps> = ({
               </li>
             ))}
           </ul>
-        </Box>}
+        </Box>
+      }
       onConfirm={onConfirm}
       ButtonComponent={ButtonComponent}
       ButtonProps={ButtonProps}
