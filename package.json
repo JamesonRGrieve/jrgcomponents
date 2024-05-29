@@ -1,6 +1,6 @@
 {
   "name": "jrgcomponents",
-  "version": "0.0.111",
+  "version": "0.0.112",
   "description": "Components developed by Jameson R Grieve for use in React/NextJS projects.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -42,7 +42,9 @@
     "./Head": "./dist/Meta/Head.js",
     "./types/Theming": "./dist/types/Theming.js",
     "./Form/Field/TextFieldWithAlert": "./dist/Form/Field/InputWithAlert.js",
-    "./Dialog/Confirmation": "./dist/Dialog/ConfirmationDialog.js",
+    "./Dialog": "./dist/Dialog/Dialog.js",
+    "./EditDialog": "./dist/Dialog/EditDialog.js",
+    "./ImageDialog": "./dist/Dialog/ImageDialog.js",
     "./Storybook/ComparisonGrid": "./dist/Storybook/ComparisonGrid.js",
     "./Storybook/ReferenceGrid": "./dist/Storybook/ReferenceGrid.js",
     "./Logging/log": "./dist/Logging/log.js",
