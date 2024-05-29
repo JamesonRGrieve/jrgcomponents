@@ -45,6 +45,7 @@
     "./Dialog": "./dist/Dialog/Dialog.js",
     "./EditDialog": "./dist/Dialog/EditDialog.js",
     "./ImageDialog": "./dist/Dialog/ImageDialog.js",
+    "./DynamicForm": "./dist/Form/DynamicForm.js",
     "./Storybook/ComparisonGrid": "./dist/Storybook/ComparisonGrid.js",
     "./Storybook/ReferenceGrid": "./dist/Storybook/ReferenceGrid.js",
     "./Logging/log": "./dist/Logging/log.js",
