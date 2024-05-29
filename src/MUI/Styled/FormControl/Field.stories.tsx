@@ -8,7 +8,6 @@ import FieldComponent, { FieldProps, Message } from './Field';
 
 type Story = StoryObj<typeof meta>;
 
-
 // Configure Component Stories.
 export const TextFieldStory: Story = (args: FieldProps) => {
   const [value, setValue] = useState('');
@@ -17,7 +16,7 @@ export const TextFieldStory: Story = (args: FieldProps) => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value;
     setValue(newValue); // Update input value
-  
+
     // Perform validation and update messages
     if (!newValue.trim()) {
       setMessages([{ level: 'error', value: 'This field cannot be empty' }]);
@@ -32,7 +31,7 @@ export const TextFieldStory: Story = (args: FieldProps) => {
       value={value}
       onChange={handleChange}
       messages={[{ level: 'error', value: 'Static error message for testing' }]} // Static test data
-      nameID="textField"
+      nameID='textField'
     />
   );
 };
@@ -44,15 +43,7 @@ TextFieldStory.args = {
 };
 // Password Field Story
 export const PasswordFieldStory: Story = (args: FieldProps) => {
-  return (
-    <FieldComponent
-      {...args}
-      value=""
-      onChange={() => { }}
-      messages={[]}
-      nameID="passwordField"
-    />
-  );
+  return <FieldComponent {...args} value='' onChange={() => {}} messages={[]} nameID='passwordField' />;
 };
 PasswordFieldStory.args = {
   label: 'Password Field',
@@ -65,11 +56,14 @@ export const SelectFieldStory: Story = (args: FieldProps) => {
   return (
     <FieldComponent
       {...args}
-      value=""
-      onChange={() => { }}
+      value=''
+      onChange={() => {}}
       messages={[]}
-      nameID="selectField"
-      items={[{ value: 'option1', label: 'Option 1' }, { value: 'option2', label: 'Option 2' }]}
+      nameID='selectField'
+      items={[
+        { value: 'option1', label: 'Option 1' },
+        { value: 'option2', label: 'Option 2' },
+      ]}
     />
   );
 };
@@ -80,15 +74,7 @@ SelectFieldStory.args = {
 };
 
 export const TimeFieldStory: Story = (args: FieldProps) => {
-  return (
-    <FieldComponent
-      {...args}
-      value=""
-      onChange={() => { }}
-      messages={[]}
-      nameID="timeField"
-    />
-  );
+  return <FieldComponent {...args} value='' onChange={() => {}} messages={[]} nameID='timeField' />;
 };
 TimeFieldStory.args = {
   label: 'Time Field',
@@ -106,7 +92,7 @@ export const CheckboxFieldStory: Story = (args: FieldProps) => {
       value={isChecked.toString()}
       onChange={() => setIsChecked(!isChecked)}
       messages={[]}
-      nameID="checkboxField"
+      nameID='checkboxField'
     />
   );
 };
