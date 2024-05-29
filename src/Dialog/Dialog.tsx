@@ -12,18 +12,25 @@ import {
 import { Close } from '@mui/icons-material';
 
 export type CommonDialogProps = {
-  onClose: () => void;
+  onClose?: () => void;
   title?: string;
   sx?: { [key: string]: string | number };
 };
 export type DialogProps = CommonDialogProps & {
   onConfirm?: () => void;
-  content: React.ReactNode | string;
-  ButtonComponent: React.FC<{ onClick: MouseEventHandler<any> }> | any;
-  ButtonProps: any;
+  content?: React.ReactNode | string;
+  ButtonComponent?: React.FC<{ onClick: MouseEventHandler<any> }> | any;
+  ButtonProps?: any;
 };
 
-const Dialog: React.FC<DialogProps> = ({ onClose, onConfirm, title, content, ButtonComponent, ButtonProps }) => {
+const Dialog: React.FC<DialogProps> = ({
+  onClose = () => {},
+  onConfirm,
+  title = 'Dialog Title',
+  content = '',
+  ButtonComponent = Button,
+  ButtonProps = {},
+}) => {
   const [dialogOpen, setDialogOpen] = useState(false);
   function handleClose() {
     setDialogOpen(false);
