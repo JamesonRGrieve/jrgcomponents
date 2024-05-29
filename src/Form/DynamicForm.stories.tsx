@@ -38,3 +38,14 @@ export const Default: StoryObj<DynamicFormProps> = {
     },
   },
 };
+
+export const DynamicFromObject: StoryObj<DynamicFormProps> = {
+  args: {
+    onConfirm: action('Form submitted'),
+    toUpdate: {
+      this_used_to_be_snake_case: 'John Doe',
+      thisUsedToBeCamelCase: 50,
+      ThisUsedToBePascalCase: true,
+    },
+  },
+};
