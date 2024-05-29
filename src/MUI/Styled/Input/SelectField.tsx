@@ -1,20 +1,23 @@
-import { FormControlLabel, Radio, RadioGroup } from '@mui/material';
+import { FormControl, MenuItem, Select } from '@mui/material';
 import React from 'react';
 
-export default function SelectField(props: any) {
+interface SelectFieldProps {
+  id: string;
+  value: any;
+  onChange: (event: any) => void;
+  items: any[];
+}
+
+export default function SelectField({ id, value, onChange, items }: SelectFieldProps) {
   return (
-    <RadioGroup key={'field'} aria-labelledby={props.id} id={props.id} name={props.id} defaultValue={0}>
-      {props.items?.map((item: any, index: number) => {
-        return (
-          <FormControlLabel
-            key={index}
-            id={(item.value ?? item).replace(/[\W_]+/g, '')}
-            value={item.value ?? item}
-            control={<Radio />}
-            label={item.label ?? item}
-          />
-        );
-      })}
-    </RadioGroup>
+    <FormControl fullWidth>
+      <Select value={value} onChange={onChange} displayEmpty>
+        {items?.map((item: any, index: number) => (
+          <MenuItem key={index} value={item.value ?? item}>
+            {item.label ?? item}
+          </MenuItem>
+        ))}
+      </Select>
+    </FormControl>
   );
 }

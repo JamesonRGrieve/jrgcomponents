@@ -1,11 +1,11 @@
 import { Collapse, FormLabel, FormControl, Typography, Alert, AlertColor } from '@mui/material';
-import React from 'react';
+import React, { useMemo } from 'react';
 import CheckField from '../Input/CheckField';
 import MultiCheckField from '../Input/MultiCheckField';
 import PasswordField from '../Input/PasswordField';
-import SelectField from '../Input/SelectField';
+import SelectField from '../Input/RadioField';
 import TextField from '../Input/TextField';
-import TimeField from '../Input/TimeField';
+import RadioField from '../Input/RadioField';
 
 export type Message = {
   level: string;
@@ -39,24 +39,21 @@ const Field: React.FC<FieldProps> = ({
   type = 'text',
   items,
 }) => {
-  const renderInputcomponent = () => {
-    switch (type) {
-      case 'text':
-        return <TextField id={nameID} value={value} onChange={onChange} placeholder={placeholder} />;
-      case 'password':
-        return <PasswordField id={nameID} value={value} onChange={onChange} placeholder={placeholder} />;
-      case 'select':
-        return <SelectField id={nameID} value={value} onChange={onChange} items={items} />;
-      case 'time':
-        return <TimeField id={nameID} value={value} onChange={onChange} />;
-      case 'checkbox':
-        return <CheckField id={nameID} value={value} onChange={onChange} />;
-      case 'radio':
-        return <MultiCheckField id={nameID} value={value} onChange={onChange} items={items} />;
-      default:
-        return <TextField id={nameID} value={value} onChange={onChange} placeholder={placeholder} />;
-    }
-  };
+  const inputComponents = useMemo(() => {
+    const injectedOnChange = (target: any) => {
+      onChange(target, label);
+    };
+    return {
+      text: <TextField id={nameID} value={value} onChange={injectedOnChange} />,
+      password: <PasswordField id={nameID} value={value} onChange={injectedOnChange} />,
+      select: <SelectField id={nameID} value={value} onChange={injectedOnChange} items={items} />,
+      checkbox: <CheckField id={nameID} value={['on', 'true'].includes(value.toLowerCase())} onChange={injectedOnChange} />,
+      //multicheckbox: <MultiCheckField id={nameID} value={value} onChange={onChange} items={items} />,
+      radio: <RadioField id={nameID} value={value} onChange={injectedOnChange} items={items} />,
+      default: <TextField id={nameID} value={value} onChange={injectedOnChange} />,
+    };
+  }, [type, nameID, value, onChange, placeholder, items]);
+
   return (
     <FormControl required fullWidth sx={{ my: '1rem' }}>
       <FormLabel id={nameID} htmlFor={nameID}>
@@ -68,7 +65,7 @@ const Field: React.FC<FieldProps> = ({
         </Typography>
       )}
       {/* Should render something from ./Input depending on the type prop. */}
-      {renderInputcomponent()}
+      {inputComponents[type as keyof typeof inputComponents] ?? inputComponents.default}
       <Collapse in={messages.length > 0}>
         {/* Should render messages as a map of MUI Alert's */}
         {messages.map((message, index) => (

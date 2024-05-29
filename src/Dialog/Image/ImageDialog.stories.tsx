@@ -4,6 +4,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 // Import Component and related types.
 import ImageDialogComponent, { ImageDialogProps } from './ImageDialog';
 import React from 'react';
+import { Box } from '@mui/material';
 
 // Configure Metadata.
 const meta: Meta = {
@@ -25,9 +26,15 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 // Sample image URL for testing
-const sampleImageUrl = 'https://fastly.picsum.photos/id/237/200/300.jpg?hmac=TmmQSbShHz9CdQm0NkEjx1Dyh_Y984R9LpNrpvH2D_U';
+const sampleImageUrl = 'https://cdn.pixabay.com/photo/2024/05/22/16/37/seagull-8781110_1280.jpg';
 
-export const ImageDialog: Story = (args: ImageDialogProps) => <ImageDialogComponent {...args} />;
+export const ImageDialog: Story = (args: ImageDialogProps) => (
+  <Box display='flex' width='100%' height='100%' justifyContent='center' alignItems='center'>
+    <Box position='relative' width='50px' height='50px'>
+      <ImageDialogComponent {...args} />
+    </Box>
+  </Box>
+);
 ImageDialog.args = {
   onClose: () => console.log('Close clicked'),
   imageSrc: sampleImageUrl,

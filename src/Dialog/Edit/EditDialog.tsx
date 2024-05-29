@@ -34,7 +34,6 @@ const EditDialog: React.FC<EditDialogProps> = ({ onClose, title, sx, fields, onC
           </Collapse>
         </>
       }
-      onConfirm={onConfirm}
       ButtonComponent={ButtonComponent}
       ButtonProps={ButtonProps}
     />

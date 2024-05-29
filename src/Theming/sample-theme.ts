@@ -19,7 +19,7 @@ const theme = {
     },
   },
   typography: {
-    fontFamily: `${roboto.style.fontFamily}, Arial, sans-serif`,
+    fontFamily: `${roboto.style?.fontFamily}, Arial, sans-serif`,
     h1: {
       fontSize: '2rem',
       fontWeight: 'bold',

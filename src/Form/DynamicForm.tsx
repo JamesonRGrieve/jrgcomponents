@@ -17,15 +17,24 @@ export type DynamicFormProps = {
 export default function DynamicForm({ fields, onConfirm }: DynamicFormProps) {
   const [editedState, setEditState] = useState<{ [key: string]: { value: DynamicFormFieldValueTypes; error: string } }>({});
 
-  const handleChange = useCallback((key: string, value: DynamicFormFieldValueTypes) => {
-    setEditState((prevState) => ({ ...prevState, [key]: { ...prevState[key], value: value } }));
+  const handleChange = useCallback((event: any, label?: string) => {
+    setEditState((prevState) => ({
+      ...prevState,
+      [label]: { ...prevState[label], value: event.target.value },
+    }));
   }, []);
 
   const handleSubmit = useCallback(() => {
     Object.keys(fields).forEach((key: string) => {
       try {
-        fields[key].validation?.(editedState[key as keyof typeof editedState].value);
-        setEditState((prevState) => ({ ...prevState, [key]: { ...prevState[key], error: '' } }));
+        if (fields[key].validation(editedState[key].value)) {
+          setEditState((prevState) => ({ ...prevState, [key]: { ...prevState[key], error: '' } }));
+        } else {
+          setEditState((prevState) => ({
+            ...prevState,
+            [key]: { ...prevState[key], error: 'Invalid value, please double check your input.' },
+          }));
+        }
       } catch (error) {
         setEditState((prevState) => ({ ...prevState, [key]: { ...prevState[key], error: error.message } }));
       }
@@ -37,8 +46,10 @@ export default function DynamicForm({ fields, onConfirm }: DynamicFormProps) {
 
   // Initial state setup in useEffect to handle incoming props correctly
   useEffect(() => {
+    console.log('Setting initial state');
     const initialState: { [key: string]: { value: DynamicFormFieldValueTypes; error: string } } = {};
     Object.keys(fields).forEach((key) => {
+      console.log('Setting initial state for key: ', key, ' with value: ', fields[key as keyof typeof fields].value);
       initialState[key] = { value: fields[key as keyof typeof fields].value, error: '' };
     });
     setEditState(initialState);
@@ -51,7 +62,7 @@ export default function DynamicForm({ fields, onConfirm }: DynamicFormProps) {
           key={key.toLowerCase().replaceAll(' ', '-')}
           nameID={key.toLowerCase().replaceAll(' ', '-')}
           label={key}
-          value={value.toString()}
+          value={value.value.toString()}
           onChange={handleChange}
           messages={value.error ? [{ level: 'error', value: value.error }] : []}
         />

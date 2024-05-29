@@ -28,10 +28,19 @@ export const Default: StoryObj<EditDialogProps> = {
     onConfirm: action('Edit confirmed'),
     title: 'Edit User Details',
     fields: {
-      name: { value: 'John Doe', type: 'text', validation: (value) => value.toString().trim().length > 0 },
-      age: { value: 30, type: 'number', validation: (value) => !isNaN(Number(value)) && Number(value) > 0 },
+      'User Name': { value: 'John Doe', type: 'text', validation: (value) => value.toString().trim().length > 0 },
+      'User Age': {
+        value: 30,
+        type: 'number',
+        validation: (value) => {
+          if (isNaN(Number(value)) || Number(value) <= 0) {
+            throw new Error('Age must be a positive integer.');
+          }
+          return true;
+        },
+      },
     },
     ButtonComponent: Button,
-    ButtonProps: {},
+    ButtonProps: { label: 'Edit User Details' },
   },
 };
