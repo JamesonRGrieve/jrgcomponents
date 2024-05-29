@@ -28,14 +28,10 @@ export const Default: StoryObj<EditDialogProps> = {
     onConfirm: action('Edit confirmed'),
     title: 'Edit User Details',
     fields: {
-      name: { value: 'John Doe', validation: (value) => value.toString().trim().length > 0 },
-      age: { value: 30, validation: (value) => !isNaN(Number(value)) && Number(value) > 0 },
+      name: { value: 'John Doe', type: 'text', validation: (value) => value.toString().trim().length > 0 },
+      age: { value: 30, type: 'number', validation: (value) => !isNaN(Number(value)) && Number(value) > 0 },
     },
-    ButtonComponent: ({ onClick }) => (
-      <Button onClick={onClick} color='primary'>
-        Open Edit Dialog
-      </Button>
-    ),
+    ButtonComponent: Button,
     ButtonProps: {},
   },
 };

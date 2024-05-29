@@ -5,10 +5,8 @@ import Dialog, { DialogProps } from '../Dialog';
 import DynamicForm, { DynamicFormFieldValueTypes, DynamicFormProps } from '../../Form/DynamicForm';
 import { Collapse, Typography } from '@mui/material';
 
-export type EditDialogProps = DynamicFormProps &
-  DialogProps & {
-    onConfirm: (values: { [key: string]: DynamicFormFieldValueTypes }) => void;
-  };
+export type EditDialogProps = DialogProps & DynamicFormProps;
+
 // TODO Maintain a state object of the form field values. Initialize it as their incoming values if present.
 // TODO When the form is submitted, validate the fields first and call the onConfirm callback if all fields are valid.
 
@@ -23,7 +21,7 @@ const EditDialog: React.FC<EditDialogProps> = ({ onClose, title, sx, fields, onC
         <>
           <DynamicForm
             fields={fields}
-            onSubmit={(values) => {
+            onConfirm={(values) => {
               try {
                 onConfirm(values);
               } catch (error) {

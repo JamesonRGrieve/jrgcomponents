@@ -11,10 +11,10 @@ export type DynamicFormProps = {
       validation?: (value: DynamicFormFieldValueTypes) => boolean;
     };
   };
-  onSubmit: (values: { [key: string]: DynamicFormFieldValueTypes }) => void;
+  onConfirm: (values: { [key: string]: DynamicFormFieldValueTypes }) => void;
 };
 
-export default function DynamicForm({ fields, onSubmit }: DynamicFormProps) {
+export default function DynamicForm({ fields, onConfirm }: DynamicFormProps) {
   const [editedState, setEditState] = useState<{ [key: string]: { value: DynamicFormFieldValueTypes; error: string } }>({});
 
   const handleChange = useCallback((key: string, value: DynamicFormFieldValueTypes) => {
@@ -31,9 +31,9 @@ export default function DynamicForm({ fields, onSubmit }: DynamicFormProps) {
       }
     });
     if (Object.values(editedState).every((field) => field.error === '')) {
-      onSubmit(Object.fromEntries(Object.entries(editedState).map(([key, value]) => [key, value.value])));
+      onConfirm(Object.fromEntries(Object.entries(editedState).map(([key, value]) => [key, value.value])));
     }
-  }, [editedState, fields, onSubmit]);
+  }, [editedState, fields, onConfirm]);
 
   // Initial state setup in useEffect to handle incoming props correctly
   useEffect(() => {
@@ -53,6 +53,7 @@ export default function DynamicForm({ fields, onSubmit }: DynamicFormProps) {
           label={key}
           value={value.toString()}
           onChange={handleChange}
+          messages={value.error ? [{ level: 'error', value: value.error }] : []}
         />
       ))}
       <Button onClick={handleSubmit}>Submit</Button>
