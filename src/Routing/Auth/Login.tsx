@@ -2,24 +2,36 @@
 import { Box, Button, TextField, Typography } from '@mui/material';
 import axios from 'axios';
 import { getCookie } from 'cookies-next';
+import { useRouter } from 'next/navigation';
 import React, { FormEvent, ReactNode, useState } from 'react';
 import QRCode from 'react-qr-code';
 export default function Login({ searchParams }: { searchParams: any }): ReactNode {
   const [responseMessage, setResponseMessage] = useState('');
+  const router = useRouter();
   const submitForm = async (event: FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault();
     const formData = Object.fromEntries(new FormData((event.currentTarget as HTMLFormElement) ?? undefined));
     try {
-      setResponseMessage(
-        (
-          await axios
-            .post(`${process.env.NEXT_PUBLIC_AGIXT_SERVER}/v1/login`, {
-              ...formData,
-              referrer: getCookie('href') ?? '',
-            })
-            .catch((exception: any) => exception.response)
-        ).data.detail,
-      );
+      const response = await axios
+        .post(`${process.env.NEXT_PUBLIC_AGIXT_SERVER}/v1/login`, {
+          ...formData,
+          referrer: getCookie('href') ?? window.location.href,
+        })
+        .catch((exception: any) => exception.response);
+      if (response.status !== 200) {
+        setResponseMessage(response.data.detail);
+      } else {
+        if (
+          /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/.test(
+            response.data.detail,
+          )
+        ) {
+          console.log('Is URI.');
+          router.push(response.data.detail);
+        } else {
+          console.log('Is not URI.');
+        }
+      }
     } catch (exception) {
       console.error(exception);
     }
