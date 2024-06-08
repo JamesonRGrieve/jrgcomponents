@@ -73,7 +73,8 @@
     "./AppWrapper/HeaderFooter": "./dist/AppWrapper/HeaderFooter.js",
     "./Style/Global": "./dist/Style/globals.css",
     "./QuotaSlider": "./dist/MUI/Styled/Slider/Quota.js",
-    "./AuthRouter": "./dist/Routing/Auth/Router.js"
+    "./AuthRouter": "./dist/Routing/Auth/Router.js",
+    "./Middleware": "./dist/Routing/Auth/Middleware.js"
   },
   "dependencies": {
     "@emotion/react": "^11.11.4",
