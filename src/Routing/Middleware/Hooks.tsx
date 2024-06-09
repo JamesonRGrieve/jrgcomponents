@@ -1,16 +1,73 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { generateCookieString, getQueryParams, getRequestedURI } from './Data';
+import { AuthMode, generateCookieString, getAuthMode, getQueryParams, getRequestedURI } from './Data';
 
-export type MiddlewareHook = (req: NextRequest) => {
+export type MiddlewareHook = (req: NextRequest) => Promise<{
   activated: boolean;
   response: NextResponse;
+}>;
+
+export const useAuth: MiddlewareHook = async (req) => {
+  const toReturn = {
+    activated: false,
+    response: NextResponse.redirect(new URL(process.env.AUTH_WEB), { headers: {} }),
+  };
+  const requestedURI = getRequestedURI(req);
+  const authMode = getAuthMode();
+  // @ts-expect-error NextJS' types are wrong.
+  toReturn.response.headers.set('Set-Cookie', [
+    generateCookieString('jwt', '', (0).toString()),
+    generateCookieString('href', requestedURI, (86400).toString()),
+  ]);
+
+  if (authMode) {
+    const rawJWT = req.cookies.get('jwt')?.value;
+    // Strip any and all 'Bearer 's off of JWT.
+    const jwt = rawJWT?.split(' ')[rawJWT?.split(' ').length - 1] ?? rawJWT ?? '';
+    console.log('JWT:', jwt);
+    if (jwt) {
+      try {
+        const authEndpoint = `${process.env.AUTH_SERVER}/v1/user`;
+        console.log(`Verifying JWT Bearer ${jwt} with AUTH_SERVER at ${authEndpoint}...`);
+        const response = await fetch(authEndpoint, {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `${jwt}`,
+          },
+        });
+        if (response.status !== 200) {
+          throw new Error(`Invalid token response, status ${response.status}, detail ${(await response.json()).detail}.`);
+        }
+        console.log('JWT is valid.');
+      } catch (exception) {
+        console.error(`Invalid token. Logging out and redirecting to AUTH_WEB at ${process.env.AUTH_WEB}.`, exception);
+        toReturn.activated = true;
+      }
+    } else {
+      console.log(
+        `${requestedURI} does ${requestedURI.startsWith(process.env.AUTH_WEB) ? '' : 'not '}start with ${process.env.AUTH_WEB}.`,
+      );
+      if (authMode === AuthMode.MagicalAuth && requestedURI.startsWith(process.env.AUTH_WEB)) {
+        // Don't let users visit Identify, Register or Login pages if they're already logged in.
+        if (jwt.length > 0 && req.nextUrl.pathname !== '/user/manage') {
+          toReturn.response = NextResponse.redirect(new URL(process.env.AUTH_WEB + '/manage'));
+          toReturn.activated = true;
+        }
+      } else {
+        toReturn.response = NextResponse.redirect(new URL(process.env.AUTH_WEB), {
+          headers: { 'Set-Cookie': generateCookieString('href', requestedURI, (86400).toString()) },
+        });
+        toReturn.activated = true;
+      }
+    }
+  }
+  return toReturn;
 };
 
-export const useJWTValidation: MiddlewareHook = (req) => {
+export const useJWTQueryParam: MiddlewareHook = async (req) => {
   const queryParams = getQueryParams(req);
   const requestedURI = getRequestedURI(req);
   const toReturn = {
-    activated: true,
+    activated: false,
     // This should set the cookie and then re-run the middleware (without query params).
     response: NextResponse.redirect(req.cookies.get('href')?.value ?? requestedURI, {
       headers: {
@@ -32,7 +89,7 @@ export const useJWTValidation: MiddlewareHook = (req) => {
 export function useGTAuth(req: NextRequest): void {}
 export function useMagicalAuth(req: NextRequest): void {}
 
-export const useNextAPIBypass: MiddlewareHook = (req) => {
+export const useNextAPIBypass: MiddlewareHook = async (req) => {
   const toReturn = {
     activated: false,
     response: NextResponse.next(),
