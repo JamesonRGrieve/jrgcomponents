@@ -1,13 +1,11 @@
 'use client';
 import { Box, Button, TextField, Typography } from '@mui/material';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { getCookie } from 'cookies-next';
 import { useRouter } from 'next/navigation';
 import React, { FormEvent, ReactNode, useState } from 'react';
-const ehrs = {
-  pointclickcare: 'PointClickCare',
-};
-export default function Register(): ReactNode {
+
+export default function Register({ services }: { services: object }): ReactNode {
   const router = useRouter();
   const [responseMessage, setResponseMessage] = useState('');
 
@@ -19,7 +17,7 @@ export default function Register(): ReactNode {
         .post(`${process.env.NEXT_PUBLIC_AGIXT_SERVER}/v1/user`, {
           ...formData,
         })
-        .catch((exception: any) => exception.response)
+        .catch((exception: AxiosError) => exception.response)
     ).data;
     setResponseMessage(registerResponse.detail);
     if (registerResponse.otp_uri) {
@@ -32,17 +30,17 @@ export default function Register(): ReactNode {
       <input type='hidden' id='email' name='email' value={getCookie('email')} />
       <TextField id='first_name' label='First Name' variant='outlined' name='first_name' />
       <TextField id='last_name' label='Last Name' variant='outlined' name='last_name' />
-      {process.env.NEXT_PUBLIC_SELECTED_EHR && (
+      {process.env.NEXT_PUBLIC_SELECTED_SERVICE && (
         <>
           <TextField
             id='username'
-            label={`${ehrs[(process.env.NEXT_PUBLIC_SELECTED_EHR ?? '') as keyof typeof ehrs]} Username`}
+            label={`${services[(process.env.NEXT_PUBLIC_SELECTED_SERVICE ?? '') as keyof typeof services]} Username`}
             variant='outlined'
             name='username'
           />
           <TextField
             id='password'
-            label={`${ehrs[(process.env.NEXT_PUBLIC_SELECTED_EHR ?? '') as keyof typeof ehrs]} Password`}
+            label={`${services[(process.env.NEXT_PUBLIC_SELECTED_SERVICE ?? '') as keyof typeof services]} Password`}
             variant='outlined'
             name='password'
             type='password'

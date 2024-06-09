@@ -1,9 +1,10 @@
 'use client';
 import { Box, Button, TextField, Typography } from '@mui/material';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { useRouter } from 'next/navigation';
 import React, { FormEvent, ReactNode } from 'react';
 import { setCookie } from 'cookies-next';
+
 export default function Identify(): ReactNode {
   const router = useRouter();
   const [error, setError] = React.useState<string>('');
@@ -12,7 +13,7 @@ export default function Identify(): ReactNode {
     const formData = Object.fromEntries(new FormData((event.currentTarget as HTMLFormElement) ?? undefined));
     const existsResponse = await axios
       .get(`${process.env.NEXT_PUBLIC_AGIXT_SERVER}/v1/user/exists?email=${formData.email.toString()}`)
-      .catch((exception: any) => exception.response);
+      .catch((exception: AxiosError) => exception.response);
     console.log(existsResponse);
     if (existsResponse.status !== 200) {
       setError('An error occurred. Please try again later.');

@@ -1,4 +1,5 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest } from 'next/server';
+
 export const generateCookieString = (key: string, value: string, age: string): string =>
   `${key}=${value}; Domain=${process.env.NEXT_PUBLIC_COOKIE_DOMAIN}; Path=/; Max-Age=${age}; Same-Site: strict;`;
 
@@ -7,7 +8,7 @@ export const AuthMode = {
   GTAuth: 1,
   MagicalAuth: 2,
 };
-export const getAuthMode = () => {
+export const getAuthMode = (): number => {
   let authMode = AuthMode.None;
   if (process.env.AUTH_WEB && process.env.AUTH_SERVER) {
     if (process.env.APP_URI && process.env.AUTH_WEB.startsWith(process.env.APP_URI)) {
@@ -22,7 +23,7 @@ export const getAuthMode = () => {
   return authMode;
 };
 
-export const getQueryParams = (req: NextRequest) =>
+export const getQueryParams = (req: NextRequest): any =>
   req.url.includes('?')
     ? Object.assign(
         {},
@@ -33,5 +34,5 @@ export const getQueryParams = (req: NextRequest) =>
       )
     : {};
 
-export const getRequestedURI = (req: NextRequest) =>
+export const getRequestedURI = (req: NextRequest): string =>
   req.url.split('?')[0].replace('localhost:3437', process.env.APP_URI.replace('https://', '').replace('http://', ''));

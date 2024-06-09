@@ -1,10 +1,11 @@
 'use client';
 import { Box, Button, TextField, Typography } from '@mui/material';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { getCookie } from 'cookies-next';
 import { useRouter } from 'next/navigation';
 import React, { FormEvent, ReactNode, useState } from 'react';
 import QRCode from 'react-qr-code';
+
 export default function Login({ searchParams }: { searchParams: any }): ReactNode {
   const [responseMessage, setResponseMessage] = useState('');
   const router = useRouter();
@@ -17,7 +18,7 @@ export default function Login({ searchParams }: { searchParams: any }): ReactNod
           ...formData,
           referrer: getCookie('href') ?? window.location.href.split('?')[0],
         })
-        .catch((exception: any) => exception.response);
+        .catch((exception: AxiosError) => exception.response);
       if (response.status !== 200) {
         setResponseMessage(response.data.detail);
       } else {
@@ -51,7 +52,7 @@ export default function Login({ searchParams }: { searchParams: any }): ReactNod
         </Box>
       )}
       <input type='hidden' id='email' name='email' value={getCookie('email')} />
-      <TextField id='token' label='Multifactor Code' variant='outlined' name='token' />
+      <TextField id='token' label='Multi-Factor Code' variant='outlined' name='token' />
       {responseMessage && <Typography>{responseMessage}</Typography>}
       <Button type='submit'>{responseMessage ? 'Continue' : 'Login'}</Button>
     </Box>

@@ -86,9 +86,6 @@ export const useJWTQueryParam: MiddlewareHook = async (req) => {
   return toReturn;
 };
 
-export function useGTAuth(req: NextRequest): void {}
-export function useMagicalAuth(req: NextRequest): void {}
-
 export const useNextAPIBypass: MiddlewareHook = async (req) => {
   const toReturn = {
     activated: false,

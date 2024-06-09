@@ -1,5 +1,5 @@
 'use client';
-import React, { HTMLAttributes, MouseEventHandler, useState } from 'react';
+import React, { MouseEventHandler, useState } from 'react';
 import Button from '@mui/material/Button';
 import {
   Dialog as MUIDialog,
@@ -20,11 +20,11 @@ export type DialogProps = CommonDialogProps & {
   onConfirm?: () => void;
   content?: React.ReactNode | string;
   ButtonComponent?: React.FC<{ onClick: MouseEventHandler<any> }> | any;
-  ButtonProps?: any;
+  ButtonProps?: object;
 };
 
 const Dialog: React.FC<DialogProps> = ({
-  onClose = () => {},
+  onClose = (): object => ({}),
   onConfirm,
   title = 'Dialog Title',
   content = '',
@@ -32,12 +32,12 @@ const Dialog: React.FC<DialogProps> = ({
   ButtonProps = {},
 }) => {
   const [dialogOpen, setDialogOpen] = useState(false);
-  function handleClose() {
+  function handleClose(): void {
     setDialogOpen(false);
     onClose();
   }
 
-  function handleCancel() {
+  function handleCancel(): void {
     handleClose();
   }
   return (
