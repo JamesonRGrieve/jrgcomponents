@@ -47,6 +47,7 @@ export default function Login({ searchParams }: { searchParams: any }): ReactNod
             value={otp_uri ?? ''}
             viewBox={`0 0 256 256`}
           />
+          <Typography>Scan the above QR code with Microsoft Authenticator, Google Authenticator or equivalent.</Typography>
         </Box>
       )}
       <input type='hidden' id='email' name='email' value={getCookie('email')} />
