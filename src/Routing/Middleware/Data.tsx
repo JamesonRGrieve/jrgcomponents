@@ -1,30 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
-function authPrereqs(req: NextRequest): void {}
-export function useGTAuth(req: NextRequest): void {}
-export function useMagicalAuth(req: NextRequest): void {}
-
 export const generateCookieString = (key: string, value: string, age: string): string =>
   `${key}=${value}; Domain=${process.env.NEXT_PUBLIC_COOKIE_DOMAIN}; Path=/; Max-Age=${age}; Same-Site: strict;`;
 
-export type MiddlewareHook = (req: NextRequest) => {
-  activated: boolean;
-  response: NextResponse;
-};
-
-export const useNextAPIBypass: MiddlewareHook = (req) => {
-  const toReturn = {
-    activated: false,
-    response: NextResponse.next(),
-  };
-  if (
-    req.nextUrl.pathname.startsWith('/_next/') ||
-    req.nextUrl.pathname.startsWith('/api/') ||
-    req.nextUrl.pathname === '/favicon.ico'
-  ) {
-    toReturn.activated = true;
-  }
-  return toReturn;
-};
 export const AuthMode = {
   None: 0,
   GTAuth: 1,
@@ -55,3 +32,6 @@ export const getQueryParams = (req: NextRequest) =>
           .map((param) => ({ [param.split('=')[0]]: param.split('=')[1] })),
       )
     : {};
+
+export const getRequestedURI = (req: NextRequest) =>
+  req.url.split('?')[0].replace('localhost:3437', process.env.APP_URI.replace('https://', '').replace('http://', ''));
