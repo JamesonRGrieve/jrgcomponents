@@ -48,7 +48,7 @@ const Dialog: React.FC<DialogProps> = ({
         }}
         {...ButtonProps}
       />
-      <MUIDialog open={dialogOpen} onClose={handleClose} sx={{ position: 'relative' }} PaperProps={{ sx: { pt: '1rem' } }}>
+      <MUIDialog open={dialogOpen} onClose={handleClose} sx={{ position: 'fixed' }} PaperProps={{ sx: { pt: '1rem' } }}>
         <IconButton onClick={handleClose} sx={{ position: 'absolute', top: '0.2rem', right: '0.2rem' }}>
           <Close />
         </IconButton>

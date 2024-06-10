@@ -1,5 +1,6 @@
 'use client';
-import { Box, Button, TextField, Typography } from '@mui/material';
+import { ContentCopyOutlined } from '@mui/icons-material';
+import { Box, Button, IconButton, TextField, Typography } from '@mui/material';
 import axios, { AxiosError } from 'axios';
 import { getCookie } from 'cookies-next';
 import { useRouter } from 'next/navigation';
@@ -48,7 +49,17 @@ export default function Login({ searchParams }: { searchParams: any }): ReactNod
             value={otp_uri ?? ''}
             viewBox={`0 0 256 256`}
           />
-          <Typography>Scan the above QR code with Microsoft Authenticator, Google Authenticator or equivalent.</Typography>
+          <IconButton
+            onClick={() => {
+              navigator.clipboard.writeText(otp_uri);
+            }}
+          >
+            <ContentCopyOutlined />
+          </IconButton>
+          <Typography>
+            Scan the above QR code with Microsoft Authenticator, Google Authenticator or equivalent (or click the copy button
+            if you are using your Authenticator device).
+          </Typography>
         </Box>
       )}
       <input type='hidden' id='email' name='email' value={getCookie('email')} />

@@ -10,7 +10,7 @@ export default function AuthRouter({ params, searchParams }: { params: { slug?: 
   const pages = {
     login: <Login searchParams={searchParams} />,
     manage: <Manage />,
-    register: <Register />,
+    register: <Register services={{}} />,
   };
   if (!slug) return <User />;
   else {
