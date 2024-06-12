@@ -49,16 +49,16 @@ export default function Login({ searchParams }: { searchParams: any }): ReactNod
             value={otp_uri ?? ''}
             viewBox={`0 0 256 256`}
           />
-          <IconButton
-            onClick={() => {
-              navigator.clipboard.writeText(otp_uri);
-            }}
-          >
-            <ContentCopyOutlined />
-          </IconButton>
           <Typography>
             Scan the above QR code with Microsoft Authenticator, Google Authenticator or equivalent (or click the copy button
-            if you are using your Authenticator device).
+            if you are using your Authenticator device).{' '}
+            <IconButton
+              onClick={() => {
+                navigator.clipboard.writeText(otp_uri);
+              }}
+            >
+              <ContentCopyOutlined />
+            </IconButton>
           </Typography>
         </Box>
       )}
