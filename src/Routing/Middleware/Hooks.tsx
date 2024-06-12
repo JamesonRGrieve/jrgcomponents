@@ -104,11 +104,11 @@ export const useNextAPIBypass: MiddlewareHook = async (req) => {
 export const useGoogleOAuth2: MiddlewareHook = async (req) => {
   const toReturn = {
     activated: false,
-    response: NextResponse.next(),
+    response: NextResponse.redirect(new URL(process.env.AUTH_WEB + '/close')),
   };
   const queryParams = getQueryParams(req);
   if (queryParams.code) {
-    await fetch(`${process.env.AUTH_SERVER}/v1/oauth2/google`, {
+    const auth = await fetch(`${process.env.AUTH_SERVER}/v1/oauth2/google`, {
       method: 'POST',
       body: JSON.stringify({
         code: queryParams.code,
@@ -117,6 +117,8 @@ export const useGoogleOAuth2: MiddlewareHook = async (req) => {
     }).then((response) => {
       return response.json();
     });
+    console.log(auth);
+    toReturn.activated = true;
   }
   return toReturn;
 };
