@@ -1,6 +1,6 @@
 {
   "name": "jrgcomponents",
-  "version": "0.0.123",
+  "version": "0.0.124",
   "description": "Components developed by Jameson R Grieve for use in React/NextJS projects.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -59,8 +59,8 @@
     "./AppWrapper/Wrapper": "./dist/AppWrapper/AppWrapper.js",
     "./AppWrapper/Wrapper/Themed": "./dist/AppWrapper/ThemedAppWrapper.js",
     "./AppWrapper/List": "./dist/AppWrapper/List.js",
-    "./Form/Button/ActionButton": "./dist/Form/Button/ActionButton.js",
-    "./Form/Button/IconButton": "./dist/Form/Button/IconButton.js",
+    "./Form/Button/ActionButton": "./dist/MUI/Styled/Button/ActionButton.js",
+    "./Form/Button/IconButton": "./dist/MUI/Styled/Button/IconButton.js",
     "./Form/Field/CheckField": "./dist/Form/Field/CheckField.js",
     "./Form/Field/EmailField": "./dist/Form/Field/EmailField.js",
     "./Form/Field/MultiCheckField": "./dist/Form/Field/MultiCheckField.js",
