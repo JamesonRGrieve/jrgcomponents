@@ -100,3 +100,23 @@ export const useNextAPIBypass: MiddlewareHook = async (req) => {
   }
   return toReturn;
 };
+
+export const useGoogleOAuth2: MiddlewareHook = async (req) => {
+  const toReturn = {
+    activated: false,
+    response: NextResponse.next(),
+  };
+  const queryParams = getQueryParams(req);
+  if (queryParams.code) {
+    await fetch(`${process.env.AUTH_SERVER}/v1/oauth2/google`, {
+      method: 'POST',
+      body: JSON.stringify({
+        code: queryParams.code,
+        redirect_uri: req.cookies.get('href')?.value,
+      }),
+    }).then((response) => {
+      return response.json();
+    });
+  }
+  return toReturn;
+};

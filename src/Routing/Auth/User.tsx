@@ -4,6 +4,8 @@ import axios, { AxiosError } from 'axios';
 import { useRouter } from 'next/navigation';
 import React, { FormEvent, ReactNode } from 'react';
 import { setCookie } from 'cookies-next';
+import OAuth from './OAuth';
+import Field from '../../MUI/Styled/FormControl/Field';
 
 export default function Identify(): ReactNode {
   const router = useRouter();
@@ -29,9 +31,11 @@ export default function Identify(): ReactNode {
 
   return (
     <Box component='form' onSubmit={submitForm} display='flex' flexDirection='column' gap='1rem'>
-      <TextField id='email' label='E-Mail Address' variant='outlined' name='email' />
+      <Field nameID='email' label='E-Mail Address' type='text' placeholder='you@example.com' />
       {error && <Typography>{error}</Typography>}
       <Button type='submit'>Continue</Button>
+      <hr />
+      <OAuth />
     </Box>
   );
 }

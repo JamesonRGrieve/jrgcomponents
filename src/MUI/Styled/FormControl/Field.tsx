@@ -1,7 +1,6 @@
 import { Collapse, FormLabel, FormControl, Typography, Alert, AlertColor } from '@mui/material';
 import React, { useMemo } from 'react';
 import CheckField from '../Input/CheckField';
-import MultiCheckField from '../Input/MultiCheckField';
 import PasswordField from '../Input/PasswordField';
 import SelectField from '../Input/RadioField';
 import TextField from '../Input/TextField';
@@ -24,8 +23,8 @@ export type Field = {
 };
 export type FieldProps = Field & {
   nameID: string;
-  value: string;
-  onChange: any;
+  value?: string;
+  onChange?: any;
   messages?: Message[];
 };
 const Field: React.FC<FieldProps> = ({
@@ -40,14 +39,16 @@ const Field: React.FC<FieldProps> = ({
   items,
 }) => {
   const inputComponents = useMemo(() => {
-    const injectedOnChange = (target: any) => {
-      onChange(target, label);
-    };
+    const injectedOnChange = onChange
+      ? (target: any) => {
+          onChange(target, label);
+        }
+      : null;
     return {
-      text: <TextField id={nameID} value={value} onChange={injectedOnChange} />,
+      text: <TextField id={nameID} value={value} label={label} onChange={injectedOnChange} placeholder={placeholder} />,
       password: <PasswordField id={nameID} value={value} onChange={injectedOnChange} />,
       select: <SelectField id={nameID} value={value} onChange={injectedOnChange} items={items} />,
-      checkbox: <CheckField id={nameID} value={['on', 'true'].includes(value.toLowerCase())} onChange={injectedOnChange} />,
+      checkbox: <CheckField id={nameID} value={['on', 'true'].includes(value?.toLowerCase())} onChange={injectedOnChange} />,
       //multicheckbox: <MultiCheckField id={nameID} value={value} onChange={onChange} items={items} />,
       radio: <RadioField id={nameID} value={value} onChange={injectedOnChange} items={items} />,
       default: <TextField id={nameID} value={value} onChange={injectedOnChange} />,
@@ -56,9 +57,11 @@ const Field: React.FC<FieldProps> = ({
 
   return (
     <FormControl required fullWidth sx={{ my: '1rem' }}>
-      <FormLabel id={nameID} htmlFor={nameID}>
-        {label}
-      </FormLabel>
+      {type !== 'text' && (
+        <FormLabel id={nameID} htmlFor={nameID}>
+          {label}
+        </FormLabel>
+      )}
       {description && (
         <Typography variant='body1' gutterBottom>
           {description}
