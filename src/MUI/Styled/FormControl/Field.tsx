@@ -13,6 +13,7 @@ export type Message = {
 export type Field = {
   label: string;
   description?: string;
+  autoComplete?: string;
   placeholder?: string;
   validate?: (value: string) => boolean;
   type?: 'text' | 'password' | 'select' | 'time' | 'date' | 'datetime' | 'checkbox' | 'radio';
@@ -33,6 +34,7 @@ const Field: React.FC<FieldProps> = ({
   description,
   value,
   onChange,
+  autoComplete,
   placeholder = '',
   messages = [],
   type = 'text',
@@ -45,13 +47,32 @@ const Field: React.FC<FieldProps> = ({
         }
       : null;
     return {
-      text: <TextField id={nameID} value={value} label={label} onChange={injectedOnChange} placeholder={placeholder} />,
-      password: <PasswordField id={nameID} value={value} onChange={injectedOnChange} />,
-      select: <SelectField id={nameID} value={value} onChange={injectedOnChange} items={items} />,
-      checkbox: <CheckField id={nameID} value={['on', 'true'].includes(value?.toLowerCase())} onChange={injectedOnChange} />,
+      text: (
+        <TextField
+          id={nameID}
+          name={nameID}
+          autoComplete={autoComplete}
+          value={value}
+          label={label}
+          onChange={injectedOnChange}
+          placeholder={placeholder}
+        />
+      ),
+      password: (
+        <PasswordField id={nameID} name={nameID} autoComplete={autoComplete} value={value} onChange={injectedOnChange} />
+      ),
+      select: <SelectField id={nameID} name={nameID} value={value} onChange={injectedOnChange} items={items} />,
+      checkbox: (
+        <CheckField
+          id={nameID}
+          name={nameID}
+          value={['on', 'true'].includes(value?.toLowerCase())}
+          onChange={injectedOnChange}
+        />
+      ),
       //multicheckbox: <MultiCheckField id={nameID} value={value} onChange={onChange} items={items} />,
-      radio: <RadioField id={nameID} value={value} onChange={injectedOnChange} items={items} />,
-      default: <TextField id={nameID} value={value} onChange={injectedOnChange} />,
+      radio: <RadioField id={nameID} name={nameID} value={value} onChange={injectedOnChange} items={items} />,
+      default: <TextField id={nameID} name={nameID} autoComplete={autoComplete} value={value} onChange={injectedOnChange} />,
     };
   }, [type, nameID, value, onChange, placeholder, items]);
 
@@ -69,14 +90,16 @@ const Field: React.FC<FieldProps> = ({
       )}
       {/* Should render something from ./Input depending on the type prop. */}
       {inputComponents[type as keyof typeof inputComponents] ?? inputComponents.default}
-      <Collapse in={messages.length > 0}>
-        {/* Should render messages as a map of MUI Alert's */}
-        {messages.map((message, index) => (
-          <Alert key={index} severity={message.level as AlertColor} sx={{ mt: 1 }}>
-            {message.value}
-          </Alert>
-        ))}
-      </Collapse>
+      {messages && (
+        <Collapse in={messages?.length > 0}>
+          {/* Should render messages as a map of MUI Alert's */}
+          {messages?.map((message, index) => (
+            <Alert key={index} severity={message.level as AlertColor} sx={{ mt: 1 }}>
+              {message.value}
+            </Alert>
+          ))}
+        </Collapse>
+      )}
     </FormControl>
   );
 };

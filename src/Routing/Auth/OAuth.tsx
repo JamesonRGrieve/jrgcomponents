@@ -1,13 +1,10 @@
 'use client';
-import { Box, Button, TextField, Typography } from '@mui/material';
-import axios, { AxiosError } from 'axios';
-import { useRouter } from 'next/navigation';
-import React, { FormEvent, ReactNode } from 'react';
-import { setCookie } from 'cookies-next';
-import OAuth2Login from 'react-simple-oauth2-login';
-import { access } from 'fs';
-import { GitHub, Google } from '@mui/icons-material';
 
+import React, { ReactNode } from 'react';
+
+import OAuth2Login from 'react-simple-oauth2-login';
+import { GitHub, Google } from '@mui/icons-material';
+import IconButton from '../../MUI/Styled/Button/IconButton';
 const onOAuth2Success = (response: any) => console.log(response);
 const onOAuth2Failure = (response: any) => console.error(response);
 
@@ -30,26 +27,34 @@ const providers = {
 
 export default function Identify(): ReactNode {
   console.log('OAuth.tsx: Identify()', process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID);
-  return Object.entries(providers).map(
-    ([key, provider]) =>
-      provider.client_id && (
-        <OAuth2Login
-          key={key}
-          authorizationUrl={provider.uri}
-          responseType='code'
-          clientId={provider.client_id}
-          scope='profile https://www.googleapis.com/auth/gmail.send'
-          redirectUri='http://localhost:3437/user/oauth'
-          onSuccess={onOAuth2Success}
-          onFailure={onOAuth2Failure}
-          extraParams={provider.params}
-          isCrossOrigin
-          render={(renderProps) => (
-            <Button onClick={renderProps.onClick} sx={{ display: 'flex', justifyContent: 'center', gap: '1rem' }}>
-              {provider.icon} Login with {key}
-            </Button>
-          )}
-        />
-      ),
+  return (
+    <>
+      {Object.values(providers).some((provider) => provider.client_id) && <hr />}
+      {Object.entries(providers).map(
+        ([key, provider]) =>
+          provider.client_id && (
+            <OAuth2Login
+              key={key}
+              authorizationUrl={provider.uri}
+              responseType='code'
+              clientId={provider.client_id}
+              scope='profile https://www.googleapis.com/auth/gmail.send'
+              redirectUri='http://localhost:3437/user/close'
+              onSuccess={onOAuth2Success}
+              onFailure={onOAuth2Failure}
+              extraParams={provider.params}
+              isCrossOrigin
+              render={(renderProps) => (
+                <IconButton
+                  label={`Login with ${key}`}
+                  icon={provider.icon}
+                  iconPosition='left'
+                  onClick={renderProps.onClick}
+                />
+              )}
+            />
+          ),
+      )}
+    </>
   );
 }

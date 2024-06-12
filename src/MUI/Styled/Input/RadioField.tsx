@@ -6,9 +6,10 @@ interface SelectFieldProps {
   value: any;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   items: any[];
+  name: string;
 }
 
-export default function SelectField({ id, value, onChange, items }: SelectFieldProps) {
+export default function SelectField({ id, value, onChange, items, name }: SelectFieldProps) {
   return (
     <RadioGroup key={'field'} aria-labelledby={id} id={id} name={id} value={value} onChange={onChange}>
       {items?.map((item: any, index: number) => {
@@ -18,6 +19,7 @@ export default function SelectField({ id, value, onChange, items }: SelectFieldP
             id={(item.value ?? item).replace(/[\W_]+/g, '')}
             value={item.value ?? item}
             control={<Radio />}
+            name={name}
             label={item.label ?? item}
           />
         );

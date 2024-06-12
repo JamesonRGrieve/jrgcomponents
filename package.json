@@ -68,7 +68,10 @@
     "./QuotaSlider": "./dist/MUI/Styled/Slider/Quota.js",
     "./AuthRouter": "./dist/Routing/Auth/Router.js",
     "./Middleware": "./dist/Routing/Middleware/Data.js",
-    "./Middleware/Hooks": "./dist/Routing/Middleware/Hooks.js"
+    "./Middleware/Hooks": "./dist/Routing/Middleware/Hooks.js",
+    "./MFA/Authenticator": "./dist/Routing/Auth/MFA/Authenticator.js",
+    "./MFA/EMail": "./dist/Routing/Auth/MFA/EMail.js",
+    "./MFA/SMS": "./dist/Routing/Auth/MFA/SMS.js"
   },
   "dependencies": {
     "@emotion/react": "^11.11.4",
