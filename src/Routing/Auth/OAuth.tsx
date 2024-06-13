@@ -3,7 +3,7 @@
 import React, { ReactNode } from 'react';
 
 import OAuth2Login from 'react-simple-oauth2-login';
-import { GitHub, Google } from '@mui/icons-material';
+import { GitHub, Google, Microsoft } from '@mui/icons-material';
 import IconButton from '../../MUI/Styled/Button/IconButton';
 const onOAuth2Success = (response: any) => console.log(response);
 const onOAuth2Failure = (response: any) => console.error(response);
@@ -11,17 +11,26 @@ const onOAuth2Failure = (response: any) => console.error(response);
 const providers = {
   GitHub: {
     client_id: process.env.NEXT_PUBLIC_GITHUB_CLIENT_ID,
+    scope: 'user:email',
     uri: '',
     params: {},
     icon: <GitHub />,
   },
   Google: {
     client_id: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID,
+    scope: 'profile email https://www.googleapis.com/auth/gmail.send',
     uri: 'https://accounts.google.com/o/oauth2/v2/auth',
     params: {
       access_type: 'offline',
     },
     icon: <Google />,
+  },
+  Microsoft: {
+    client_id: process.env.NEXT_PUBLIC_MICROSOFT_CLIENT_ID,
+    scope: 'https://graph.microsoft.com/User.Read https://graph.microsoft.com/Mail.Send',
+    uri: '',
+    params: {},
+    icon: <Microsoft />,
   },
 };
 
@@ -38,8 +47,8 @@ export default function Identify(): ReactNode {
               authorizationUrl={provider.uri}
               responseType='code'
               clientId={provider.client_id}
-              scope='profile email https://www.googleapis.com/auth/gmail.send'
-              redirectUri='http://localhost:3437/user/close'
+              scope={provider.scope}
+              redirectUri={`http://localhost:3437/user/close/${key.toLowerCase()}`}
               onSuccess={onOAuth2Success}
               onFailure={onOAuth2Failure}
               extraParams={provider.params}

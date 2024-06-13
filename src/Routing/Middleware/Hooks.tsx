@@ -101,15 +101,16 @@ export const useNextAPIBypass: MiddlewareHook = async (req) => {
   return toReturn;
 };
 
-export const useGoogleOAuth2: MiddlewareHook = async (req) => {
-  const redirect = new URL(process.env.AUTH_WEB + '/close');
+export const useOAuth2: MiddlewareHook = async (req) => {
+  const provider = req.nextUrl.pathname.split('?')[0].split('/').pop();
+  const redirect = new URL(`${process.env.AUTH_WEB}/close/${provider}`);
   let toReturn = {
     activated: false,
     response: NextResponse.redirect(redirect),
   };
   const queryParams = getQueryParams(req);
   if (queryParams.code) {
-    const auth = await fetch(`${process.env.NEXT_PUBLIC_AUTH_SERVER}/v1/oauth2/google`, {
+    const auth = await fetch(`${process.env.NEXT_PUBLIC_AUTH_SERVER}/v1/oauth2/${provider}`, {
       method: 'POST',
       body: JSON.stringify({
         code: queryParams.code,
