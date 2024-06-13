@@ -10,10 +10,10 @@ export const AuthMode = {
 };
 export const getAuthMode = (): number => {
   let authMode = AuthMode.None;
-  if (process.env.AUTH_WEB && process.env.AUTH_SERVER) {
-    if (process.env.APP_URI && process.env.AUTH_WEB.startsWith(process.env.APP_URI)) {
+  if (process.env.NEXT_PUBLIC_AUTH_WEB && process.env.NEXT_PUBLIC_AUTH_SERVER) {
+    if (process.env.APP_URI && process.env.NEXT_PUBLIC_AUTH_WEB.startsWith(process.env.APP_URI)) {
       authMode = AuthMode.MagicalAuth;
-      if (!process.env.AUTH_WEB.endsWith('/user')) {
+      if (!process.env.NEXT_PUBLIC_AUTH_WEB.endsWith('/user')) {
         throw new Error('Invalid AUTH_WEB. For Magical Auth implementations, AUTH_WEB must point to APP_URI/user.');
       }
     } else {

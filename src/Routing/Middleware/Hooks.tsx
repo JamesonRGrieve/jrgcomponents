@@ -26,7 +26,7 @@ export const useAuth: MiddlewareHook = async (req) => {
     console.log('JWT:', jwt);
     if (jwt) {
       try {
-        const authEndpoint = `${process.env.AUTH_SERVER}/v1/user`;
+        const authEndpoint = `${process.env.NEXT_PUBLIC_AUTH_SERVER}/v1/user`;
         console.log(`Verifying JWT Bearer ${jwt} with AUTH_SERVER at ${authEndpoint}...`);
         const response = await fetch(authEndpoint, {
           headers: {
