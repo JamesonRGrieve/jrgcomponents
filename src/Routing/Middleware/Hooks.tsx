@@ -102,23 +102,29 @@ export const useNextAPIBypass: MiddlewareHook = async (req) => {
 };
 
 export const useGoogleOAuth2: MiddlewareHook = async (req) => {
-  const toReturn = {
+  const redirect = new URL(process.env.AUTH_WEB + '/close');
+  let toReturn = {
     activated: false,
-    response: NextResponse.redirect(new URL(process.env.AUTH_WEB + '/close')),
+    response: NextResponse.redirect(redirect),
   };
   const queryParams = getQueryParams(req);
   if (queryParams.code) {
-    const auth = await fetch(`${process.env.AUTH_SERVER}/v1/oauth2/google`, {
+    const auth = await fetch(`${process.env.NEXT_PUBLIC_AUTH_SERVER}/v1/oauth2/google`, {
       method: 'POST',
       body: JSON.stringify({
         code: queryParams.code,
-        redirect_uri: req.cookies.get('href')?.value,
+        referrer: redirect,
       }),
     }).then((response) => {
+      if (response.status !== 200) {
+        throw new Error(`Invalid token response, status ${response.status}.`);
+      }
       return response.json();
     });
-    console.log(auth);
-    toReturn.activated = true;
+    toReturn = {
+      activated: true,
+      response: NextResponse.redirect(auth.detail),
+    };
   }
   return toReturn;
 };

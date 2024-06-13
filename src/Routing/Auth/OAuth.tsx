@@ -38,7 +38,7 @@ export default function Identify(): ReactNode {
               authorizationUrl={provider.uri}
               responseType='code'
               clientId={provider.client_id}
-              scope='profile https://www.googleapis.com/auth/gmail.send'
+              scope='profile email https://www.googleapis.com/auth/gmail.send'
               redirectUri='http://localhost:3437/user/close'
               onSuccess={onOAuth2Success}
               onFailure={onOAuth2Failure}
