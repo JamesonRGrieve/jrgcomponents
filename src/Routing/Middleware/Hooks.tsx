@@ -79,8 +79,7 @@ export const useJWTQueryParam: MiddlewareHook = async (req) => {
       },
     }),
   };
-
-  if (queryParams.token || queryParams.jwt) {
+  if ((queryParams.token || queryParams.jwt) && !req.nextUrl.pathname.startsWith('/user/close')) {
     toReturn.activated = true;
   }
   return toReturn;
@@ -103,6 +102,7 @@ export const useNextAPIBypass: MiddlewareHook = async (req) => {
 
 export const useOAuth2: MiddlewareHook = async (req) => {
   const provider = req.nextUrl.pathname.split('?')[0].split('/').pop();
+
   const redirect = new URL(`${process.env.AUTH_WEB}/close/${provider}`);
   let toReturn = {
     activated: false,

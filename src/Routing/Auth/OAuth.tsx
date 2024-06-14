@@ -6,7 +6,7 @@ import OAuth2Login from 'react-simple-oauth2-login';
 
 import IconButton from '../../MUI/Styled/Button/IconButton';
 import { useRouter } from 'next/navigation';
-import { getCookie } from 'cookies-next';
+import { deleteCookie, getCookie } from 'cookies-next';
 
 import providers from './OAuthProviders';
 
@@ -15,8 +15,9 @@ export default function Identify(): ReactNode {
   const router = useRouter();
   const onOAuth2 = useCallback(
     (response: any) => {
-      console.log('CLOSED POPUP');
-      router.push(getCookie('href') ?? '/');
+      const redirect = getCookie('href') ?? '/';
+      deleteCookie('href');
+      router.push(redirect);
     },
     [router],
   );
@@ -32,7 +33,7 @@ export default function Identify(): ReactNode {
               responseType='code'
               clientId={provider.client_id}
               scope={provider.scope}
-              redirectUri={`http://localhost:3437/user/close/${key.replaceAll('.', '-').replaceAll(' ', '-').replaceAll('_', '-').toLowerCase()}`}
+              redirectUri={`${process.env.NEXT_PUBLIC_AUTH_WEB}/close/${key.replaceAll('.', '-').replaceAll(' ', '-').replaceAll('_', '-').toLowerCase()}`}
               onSuccess={onOAuth2}
               onFailure={onOAuth2}
               extraParams={provider.params}
