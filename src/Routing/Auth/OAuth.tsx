@@ -1,6 +1,6 @@
 'use client';
 
-import React, { ReactNode, useCallback } from 'react';
+import React, { ReactNode, useCallback, useEffect } from 'react';
 
 import OAuth2Login from 'react-simple-oauth2-login';
 
@@ -21,6 +21,14 @@ export default function Identify(): ReactNode {
     },
     [router],
   );
+  /*
+  // Eventually automatically launch if it's the only provider.
+  useEffect(() => {
+    if (Object.values(providers).filter((provider) => provider.client_id).length === 1) {
+      
+    }
+  }, []);
+  */
   return (
     <>
       {Object.values(providers).some((provider) => provider.client_id) &&
