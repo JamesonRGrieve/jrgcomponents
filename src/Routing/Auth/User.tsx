@@ -44,22 +44,25 @@ export default function Identify(): ReactNode {
   };
 
   return (
-    <Box component='form' onSubmit={submitForm} display='flex' flexDirection='column'>
-      <Field
-        nameID='email'
-        label='E-Mail Address'
-        autoComplete='username'
-        //submit={attemptIdentify}
-        placeholder='your@example.com'
-        messages={error && [{ level: 'error', value: error }]}
-      />
-      <Collapse in={!loading}>
-        <Box display='flex' flexDirection='column' gap='1rem'>
-          <IconButton label='Continue' icon={<PersonOutline fontSize='large' />} iconPosition='left' type='submit' />
-
-          <OAuth />
-        </Box>
-      </Collapse>
+    <Box component='form' onSubmit={submitForm} display='flex' flexDirection='column' gap='1rem'>
+      {process.env.NEXT_PUBLIC_ALLOW_EMAIL_SIGN_IN === 'true' && (
+        <>
+          <Field
+            nameID='email'
+            label='E-Mail Address'
+            autoComplete='username'
+            //submit={attemptIdentify}
+            placeholder='your@example.com'
+            messages={error && [{ level: 'error', value: error }]}
+          />
+          <Collapse in={!loading}>
+            <Box display='flex' flexDirection='column' gap='1rem'>
+              <IconButton label='Continue' icon={<PersonOutline fontSize='large' />} iconPosition='left' type='submit' />
+            </Box>
+          </Collapse>
+        </>
+      )}
+      <OAuth />
     </Box>
   );
 }

@@ -69,17 +69,24 @@ export const useJWTQueryParam: MiddlewareHook = async (req) => {
   const toReturn = {
     activated: false,
     // This should set the cookie and then re-run the middleware (without query params).
-    response: NextResponse.redirect(req.cookies.get('href')?.value ?? requestedURI, {
-      headers: {
-        // @ts-expect-error NextJS' types are wrong.
-        'Set-Cookie': [
-          generateCookieString('jwt', queryParams.token ?? queryParams.jwt, (86400 * 7).toString()),
-          generateCookieString('href', '', (0).toString()),
-        ],
-      },
-    }),
+    response: req.nextUrl.pathname.startsWith('/user/close')
+      ? NextResponse.next({
+          headers: {
+            // @ts-expect-error NextJS' types are wrong.
+            'Set-Cookie': [generateCookieString('jwt', queryParams.token ?? queryParams.jwt, (86400 * 7).toString())],
+          },
+        })
+      : NextResponse.redirect(req.cookies.get('href')?.value ?? requestedURI, {
+          headers: {
+            // @ts-expect-error NextJS' types are wrong.
+            'Set-Cookie': [
+              generateCookieString('jwt', queryParams.token ?? queryParams.jwt, (86400 * 7).toString()),
+              generateCookieString('href', '', (0).toString()),
+            ],
+          },
+        }),
   };
-  if ((queryParams.token || queryParams.jwt) && !req.nextUrl.pathname.startsWith('/user/close')) {
+  if (queryParams.token || queryParams.jwt) {
     toReturn.activated = true;
   }
   return toReturn;

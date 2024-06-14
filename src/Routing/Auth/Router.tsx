@@ -6,11 +6,13 @@ import Manage from './Manage';
 import Register from './Register';
 import Close from './Close';
 import { notFound } from 'next/navigation';
+import Logout from './Logout';
 
 export default function AuthRouter({ params, searchParams }: { params: { slug?: string[] }; searchParams: any }) {
   const { slug } = params;
   const pages = {
     login: <Login searchParams={searchParams} />,
+    logout: <Logout />,
     manage: <Manage />,
     register: <Register services={{}} />,
     close: <Close />,

@@ -23,7 +23,8 @@ export default function Identify(): ReactNode {
   );
   return (
     <>
-      {Object.values(providers).some((provider) => provider.client_id) && <hr />}
+      {Object.values(providers).some((provider) => provider.client_id) &&
+        process.env.NEXT_PUBLIC_ALLOW_EMAIL_SIGN_IN === 'true' && <hr />}
       {Object.entries(providers).map(
         ([key, provider]) =>
           provider.client_id && (
