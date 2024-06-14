@@ -32,7 +32,7 @@ export default function Identify(): ReactNode {
               responseType='code'
               clientId={provider.client_id}
               scope={provider.scope}
-              redirectUri={`http://localhost:3437/user/close/${key.toLowerCase()}`}
+              redirectUri={`http://localhost:3437/user/close/${key.replaceAll('.', '-').replaceAll(' ', '-').replaceAll('_', '-').toLowerCase()}`}
               onSuccess={onOAuth2}
               onFailure={onOAuth2}
               extraParams={provider.params}

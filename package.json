@@ -1,6 +1,6 @@
 {
   "name": "jrgcomponents",
-  "version": "0.0.132",
+  "version": "0.0.133",
   "description": "Components developed by Jameson R Grieve for use in React/NextJS projects.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
