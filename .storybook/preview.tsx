@@ -1,13 +1,10 @@
 import type { Preview } from '@storybook/react';
-import { useCallback, useEffect, useMemo } from 'react';
-import buildThemeSet from '../src/Theming/BuildThemeSet';
-import ThemeWrapper from '../src/Theming/ThemeWrapper';
-import theme from '../src/Theming/sample-theme';
-import { ThemeProvider, CssBaseline } from '@mui/material';
-import React from 'react';
+import React, { useCallback } from 'react';
+import ThemeWrapper from 'jrgcomponents/Theming/ThemeWrapper';
+import theme from 'jrgcomponents/Theming/Sample';
 import { Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/blocks';
-import ReferenceGrid from '../src/Storybook/ReferenceGrid';
-import ComparisonGrid from '../src/Storybook/ComparisonGrid';
+import ReferenceGrid from 'jrgcomponents/Storybook/ReferenceGrid';
+import ComparisonGrid from 'jrgcomponents/Storybook/ComparisonGrid';
 
 export const globalTypes = {
   theme: {

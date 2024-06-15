@@ -1,9 +1,10 @@
 'use client';
 // Font Import Example
+/*
 import { Roboto_Mono } from 'next/font/google';
 
 const roboto = Roboto_Mono({ subsets: ['latin'] });
-
+*/
 const theme = {
   // Anything that you override from here https://mui.com/material-ui/customization/dark-mode/ needs to also be overridden in dark or it won't be applied.
   palette: {
@@ -19,7 +20,7 @@ const theme = {
     },
   },
   typography: {
-    fontFamily: `${roboto.style?.fontFamily}, Arial, sans-serif`,
+    // fontFamily: `${roboto.style?.fontFamily}, Arial, sans-serif`,
     h1: {
       fontSize: '2rem',
       fontWeight: 'bold',
