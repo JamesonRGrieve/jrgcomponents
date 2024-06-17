@@ -28,6 +28,7 @@ export type AppWrapperProps = {
   footer?: HeaderFooterProps;
   inner?: boolean;
   mainSX?: SxProps;
+  keepThemeToggles?: boolean;
 };
 const switches = (
   <>
@@ -40,6 +41,7 @@ export default function AppWrapper({
   footer,
   inner = true,
   mainSX = {},
+  keepThemeToggles = true,
   children,
 }: AppWrapperProps & { children: ReactNode }) {
   const [open, setOpen] = useState({ left: false, right: false });
@@ -52,17 +54,26 @@ export default function AppWrapper({
         ...header,
         components: {
           ...header?.components,
-          right: header?.components?.right
-            ? header.components.right
-            : mobile
-              ? {
-                  icon: <Palette />,
-                  swr: () => {},
-                  menu: () => switches,
+          right: header?.components?.right ? (
+            keepThemeToggles ? (
+              <>
+                {header.components.right}
+                {switches}
+              </>
+            ) : (
+              header.components.right
+            )
+          ) : mobile ? (
+            {
+              icon: <Palette />,
+              swr: () => {},
+              menu: () => switches,
 
-                  width: '5rem',
-                }
-              : switches,
+              width: '5rem',
+            }
+          ) : (
+            switches
+          ),
         },
       }
     : undefined;
