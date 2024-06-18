@@ -1,3 +1,4 @@
+import assert from 'assert';
 import { NextRequest, NextResponse } from 'next/server';
 import { AuthMode, generateCookieString, getAuthMode, getQueryParams, getRequestedURI } from './Data';
 
@@ -109,7 +110,14 @@ export const useNextAPIBypass: MiddlewareHook = async (req) => {
 
 export const useOAuth2: MiddlewareHook = async (req) => {
   const provider = req.nextUrl.pathname.split('?')[0].split('/').pop();
-
+  /*
+  assert(
+    /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/.test(
+      process.env.AUTH_WEB,
+    ),
+    'Invalid AUTH_WEB, must be a URL if OAuth2 is to be used.',
+  );
+  */
   const redirect = new URL(`${process.env.AUTH_WEB}/close/${provider}`);
   let toReturn = {
     activated: false,

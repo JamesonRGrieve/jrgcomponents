@@ -42,7 +42,7 @@ export default function Login({ searchParams }: { searchParams: any }): ReactNod
   return (
     <Box component='form' onSubmit={submitForm} display='flex' flexDirection='column' gap='1rem'>
       {otp_uri && !responseMessage && (
-        <Box sx={{ backgroundColor: '#fff', padding: '0.5rem' }}>
+        <Box sx={{ backgroundColor: '#fff', padding: '0.5rem', maxWidth: '320px' }}>
           <QRCode
             size={256}
             style={{ height: 'auto', maxWidth: '100%', width: '100%' }}
