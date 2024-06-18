@@ -35,4 +35,4 @@ export const getQueryParams = (req: NextRequest): any =>
     : {};
 
 export const getRequestedURI = (req: NextRequest): string =>
-  req.url.split('?')[0].replace('localhost:3437', process.env.APP_URI.replace('https://', '').replace('http://', ''));
+  req.url.split('?')[0].replace(/localhost:\d+/, process.env.APP_URI.replace('https://', '').replace('http://', ''));
