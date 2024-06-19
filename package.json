@@ -1,6 +1,6 @@
 {
   "name": "jrgcomponents",
-  "version": "0.0.145",
+  "version": "0.0.147",
   "description": "Components developed by Jameson R Grieve for use in React/NextJS projects.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -76,7 +76,8 @@
     "./Config/Hooks": "./dist/Routing/Config/Hooks.js",
     "./MFA/Authenticator": "./dist/Routing/Auth/MFA/Authenticator.js",
     "./MFA/EMail": "./dist/Routing/Auth/MFA/EMail.js",
-    "./MFA/SMS": "./dist/Routing/Auth/MFA/SMS.js"
+    "./MFA/SMS": "./dist/Routing/Auth/MFA/SMS.js",
+    "./Tabs/Panel": "./dist/Tabs/TabPanel.js"
   },
   "dependencies": {
     "@emotion/react": "^11.11.4",
