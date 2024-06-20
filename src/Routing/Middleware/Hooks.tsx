@@ -35,7 +35,14 @@ export const useAuth: MiddlewareHook = async (req) => {
             Authorization: `${jwt}`,
           },
         });
-        if (response.status !== 200) {
+        const responseJSON = await response.json();
+        if (response.status === 402) {
+          toReturn.response = NextResponse.redirect(new URL(process.env.AUTH_WEB + '/subscribe'));
+          toReturn.activated = true;
+        } else if (response.status === 403 && responseJSON.detail.missing_requirements) {
+          toReturn.response = NextResponse.redirect(new URL(process.env.AUTH_WEB + '/manage'));
+          toReturn.activated = true;
+        } else if (response.status !== 200) {
           throw new Error(`Invalid token response, status ${response.status}, detail ${(await response.json()).detail}.`);
         }
         console.log('JWT is valid.');

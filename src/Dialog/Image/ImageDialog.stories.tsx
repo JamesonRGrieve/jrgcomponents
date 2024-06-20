@@ -30,9 +30,7 @@ const sampleImageUrl = 'https://cdn.pixabay.com/photo/2024/05/22/16/37/seagull-8
 
 export const ImageDialog: Story = (args: ImageDialogProps) => (
   <Box display='flex' width='100%' height='100%' justifyContent='center' alignItems='center'>
-    <Box position='relative' width='50px' height='50px'>
-      <ImageDialogComponent {...args} />
-    </Box>
+    <ImageDialogComponent {...args} />
   </Box>
 );
 ImageDialog.args = {

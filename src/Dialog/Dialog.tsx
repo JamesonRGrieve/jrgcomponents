@@ -30,6 +30,7 @@ const Dialog: React.FC<DialogProps> = ({
   content = '',
   ButtonComponent = Button,
   ButtonProps = {},
+  sx = {},
 }) => {
   const [dialogOpen, setDialogOpen] = useState(false);
   function handleClose(): void {
@@ -48,12 +49,21 @@ const Dialog: React.FC<DialogProps> = ({
         }}
         {...ButtonProps}
       />
-      <MUIDialog open={dialogOpen} onClose={handleClose} sx={{ position: 'fixed' }} PaperProps={{ sx: { pt: '1rem' } }}>
+      <MUIDialog
+        open={dialogOpen}
+        onClose={handleClose}
+        sx={{ position: 'fixed', ...sx }}
+        PaperProps={{ sx: { py: '1rem' } }}
+      >
         <IconButton onClick={handleClose} sx={{ position: 'absolute', top: '0.2rem', right: '0.2rem' }}>
           <Close />
         </IconButton>
-        {title && <DialogTitle id='confirmation-dialog-title'>{title}</DialogTitle>}
-        <DialogContent>
+        {title && (
+          <DialogTitle id='confirmation-dialog-title' sx={{ textAlign: 'center' }}>
+            {title}
+          </DialogTitle>
+        )}
+        <DialogContent sx={{ position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
           {typeof content === 'string' ? (
             <DialogContentText id='confirmation-dialog-description'>{content}</DialogContentText>
           ) : (

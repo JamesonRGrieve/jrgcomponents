@@ -119,14 +119,6 @@ export default function buildThemeSet({
           }),
         },
       },
-      MuiListItem: {
-        styleOverrides: {
-          root: ({ theme }: { theme: Theme }): SxProps => ({
-            py: 0,
-            fontSize: '1.2rem',
-          }),
-        },
-      },
     },
     ...theme,
     palette: {
