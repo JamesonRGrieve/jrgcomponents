@@ -46,6 +46,12 @@ export const useAuthConfig = () => ({
     NEXT_PUBLIC_ALLOW_EMAIL_SIGN_IN: process.env.ALLOW_EMAIL_SIGN_IN || 'true',
   },
 });
+export const useStripeConfig = () => ({
+  env: {
+    NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: process.env.STRIPE_PUBLISHABLE_KEY || '',
+    NEXT_PUBLIC_STRIPE_PRICING_TABLE_ID: process.env.STRIPE_PRICING_TABLE_ID || '',
+  },
+});
 
 export const useOAuth2Config = () => ({
   env: {

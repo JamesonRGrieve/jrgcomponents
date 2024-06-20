@@ -1,4 +1,4 @@
-import assert from 'assert';
+//import assert from 'assert';
 import { NextRequest, NextResponse } from 'next/server';
 import { AuthMode, generateCookieString, getAuthMode, getQueryParams, getRequestedURI } from './Data';
 
@@ -37,7 +37,13 @@ export const useAuth: MiddlewareHook = async (req) => {
         });
         const responseJSON = await response.json();
         if (response.status === 402) {
-          toReturn.response = NextResponse.redirect(new URL(process.env.AUTH_WEB + '/subscribe'));
+          // No body = no stripe ID present for user.
+          // Body = that is the session ID for the user to get a new subscription.
+          toReturn.response = NextResponse.redirect(
+            new URL(
+              process.env.AUTH_WEB + '/subscribe' + responseJSON.detail ? '?customer_session=' + responseJSON.detail : '',
+            ),
+          );
           toReturn.activated = true;
         } else if (response.status === 403 && responseJSON.detail.missing_requirements) {
           toReturn.response = NextResponse.redirect(new URL(process.env.AUTH_WEB + '/manage'));
@@ -119,10 +125,16 @@ export const useOAuth2: MiddlewareHook = async (req) => {
   const provider = req.nextUrl.pathname.split('?')[0].split('/').pop();
   /*
   assert(
-    /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/.test(
+    /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z\d.-]+|(?:www.|[-;:&=+$,\w]+@)[A-Za-z\d.-]+)((?:\/[+~%/.\w-_]*)?\??[-+=&;%@.\w_]*#?\w*)?)/.test(
       process.env.AUTH_WEB,
     ),
-    'Invalid AUTH_WEB, must be a URL if OAuth2 is to be used.',
+    'Assertion Failure in useOAuth2 Middleware Hook: Invalid AUTH_WEB, must be a URI if OAuth2 is to be used.',
+  );
+  assert(
+    /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z\d.-]+|(?:www.|[-;:&=+$,\w]+@)[A-Za-z\d.-]+)((?:\/[+~%/.\w-_]*)?\??[-+=&;%@.\w_]*#?\w*)?)/.test(
+      process.env.AUTH_SERVER,
+    ),
+    'Assertion Failure in useOAuth2 Middleware Hook: Invalid AUTH_SERVER, must be a URI if OAuth2 is to be used.',
   );
   */
   const redirect = new URL(`${process.env.AUTH_WEB}/close/${provider}`);

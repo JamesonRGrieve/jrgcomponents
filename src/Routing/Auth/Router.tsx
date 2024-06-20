@@ -7,6 +7,7 @@ import Register from './Register';
 import Close from './Close';
 import { notFound } from 'next/navigation';
 import Logout from './Logout';
+import Subscribe from './Subscribe';
 
 export default function AuthRouter({ params, searchParams }: { params: { slug?: string[] }; searchParams: any }) {
   const { slug } = params;
@@ -16,6 +17,7 @@ export default function AuthRouter({ params, searchParams }: { params: { slug?: 
     manage: <Manage />,
     register: <Register services={{}} />,
     close: <Close />,
+    subscribe: <Subscribe searchParams={searchParams} />,
   };
   if (!slug) return <User />;
   else {

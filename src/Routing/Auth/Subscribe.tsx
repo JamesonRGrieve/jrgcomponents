@@ -12,26 +12,7 @@ declare global {
   }
 }
 
-function StripePricingTable() {
-  const params = useSearchParams();
-  return params?.get('customer_session') ? (
-    // Returning Customer
-    <stripe-pricing-table
-      pricing-table-id={process.env.NEXT_PUBLIC_STRIPE_PRICING_TABLE_ID ?? ''}
-      publishable-key={process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY ?? ''}
-      customer-session-client-secret={params?.get('customer_session')}
-    />
-  ) : (
-    // New Customer
-    <stripe-pricing-table
-      pricing-table-id={process.env.NEXT_PUBLIC_STRIPE_PRICING_TABLE_ID ?? ''}
-      publishable-key={process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY ?? ''}
-      customer-email={params?.get('email')}
-    />
-  );
-}
-
-export default function Subscribe(): JSX.Element {
+export default function Subscribe({ searchParams }: { searchParams: any }): JSX.Element {
   const router = useRouter();
   if (process.env.NEXT_PUBLIC_STRIPE_ENABLED === 'true') {
     router.push('/');
@@ -41,7 +22,12 @@ export default function Subscribe(): JSX.Element {
       <h1>Subscribe</h1>
       <Box id='stripe-box'>
         <script async src='https://js.stripe.com/v3/pricing-table.js' />
-        <StripePricingTable />
+        <stripe-pricing-table
+          pricing-table-id={process.env.NEXT_PUBLIC_STRIPE_PRICING_TABLE_ID ?? ''}
+          publishable-key={process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY ?? ''}
+          customer-session-client-secret={searchParams?.customer_session}
+          customer-email={searchParams?.customer_session ? undefined : searchParams?.email}
+        />
       </Box>
     </Suspense>
   );
