@@ -9,7 +9,6 @@ export type ImageDialogProps = {
 } & CommonDialogProps;
 
 const ImageDialog: React.FC<ImageDialogProps> = ({ imageSrc, title, imageThumbnail = ImageThumbnail, ...props }) => {
-  throw new Error(title);
   return (
     <Dialog
       title={title}
