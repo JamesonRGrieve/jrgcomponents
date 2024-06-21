@@ -23,7 +23,7 @@ const EditDialog: React.FC<EditDialogProps> = ({
 }) => {
   const [errorMessage, setErrorMessage] = useState('');
   const processedToUpdate = useMemo(() => {
-    const toReturn = toUpdate;
+    const toReturn = { ...toUpdate };
     if (excludeFields?.length > 0) {
       for (const key of excludeFields) {
         if (toReturn[key as keyof typeof toReturn]) {
