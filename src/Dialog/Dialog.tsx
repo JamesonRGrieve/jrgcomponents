@@ -17,7 +17,7 @@ export type CommonDialogProps = {
   sx?: { [key: string]: string | number };
 };
 export type DialogProps = CommonDialogProps & {
-  onConfirm?: () => void;
+  onConfirm?: (data?: any) => void;
   content?: React.ReactNode | string;
   ButtonComponent?: React.FC<{ onClick: MouseEventHandler<any> }> | any;
   ButtonProps?: object;

@@ -41,7 +41,7 @@ export default function AppWrapper({
   footer,
   inner = true,
   mainSX = {},
-  keepThemeToggles = true,
+  keepThemeToggles = false,
   children,
 }: AppWrapperProps & { children: ReactNode }) {
   const [open, setOpen] = useState({ left: false, right: false });

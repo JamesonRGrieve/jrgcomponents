@@ -48,6 +48,10 @@ export const useAuth: MiddlewareHook = async (req) => {
         } else if (response.status === 403 && responseJSON.detail.missing_requirements) {
           toReturn.response = NextResponse.redirect(new URL(process.env.AUTH_WEB + '/manage'));
           toReturn.activated = true;
+        } else if (response.status === 502) {
+          console.error(
+            'Invalid token response, status ${response.status}, detail ${responseJSON.detail}. Is the server down?',
+          );
         } else if (response.status !== 200) {
           throw new Error(`Invalid token response, status ${response.status}, detail ${(await response.json()).detail}.`);
         }
