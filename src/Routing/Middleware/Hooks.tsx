@@ -50,14 +50,23 @@ export const useAuth: MiddlewareHook = async (req) => {
           toReturn.activated = true;
         } else if (response.status === 502) {
           console.error(
-            'Invalid token response, status ${response.status}, detail ${responseJSON.detail}. Is the server down?',
+            `Invalid token response, status ${response.status}, detail ${responseJSON.detail}. Is the server down?`,
           );
         } else if (response.status !== 200) {
           throw new Error(`Invalid token response, status ${response.status}, detail ${(await response.json()).detail}.`);
         }
         console.log('JWT is valid.');
       } catch (exception) {
-        console.error(`Invalid token. Logging out and redirecting to AUTH_WEB at ${process.env.AUTH_WEB}.`, exception);
+        if (exception instanceof AggregateError) {
+          console.error(
+            `Invalid token. Failed with AggregateError. Logging out and redirecting to AUTH_WEB at ${process.env.AUTH_WEB}. Exceptions to follow.`,
+          );
+          for (const anError of exception.errors) {
+            console.error(anError.message);
+          }
+        } else {
+          console.error(`Invalid token. Logging out and redirecting to AUTH_WEB at ${process.env.AUTH_WEB}.`, exception);
+        }
         toReturn.activated = true;
       }
     } else {
