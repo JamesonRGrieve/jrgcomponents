@@ -27,7 +27,7 @@ export const useAuth: MiddlewareHook = async (req) => {
     console.log('JWT:', jwt);
     if (jwt) {
       try {
-        const authEndpoint = `${process.env.NEXT_PUBLIC_AUTH_SERVER}/v1/user`;
+        const authEndpoint = `${process.env.MODE === 'development' ? process.env.NEXT_PUBLIC_AUTH_SERVER : process.env.NEXT_PUBLIC_AUTH_SERVER.replace('localhost', 'agixt')}/v1/user`;
         console.log(`Verifying JWT Bearer ${jwt} with AUTH_SERVER at ${authEndpoint}...`);
         const response = await fetch(authEndpoint, {
           headers: {
@@ -57,7 +57,14 @@ export const useAuth: MiddlewareHook = async (req) => {
         }
         console.log('JWT is valid.');
       } catch (exception) {
-        if (exception instanceof AggregateError) {
+        if (exception instanceof TypeError && exception.cause instanceof TypeError) {
+          console.error(
+            `Invalid token. Failed with TypeError>AggregateError. Logging out and redirecting to AUTH_WEB at ${process.env.AUTH_WEB}. Exceptions to follow.`,
+          );
+          for (const anError of ((exception as TypeError).cause as AggregateError).errors) {
+            console.error(anError.message);
+          }
+        } else if (exception instanceof AggregateError) {
           console.error(
             `Invalid token. Failed with AggregateError. Logging out and redirecting to AUTH_WEB at ${process.env.AUTH_WEB}. Exceptions to follow.`,
           );
@@ -157,13 +164,16 @@ export const useOAuth2: MiddlewareHook = async (req) => {
   };
   const queryParams = getQueryParams(req);
   if (queryParams.code) {
-    const auth = await fetch(`${process.env.NEXT_PUBLIC_AUTH_SERVER}/v1/oauth2/${provider}`, {
-      method: 'POST',
-      body: JSON.stringify({
-        code: queryParams.code,
-        referrer: redirect,
-      }),
-    }).then((response) => {
+    const auth = await fetch(
+      `${process.env.MODE === 'development' ? process.env.NEXT_PUBLIC_AUTH_SERVER : process.env.NEXT_PUBLIC_AUTH_SERVER.replace('localhost', 'agixt')}/v1/oauth2/${provider}`,
+      {
+        method: 'POST',
+        body: JSON.stringify({
+          code: queryParams.code,
+          referrer: redirect,
+        }),
+      },
+    ).then((response) => {
       if (response.status !== 200) {
         throw new Error(`Invalid token response, status ${response.status}.`);
       }
