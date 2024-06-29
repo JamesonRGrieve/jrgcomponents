@@ -43,7 +43,7 @@ const Field: React.FC<FieldProps> = ({
   const inputComponents = useMemo(() => {
     const injectedOnChange = onChange
       ? (target: any) => {
-          onChange(target, label);
+          onChange(target, nameID);
         }
       : null;
     return {

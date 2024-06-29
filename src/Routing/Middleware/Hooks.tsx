@@ -27,7 +27,7 @@ export const useAuth: MiddlewareHook = async (req) => {
     console.log('JWT:', jwt);
     if (jwt) {
       try {
-        const authEndpoint = `${process.env.MODE === 'development' ? process.env.NEXT_PUBLIC_AUTH_SERVER : process.env.NEXT_PUBLIC_AUTH_SERVER.replace('localhost', 'agixt')}/v1/user`;
+        const authEndpoint = `${process.env.MODE === 'development' || process.env.ENV === 'development' ? process.env.NEXT_PUBLIC_AUTH_SERVER : process.env.NEXT_PUBLIC_AUTH_SERVER.replace('localhost', 'agixt')}/v1/user`;
         console.log(`Verifying JWT Bearer ${jwt} with AUTH_SERVER at ${authEndpoint}...`);
         const response = await fetch(authEndpoint, {
           headers: {
@@ -36,6 +36,8 @@ export const useAuth: MiddlewareHook = async (req) => {
           },
         });
         const responseJSON = await response.json();
+        console.log('Response Status: ', response.status);
+        console.log(responseJSON);
         if (response.status === 402) {
           // No body = no stripe ID present for user.
           // Body = that is the session ID for the user to get a new subscription.
@@ -45,9 +47,11 @@ export const useAuth: MiddlewareHook = async (req) => {
             ),
           );
           toReturn.activated = true;
-        } else if (response.status === 403 && responseJSON.detail.missing_requirements) {
-          toReturn.response = NextResponse.redirect(new URL(process.env.AUTH_WEB + '/manage'));
-          toReturn.activated = true;
+        } else if (response.status === 403) {
+          if (!requestedURI.startsWith(process.env.AUTH_WEB + '/manage')) {
+            toReturn.response = NextResponse.redirect(new URL(process.env.AUTH_WEB + '/manage'));
+            toReturn.activated = true;
+          }
         } else if (response.status === 502) {
           console.error(
             `Invalid token response, status ${response.status}, detail ${responseJSON.detail}. Is the server down?`,
@@ -71,6 +75,10 @@ export const useAuth: MiddlewareHook = async (req) => {
           for (const anError of exception.errors) {
             console.error(anError.message);
           }
+        } else if (exception instanceof TypeError) {
+          console.error(
+            `Invalid token. Failed with TypeError. Logging out and redirecting to AUTH_WEB at ${process.env.AUTH_WEB}. Cause: ${exception.cause}.`,
+          );
         } else {
           console.error(`Invalid token. Logging out and redirecting to AUTH_WEB at ${process.env.AUTH_WEB}.`, exception);
         }
