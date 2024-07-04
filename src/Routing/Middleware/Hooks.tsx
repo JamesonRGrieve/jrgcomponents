@@ -7,6 +7,25 @@ export type MiddlewareHook = (req: NextRequest) => Promise<{
   response: NextResponse;
 }>;
 
+const getJWT = (req: NextRequest) => {
+  const rawJWT = req.cookies.get('jwt')?.value;
+  // Strip any and all 'Bearer 's off of JWT.
+  const jwt = rawJWT?.split(' ')[rawJWT?.split(' ').length - 1] ?? rawJWT ?? '';
+  console.log('JWT:', jwt);
+  return jwt;
+};
+const verifyJWT = async (jwt: string) => {
+  const authEndpoint = `${process.env.MODE === 'development' || process.env.ENV === 'development' ? process.env.NEXT_PUBLIC_AUTH_SERVER : process.env.NEXT_PUBLIC_AUTH_SERVER.replace('localhost', 'agixt')}/v1/user`;
+  console.log(`Verifying JWT Bearer ${jwt} with AUTH_SERVER at ${authEndpoint}...`);
+  const response = await fetch(authEndpoint, {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `${jwt}`,
+    },
+  });
+  return response;
+};
+
 export const useAuth: MiddlewareHook = async (req) => {
   const toReturn = {
     activated: false,
@@ -14,31 +33,17 @@ export const useAuth: MiddlewareHook = async (req) => {
   };
   const requestedURI = getRequestedURI(req);
   const authMode = getAuthMode();
-  // @ts-expect-error NextJS' types are wrong.
-  toReturn.response.headers.set('Set-Cookie', [
-    generateCookieString('jwt', '', (0).toString()),
-    generateCookieString('href', requestedURI, (86400).toString()),
-  ]);
 
   if (authMode) {
-    const rawJWT = req.cookies.get('jwt')?.value;
-    // Strip any and all 'Bearer 's off of JWT.
-    const jwt = rawJWT?.split(' ')[rawJWT?.split(' ').length - 1] ?? rawJWT ?? '';
-    console.log('JWT:', jwt);
+    const jwt = getJWT(req);
     if (jwt) {
       try {
-        const authEndpoint = `${process.env.MODE === 'development' || process.env.ENV === 'development' ? process.env.NEXT_PUBLIC_AUTH_SERVER : process.env.NEXT_PUBLIC_AUTH_SERVER.replace('localhost', 'agixt')}/v1/user`;
-        console.log(`Verifying JWT Bearer ${jwt} with AUTH_SERVER at ${authEndpoint}...`);
-        const response = await fetch(authEndpoint, {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `${jwt}`,
-          },
-        });
-        const responseJSON = await response.json();
+        const response = await verifyJWT(jwt);
         console.log('Response Status: ', response.status);
+        const responseJSON = await response.json();
         console.log(responseJSON);
         if (response.status === 402) {
+          // Payment Required
           // No body = no stripe ID present for user.
           // Body = that is the session ID for the user to get a new subscription.
           toReturn.response = NextResponse.redirect(
@@ -48,18 +53,43 @@ export const useAuth: MiddlewareHook = async (req) => {
           );
           toReturn.activated = true;
         } else if (response.status === 403) {
+          // Forbidden (Missing Values for User)
           if (!requestedURI.startsWith(process.env.AUTH_WEB + '/manage')) {
             toReturn.response = NextResponse.redirect(new URL(process.env.AUTH_WEB + '/manage'));
             toReturn.activated = true;
           }
+        } else if (response.status === 500) {
+          // Internal Server Error
+          // This should not delete the JWT.
+          console.error(
+            `Invalid token response, status ${response.status}, detail ${responseJSON.detail}. Server error, please try again later.`,
+          );
         } else if (response.status === 502) {
+          // Bad Gateway
+          // This should not delete the JWT.
           console.error(
             `Invalid token response, status ${response.status}, detail ${responseJSON.detail}. Is the server down?`,
           );
         } else if (response.status !== 200) {
+          // @ts-expect-error NextJS' types are wrong.
+          toReturn.response.headers.set('Set-Cookie', [
+            generateCookieString('jwt', '', (0).toString()),
+            generateCookieString('href', requestedURI, (86400).toString()),
+          ]);
           throw new Error(`Invalid token response, status ${response.status}, detail ${(await response.json()).detail}.`);
+        } else if (
+          authMode === AuthMode.MagicalAuth &&
+          requestedURI.startsWith(process.env.AUTH_WEB) &&
+          jwt.length > 0 &&
+          req.nextUrl.pathname !== '/user/manage'
+        ) {
+          console.log(
+            `Detected authenticated user attempting to visit non-management page. Redirecting to ${process.env.AUTH_WEB}/manage...`,
+          );
+          toReturn.response = NextResponse.redirect(new URL(process.env.AUTH_WEB + '/manage'));
+          toReturn.activated = true;
         }
-        console.log('JWT is valid.');
+        console.log('JWT is valid (or server was unable to verify it).');
       } catch (exception) {
         if (exception instanceof TypeError && exception.cause instanceof TypeError) {
           console.error(
@@ -90,11 +120,9 @@ export const useAuth: MiddlewareHook = async (req) => {
       );
       if (authMode === AuthMode.MagicalAuth && requestedURI.startsWith(process.env.AUTH_WEB)) {
         // Don't let users visit Identify, Register or Login pages if they're already logged in.
-        if (jwt.length > 0 && req.nextUrl.pathname !== '/user/manage') {
-          toReturn.response = NextResponse.redirect(new URL(process.env.AUTH_WEB + '/manage'));
-          toReturn.activated = true;
-        }
+        console.log('Pathname: ' + req.nextUrl.pathname);
       } else {
+        console.log(`Detected unauthenticated user attempting to visit non-auth page. ${process.env.AUTH_WEB}...`);
         toReturn.response = NextResponse.redirect(new URL(process.env.AUTH_WEB), {
           headers: { 'Set-Cookie': generateCookieString('href', requestedURI, (86400).toString()) },
         });

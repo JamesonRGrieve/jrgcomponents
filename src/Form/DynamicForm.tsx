@@ -1,6 +1,6 @@
 import { Box, Button } from '@mui/material';
 import Field from '../MUI/Styled/FormControl/Field';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { ReactNode, useCallback, useEffect, useState } from 'react';
 function toTitleCase(str: string) {
   // Replace underscores, or capital letters (in the middle of the string) with a space and the same character
   str = str.replace(/(_)|((?<=\w)[A-Z])/g, ' $&');
@@ -29,12 +29,21 @@ export type DynamicFormProps = {
       validation?: (value: DynamicFormFieldValueTypes) => boolean;
     };
   };
+  submitButtonText?: string;
   excludeFields?: string[];
   toUpdate?: {};
+  additionalButtons?: ReactNode[];
   onConfirm: (data: { [key: string]: DynamicFormFieldValueTypes }) => void;
 };
 
-export default function DynamicForm({ fields, toUpdate, excludeFields = [], onConfirm }: DynamicFormProps) {
+export default function DynamicForm({
+  fields,
+  toUpdate,
+  excludeFields = [],
+  onConfirm,
+  submitButtonText = 'Submit',
+  additionalButtons = [],
+}: DynamicFormProps) {
   if (fields === undefined && toUpdate === undefined) {
     throw new Error('Either fields or toUpdate must be provided to DynamicForm.');
   }
@@ -101,21 +110,25 @@ export default function DynamicForm({ fields, toUpdate, excludeFields = [], onCo
   }, [fields, toUpdate]); // Depend on `fields` to re-initialize state when `fields` prop changes
 
   return (
-    <Box component='form'>
+    <Box component='form' display='grid' gridTemplateColumns='repeat(4, 1fr)' gap='1rem'>
       {Object.entries(editedState).map(
         ([key, value]) =>
           value !== undefined && (
-            <Field
-              key={key.toLowerCase().replaceAll(' ', '-')}
-              nameID={key.toLowerCase().replaceAll(' ', '-')}
-              label={fields ? fields[key].display ?? toTitleCase(key) : toTitleCase(key)}
-              value={value?.value?.toString() || ''}
-              onChange={handleChange}
-              messages={value.error ? [{ level: 'error', value: value.error }] : []}
-            />
+            <Box key={key.toLowerCase().replaceAll(' ', '-')} gridColumn='span 2'>
+              <Field
+                nameID={key.toLowerCase().replaceAll(' ', '-')}
+                label={fields ? fields[key].display ?? toTitleCase(key) : toTitleCase(key)}
+                value={value?.value?.toString() || ''}
+                onChange={handleChange}
+                messages={value.error ? [{ level: 'error', value: value.error }] : []}
+              />
+            </Box>
           ),
       )}
-      <Button onClick={handleSubmit}>Submit</Button>
+      <Button sx={{ gridColumn: additionalButtons.length > 0 ? 'span 2' : '2 / 4' }} onClick={handleSubmit}>
+        {submitButtonText}
+      </Button>
+      {additionalButtons}
     </Box>
   );
 }

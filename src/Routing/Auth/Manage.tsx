@@ -37,7 +37,19 @@ export default function Manage(): ReactNode {
   ) : (data.missing_requirements && Object.keys(data.missing_requirements).length === 0) || !data.missing_requirements ? (
     <DynamicForm
       toUpdate={data}
+      submitButtonText='Update'
       excludeFields={['missing_requirements', 'email']}
+      additionalButtons={[
+        <Button
+          key='done'
+          sx={{ gridColumn: 'span 2' }}
+          onClick={() => {
+            router.push('/');
+          }}
+        >
+          Go to {process.env.NEXT_PUBLIC_APP_NAME}
+        </Button>,
+      ]}
       onConfirm={async (data) => {
         console.log(data);
         const updateResponse = (
@@ -64,6 +76,7 @@ export default function Manage(): ReactNode {
   ) : (
     <>
       <DynamicForm
+        submitButtonText='Submit Missing Information'
         fields={Object.entries(data.missing_requirements).reduce((acc, [key, value]) => {
           // @ts-expect-error This is a valid assignment.
           acc[key] = { type: value };
@@ -101,32 +114,4 @@ export default function Manage(): ReactNode {
       {responseMessage && <Typography>{responseMessage}</Typography>}
     </>
   );
-  /*
-    <Box component='form' onSubmit={submitForm} display='flex' flexDirection='column' gap='1rem'>
-      <input type='hidden' id='email' name='email' value={getCookie('email')} />
-      <TextField id='first_name' label='First Name' variant='outlined' name='first_name' defaultValue={data?.first_name} />
-      <TextField id='last_name' label='Last Name' variant='outlined' name='last_name' defaultValue={data?.last_name} />
-      {integration && (
-        <>
-          <TextField
-            id='username'
-            label={`${integration} Username`}
-            variant='outlined'
-            name='username'
-            defaultValue={data?.username}
-          />
-          <TextField
-            id='password'
-            label={`${integration} Password`}
-            variant='outlined'
-            name='password'
-            type='password'
-            placeholder='Password1'
-          />
-        </>
-      )}
-      <Button type='submit'>Update User</Button>
-      {responseMessage && <Typography>{responseMessage}</Typography>}
-    </Box>
-    */
 }
