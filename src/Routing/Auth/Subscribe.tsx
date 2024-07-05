@@ -1,6 +1,7 @@
 'use client';
 import { Box } from '@mui/material';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { getCookie } from 'cookies-next';
+import { useRouter } from 'next/navigation';
 import React, { Suspense } from 'react';
 
 declare global {
@@ -26,7 +27,7 @@ export default function Subscribe({ searchParams }: { searchParams: any }): JSX.
           pricing-table-id={process.env.NEXT_PUBLIC_STRIPE_PRICING_TABLE_ID ?? ''}
           publishable-key={process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY ?? ''}
           customer-session-client-secret={searchParams?.customer_session}
-          customer-email={searchParams?.customer_session ? undefined : searchParams?.email}
+          customer-email={searchParams?.customer_session ? undefined : searchParams?.email || getCookie('email')}
         />
       </Box>
     </Suspense>
