@@ -39,7 +39,7 @@ const ImageDialog: React.FC<ImageDialogProps> = ({
 };
 const ImageThumbnail = ({ src, alt, nextImage, ...props }: { src: string; alt: string; nextImage: boolean }) => {
   return (
-    <Box position='relative' width='4rem' height='4rem' sx={{ cursor: 'pointer' }} {...props}>
+    <Box display='inline-block' position='relative' width='4rem' height='4rem' sx={{ cursor: 'pointer' }} {...props}>
       {nextImage ? (
         <Image src={src} alt={alt} fill style={{ objectFit: 'contain' }} />
       ) : (
