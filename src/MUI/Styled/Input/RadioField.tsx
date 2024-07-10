@@ -9,7 +9,7 @@ interface SelectFieldProps {
   name: string;
 }
 
-export default function SelectField({ id, value, onChange, items, name }: SelectFieldProps) {
+export default function RadioField({ id, value, onChange, items, name }: SelectFieldProps) {
   return (
     <RadioGroup key={'field'} aria-labelledby={id} id={id} name={id} value={value} onChange={onChange}>
       {items?.map((item: any, index: number) => {

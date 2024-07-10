@@ -96,7 +96,8 @@
     "react-markdown": "^9.0.1",
     "react-qr-code": "^2.0.14",
     "react-simple-oauth2-login": "^0.5.4",
-    "swr": "^2.2.5"
+    "swr": "^2.2.5",
+    "timezones-list": "^3.0.3"
   },
   "devDependencies": {
     "@storybook/addon-actions": "^8.1.4",
