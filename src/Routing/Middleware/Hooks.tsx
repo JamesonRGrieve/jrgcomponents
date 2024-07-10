@@ -122,7 +122,9 @@ export const useAuth: MiddlewareHook = async (req) => {
         // Don't let users visit Identify, Register or Login pages if they're already logged in.
         console.log('Pathname: ' + req.nextUrl.pathname);
       } else {
-        console.log(`Detected unauthenticated user attempting to visit non-auth page. ${process.env.AUTH_WEB}...`);
+        console.log(
+          `Detected unauthenticated user attempting to visit non-auth page, redirecting to AUTH_WEB at ${process.env.AUTH_WEB}...`,
+        );
         toReturn.response = NextResponse.redirect(new URL(process.env.AUTH_WEB), {
           headers: { 'Set-Cookie': generateCookieString('href', requestedURI, (86400).toString()) },
         });

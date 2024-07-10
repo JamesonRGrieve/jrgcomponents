@@ -1,4 +1,4 @@
-import { Collapse, FormLabel, FormControl, Typography, Alert, AlertColor } from '@mui/material';
+import { Collapse, FormLabel, FormControl, Typography, Alert, AlertColor, InputLabel } from '@mui/material';
 import React, { useMemo } from 'react';
 import CheckField from '../Input/CheckField';
 import PasswordField from '../Input/PasswordField';
@@ -59,9 +59,18 @@ const Field: React.FC<FieldProps> = ({
         />
       ),
       password: (
-        <PasswordField id={nameID} name={nameID} autoComplete={autoComplete} value={value} onChange={injectedOnChange} />
+        <PasswordField
+          id={nameID}
+          name={nameID}
+          label={label}
+          autoComplete={autoComplete}
+          value={value}
+          onChange={injectedOnChange}
+        />
       ),
-      select: <SelectField id={nameID} name={nameID} value={value} onChange={injectedOnChange} items={items} />,
+      select: (
+        <SelectField id={nameID} name={nameID} value={value} onChange={injectedOnChange} items={items} label={label} />
+      ),
       checkbox: (
         <CheckField
           id={nameID}
@@ -78,10 +87,12 @@ const Field: React.FC<FieldProps> = ({
 
   return (
     <FormControl required fullWidth sx={{ my: '1rem' }}>
-      {type !== 'text' && (
-        <FormLabel id={nameID} htmlFor={nameID}>
+      {['checkbox', 'radio'].includes(type) ? (
+        <FormLabel id={nameID + '-label'} htmlFor={nameID}>
           {label}
         </FormLabel>
+      ) : (
+        type === 'select' && <InputLabel id={nameID + '-label'}>{label}</InputLabel>
       )}
       {description && (
         <Typography variant='body1' gutterBottom>

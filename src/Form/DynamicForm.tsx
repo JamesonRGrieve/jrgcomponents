@@ -1,5 +1,7 @@
-import { Box, Button } from '@mui/material';
+import { Box, Button, Select } from '@mui/material';
 import Field from '../MUI/Styled/FormControl/Field';
+import timezones from 'timezones-list';
+
 import React, { ReactNode, useCallback, useEffect, useState } from 'react';
 function toTitleCase(str: string) {
   // Replace underscores, or capital letters (in the middle of the string) with a space and the same character
@@ -50,7 +52,7 @@ export default function DynamicForm({
   const [editedState, setEditedState] = useState<{ [key: string]: { value: DynamicFormFieldValueTypes; error: string } }>(
     {},
   );
-
+  console.log(timezones);
   const handleChange = useCallback((event: any, id?: string) => {
     setEditedState((prevState) => ({
       ...prevState,
@@ -105,7 +107,6 @@ export default function DynamicForm({
           error: '',
         };
     });
-    console.log(initialState);
     setEditedState(initialState);
   }, [fields, toUpdate]); // Depend on `fields` to re-initialize state when `fields` prop changes
 
@@ -115,13 +116,40 @@ export default function DynamicForm({
         ([key, value]) =>
           value !== undefined && (
             <Box key={key.toLowerCase().replaceAll(' ', '-')} gridColumn='span 2'>
-              <Field
-                nameID={key.toLowerCase().replaceAll(' ', '-')}
-                label={fields ? fields[key].display ?? toTitleCase(key) : toTitleCase(key)}
-                value={value?.value?.toString() || ''}
-                onChange={handleChange}
-                messages={value.error ? [{ level: 'error', value: value.error }] : []}
-              />
+              {['tz', 'timezone'].includes(key) ? (
+                <Field
+                  nameID={key.toLowerCase().replaceAll(' ', '-')}
+                  label={fields ? fields[key].display ?? toTitleCase(key) : toTitleCase(key)}
+                  value={value?.value?.toString() || ''}
+                  onChange={handleChange}
+                  messages={value.error ? [{ level: 'error', value: value.error }] : []}
+                  type='select'
+                  items={timezones
+                    .sort((a, b) => {
+                      if (a.utc !== b.utc) {
+                        return a.utc > b.utc ? 1 : -1;
+                      } else {
+                        return a.tzCode > b.tzCode ? 1 : -1;
+                      }
+                    })
+                    .map((tz) => ({ value: tz.tzCode, label: tz.label }))}
+                />
+              ) : (
+                <Field
+                  nameID={key.toLowerCase().replaceAll(' ', '-')}
+                  label={fields ? fields[key].display ?? toTitleCase(key) : toTitleCase(key)}
+                  value={value?.value?.toString() || ''}
+                  onChange={handleChange}
+                  messages={value.error ? [{ level: 'error', value: value.error }] : []}
+                  type={
+                    fields && fields[key].type === 'boolean'
+                      ? 'checkbox'
+                      : (fields && fields[key].type === 'password') || key.toLowerCase().includes('password')
+                        ? 'password'
+                        : 'text'
+                  }
+                />
+              )}
             </Box>
           ),
       )}

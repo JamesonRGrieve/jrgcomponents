@@ -4,7 +4,7 @@ import { CssBaseline, ThemeProvider } from '@mui/material';
 import { setCookie } from 'cookies-next';
 import { ThemeState } from '../types/Theming';
 import buildThemeSet, { ThemeInjection } from './BuildThemeSet';
-
+import DefaultTheme from './sample-theme';
 export const ThemeContext: Context<ThemeState> = React.createContext<ThemeState>({
   dark: false,
   colorblind: false,
@@ -12,12 +12,14 @@ export const ThemeContext: Context<ThemeState> = React.createContext<ThemeState>
 });
 export function ThemeWrapper({
   children,
-  themeInjection,
+  themeInjection = {
+    theme: DefaultTheme,
+  },
   defaultTheme = { dark: false, colorblind: false },
   themeChangeCallback = null,
 }: {
   children: any;
-  themeInjection: ThemeInjection;
+  themeInjection?: ThemeInjection;
   defaultTheme?: {
     dark?: boolean;
     colorblind?: boolean;
