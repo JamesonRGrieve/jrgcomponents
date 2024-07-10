@@ -1,7 +1,7 @@
 import { FormControlLabel, Radio, RadioGroup } from '@mui/material';
 import React from 'react';
 
-interface SelectFieldProps {
+interface RadioFieldProps {
   id: string;
   value: any;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -9,7 +9,7 @@ interface SelectFieldProps {
   name: string;
 }
 
-export default function SelectField({ id, value, onChange, items, name }: SelectFieldProps) {
+export default function RadioField({ id, value, onChange, items, name }: RadioFieldProps) {
   return (
     <RadioGroup key={'field'} aria-labelledby={id} id={id} name={id} value={value} onChange={onChange}>
       {items?.map((item: any, index: number) => {

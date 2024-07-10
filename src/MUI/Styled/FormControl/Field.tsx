@@ -2,7 +2,7 @@ import { Collapse, FormLabel, FormControl, Typography, Alert, AlertColor } from 
 import React, { useMemo } from 'react';
 import CheckField from '../Input/CheckField';
 import PasswordField from '../Input/PasswordField';
-import SelectField from '../Input/RadioField';
+import SelectField from '../Input/SelectField';
 import TextField from '../Input/TextField';
 import RadioField from '../Input/RadioField';
 
