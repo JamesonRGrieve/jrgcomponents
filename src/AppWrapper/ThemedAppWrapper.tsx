@@ -1,3 +1,4 @@
+'use client';
 import React from 'react';
 import ThemeWrapper from '../Theming/ThemeWrapper';
 import { ThemeInjection } from '../Theming/BuildThemeSet';
