@@ -93,4 +93,24 @@ export const ImageDialog: Story = () => {
 
 ImageDialog.args = {};
 
+export const ImageWithoutTitle: Story = () => {
+  return (
+    <Dialog>
+      <Dialog.Trigger>
+        <img
+          src='https://cdn.pixabay.com/photo/2024/05/22/16/37/seagull-8781110_1280.jpg'
+          alt='Open Dialog'
+          width='300px'
+          style={{ cursor: 'pointer' }}
+        />
+      </Dialog.Trigger>
+      <Dialog.Content>
+        <img src='https://cdn.pixabay.com/photo/2024/05/22/16/37/seagull-8781110_1280.jpg' alt='Full image inside dialog' />
+      </Dialog.Content>
+    </Dialog>
+  );
+};
+
+ImageWithoutTitle.args = {};
+
 // Add one for forms.
