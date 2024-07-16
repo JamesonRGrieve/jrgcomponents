@@ -1,117 +1,64 @@
-// Import Storybook.
 import type { Meta, StoryObj } from '@storybook/react';
+import React from 'react';
+import { Box, Button, Typography } from '@mui/material';
+import DropZone from './DropZone'; // Adjust the import according to your file structure
 import { action } from '@storybook/addon-actions';
 
-// Import Component and related types.
-import DropZone from './DropZone';
-import React from 'react';
-import { Button, Typography } from '@mui/material';
-
-// Configure Metadata.
 const meta: Meta<typeof DropZone> = {
   title: 'Components/DropZone',
   component: DropZone,
   tags: ['autodocs'],
+  argTypes: {},
   parameters: {
-    componentSubtitle: 'A File Drop Zone Component',
+    componentSubtitle: 'A customizable drag and drop zone',
     docs: {
       description: {
-        component: 'This component allows users to drop files or manually select them for upload.',
+        component:
+          'This component provides a customizable drag and drop zone. It includes handling for drag events and custom styling.',
       },
     },
-    references: [],
-  },
-  argTypes: {
-    onUpload: { action: 'uploaded' },
   },
 };
-
 export default meta;
-type Story = StoryObj<typeof DropZone>;
 
-// Configure Component Stories.
+type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {
-  args: {
-    onUpload: action('onUpload'),
-    children: <Typography>Drop files here or click to select</Typography>,
-  },
-};
-
-export const WithCustomStyling: Story = {
-  args: {
-    onUpload: action('onUpload'),
-    children: <Typography>Drop files here or click to select</Typography>,
-    sx: {
-      backgroundColor: '#f0f0f0',
-      minHeight: '200px',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-    hoverSx: {
-      backgroundColor: '#e0e0e0',
-      border: '2px dashed #007bff',
-    },
-  },
-};
-
-export const WithManualUpload: Story = {
-  render: (args) => (
-    <DropZone {...args}>
-      <Typography>Drop files here</Typography>
-      <DropZone.ManualUpload onUpload={action('manualUpload')}>Select Files</DropZone.ManualUpload>
+export const DefaultDropZone: Story = () => {
+  return (
+    <DropZone onUpload={action('onUpload')}>
+      <Typography variant='body1'>Whatever you want</Typography>
+      <Typography>Can have multiple children</Typography>
     </DropZone>
-  ),
-  args: {
-    onUpload: action('onUpload'),
-  },
+  );
 };
 
-export const WithDeadZone: Story = {
-  render: (args) => (
-    <DropZone {...args}>
-      <Typography>Drop files here</Typography>
-      <DropZone.DeadZone>
-        <Button variant='contained' color='primary' onClick={action('buttonClick')}>
-          This button won't trigger file upload
-        </Button>
-      </DropZone.DeadZone>
+DefaultDropZone.args = {};
+
+export const WithActiveComponent: Story = () => {
+  return (
+    <DropZone onUpload={action('onUpload')}>
+      <DropZone.Active sx={{ bgcolor: 'pink', color: 'white' }} />
+      <Typography variant='body1'>Whatever you want</Typography>
+      <Typography>Can have multiple children</Typography>
     </DropZone>
-  ),
-  args: {
-    onUpload: action('onUpload'),
-  },
+  );
 };
 
-export const ComplexExample: Story = {
-  render: (args) => (
-    <DropZone {...args}>
-      <Typography variant='h6'>Upload Your Files</Typography>
-      <Typography variant='body2' sx={{ mb: 2 }}>
-        Drag and drop files here, or use the button below
-      </Typography>
-      <DropZone.ManualUpload onUpload={action('manualUpload')} variant='contained' color='primary'>
-        Select Files
-      </DropZone.ManualUpload>
-      <DropZone.DeadZone sx={{ mt: 2 }}>
-        <Button variant='text' color='secondary' onClick={action('helpClick')}>
-          Need Help?
-        </Button>
-      </DropZone.DeadZone>
+WithActiveComponent.args = {};
+
+export const CustomActiveBody: Story = () => {
+  return (
+    <DropZone onUpload={action('onUpload')}>
+      <DropZone.Active sx={{ bgcolor: 'grey', color: 'white', border: '1px dashed black' }}>
+        <Typography variant='body1'>Custom message to drag and drop</Typography>
+        <Box sx={{ p: 2}}>
+          <Typography>More stuff here</Typography>
+        </Box>
+      </DropZone.Active>
+      <Typography variant='body1'>Whatever you want</Typography>
+      <Typography>Can have multiple children</Typography>
     </DropZone>
-  ),
-  args: {
-    onUpload: action('onUpload'),
-    sx: {
-      border: '2px dashed #9e9e9e',
-      borderRadius: 4,
-      p: 3,
-      textAlign: 'center',
-    },
-    hoverSx: {
-      borderColor: '#1976d2',
-      backgroundColor: 'rgba(25, 118, 210, 0.04)',
-    },
-  },
+  );
 };
+
+CustomActiveBody.args = {};
