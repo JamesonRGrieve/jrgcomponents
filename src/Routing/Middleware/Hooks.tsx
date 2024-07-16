@@ -33,7 +33,7 @@ export const useAuth: MiddlewareHook = async (req) => {
   };
   const requestedURI = getRequestedURI(req);
   const authMode = getAuthMode();
-
+  console.log('Requested: ' + requestedURI);
   if (authMode) {
     const jwt = getJWT(req);
     if (jwt) {
@@ -46,12 +46,27 @@ export const useAuth: MiddlewareHook = async (req) => {
           // Payment Required
           // No body = no stripe ID present for user.
           // Body = that is the session ID for the user to get a new subscription.
-          toReturn.response = NextResponse.redirect(
-            new URL(
-              process.env.AUTH_WEB + '/subscribe' + responseJSON.detail ? '?customer_session=' + responseJSON.detail : '',
-            ),
-          );
-          toReturn.activated = true;
+          if (!requestedURI.startsWith(process.env.AUTH_WEB + '/subscribe')) {
+            console.log(
+              'Payment required. Redirecting to: ' +
+                process.env.AUTH_WEB +
+                '/subscribe' +
+                (responseJSON.detail.customer_session.client_secret
+                  ? '?customer_session=' + responseJSON.detail.customer_session.client_secret
+                  : ''),
+            );
+
+            toReturn.response = NextResponse.redirect(
+              new URL(
+                process.env.AUTH_WEB +
+                  '/subscribe' +
+                  (responseJSON.detail.customer_session.client_secret
+                    ? '?customer_session=' + responseJSON.detail.customer_session.client_secret
+                    : ''),
+              ),
+            );
+            toReturn.activated = true;
+          }
         } else if (response.status === 403) {
           // Forbidden (Missing Values for User)
           if (!requestedURI.startsWith(process.env.AUTH_WEB + '/manage')) {
@@ -71,12 +86,13 @@ export const useAuth: MiddlewareHook = async (req) => {
             `Invalid token response, status ${response.status}, detail ${responseJSON.detail}. Is the server down?`,
           );
         } else if (response.status !== 200) {
+          console.log('Uncaught response error code.');
           // @ts-expect-error NextJS' types are wrong.
           toReturn.response.headers.set('Set-Cookie', [
             generateCookieString('jwt', '', (0).toString()),
             generateCookieString('href', requestedURI, (86400).toString()),
           ]);
-          throw new Error(`Invalid token response, status ${response.status}, detail ${(await response.json()).detail}.`);
+          throw new Error(`Invalid token response, status ${response.status}, detail ${responseJSON.detail}.`);
         } else if (
           authMode === AuthMode.MagicalAuth &&
           requestedURI.startsWith(process.env.AUTH_WEB) &&
@@ -91,23 +107,23 @@ export const useAuth: MiddlewareHook = async (req) => {
         }
         console.log('JWT is valid (or server was unable to verify it).');
       } catch (exception) {
-        if (exception instanceof TypeError && exception.cause instanceof TypeError) {
+        if (exception instanceof TypeError && exception.cause instanceof AggregateError) {
           console.error(
-            `Invalid token. Failed with TypeError>AggregateError. Logging out and redirecting to AUTH_WEB at ${process.env.AUTH_WEB}. Exceptions to follow.`,
+            `Invalid token. Failed with TypeError>AggregateError. Logging out and redirecting to AUTH_WEB at ${process.env.AUTH_WEB}. ${exception.message} Exceptions to follow.`,
           );
           for (const anError of ((exception as TypeError).cause as AggregateError).errors) {
             console.error(anError.message);
           }
         } else if (exception instanceof AggregateError) {
           console.error(
-            `Invalid token. Failed with AggregateError. Logging out and redirecting to AUTH_WEB at ${process.env.AUTH_WEB}. Exceptions to follow.`,
+            `Invalid token. Failed with AggregateError. Logging out and redirecting to AUTH_WEB at ${process.env.AUTH_WEB}. ${exception.message} Exceptions to follow.`,
           );
           for (const anError of exception.errors) {
             console.error(anError.message);
           }
         } else if (exception instanceof TypeError) {
           console.error(
-            `Invalid token. Failed with TypeError. Logging out and redirecting to AUTH_WEB at ${process.env.AUTH_WEB}. Cause: ${exception.cause}.`,
+            `Invalid token. Failed with TypeError. Logging out and redirecting to AUTH_WEB at ${process.env.AUTH_WEB}. ${exception.message} Cause: ${exception.cause}.`,
           );
         } else {
           console.error(`Invalid token. Logging out and redirecting to AUTH_WEB at ${process.env.AUTH_WEB}.`, exception);
@@ -132,6 +148,8 @@ export const useAuth: MiddlewareHook = async (req) => {
       }
     }
   }
+  console.log('Going to:');
+  console.log(toReturn);
   return toReturn;
 };
 
@@ -202,16 +220,15 @@ export const useOAuth2: MiddlewareHook = async (req) => {
   };
   const queryParams = getQueryParams(req);
   if (queryParams.code) {
-    const auth = await fetch(
-      `${process.env.MODE === 'development' ? process.env.NEXT_PUBLIC_AUTH_SERVER : process.env.NEXT_PUBLIC_AUTH_SERVER.replace('localhost', 'agixt')}/v1/oauth2/${provider}`,
-      {
-        method: 'POST',
-        body: JSON.stringify({
-          code: queryParams.code,
-          referrer: redirect,
-        }),
-      },
-    ).then((response) => {
+    const oAuthEndpoint = `${process.env.MODE === 'development' ? process.env.NEXT_PUBLIC_AUTH_SERVER : process.env.NEXT_PUBLIC_AUTH_SERVER.replace('localhost', 'agixt')}/v1/oauth2/${provider}`;
+    console.log(`Exchanging code ${queryParams.code} with ${provider} at ${oAuthEndpoint}...`);
+    const auth = await fetch(oAuthEndpoint, {
+      method: 'POST',
+      body: JSON.stringify({
+        code: queryParams.code,
+        referrer: redirect,
+      }),
+    }).then((response) => {
       if (response.status !== 200) {
         throw new Error(`Invalid token response, status ${response.status}.`);
       }
