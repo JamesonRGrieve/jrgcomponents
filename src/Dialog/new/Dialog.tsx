@@ -74,20 +74,14 @@ const DialogActions = ({ onConfirm }: { onConfirm: () => void }) => {
   );
 };
 
-export {
-  Dialog,
-  DialogTrigger,
-  DialogContent,
-  DialogTitle,
-  DialogFooter,
-  DialogDescription,
-  DialogButton,
-  DialogActions,
+Dialog.Trigger = DialogTrigger;
+Dialog.Content = DialogContent;
+Dialog.Title = DialogTitle;
+Dialog.Footer = DialogFooter;
+Dialog.Description = DialogDescription;
+Dialog.Button = DialogButton;
+Dialog.Actions = DialogActions;
 
-  // shorter names
-  DialogTrigger as Trigger,
-  DialogContent as Content,
-  DialogTitle as Title,
-  DialogFooter as Footer,
-  DialogDescription as Description,
-};
+export { Dialog, DialogTrigger, DialogContent, DialogTitle, DialogFooter, DialogDescription, DialogButton, DialogActions };
+
+export default Dialog;

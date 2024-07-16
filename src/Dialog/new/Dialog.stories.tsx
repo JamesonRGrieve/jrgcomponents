@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import React from 'react';
-import { Dialog, DialogButton, DialogActions, Trigger, Content, Title, Footer, Description } from './DialogCompound';
+import { Dialog } from './Dialog';
 import { Button } from '@mui/material';
 
 const meta: Meta = {
@@ -28,21 +28,21 @@ export const DefaultDialog: Story = () => {
 
   return (
     <Dialog>
-      <Trigger>
+      <Dialog.Trigger>
         <Button>Open</Button>
-      </Trigger>
-      <Content>
-        <Title>Are you absolutely sure?</Title>
-        <Description>
+      </Dialog.Trigger>
+      <Dialog.Content>
+        <Dialog.Title>Are you absolutely sure?</Dialog.Title>
+        <Dialog.Description>
           This action cannot be undone. This will permanently delete your account and remove your data from our servers.
-        </Description>
-        <Footer>
-          <DialogButton type='cancel'>Cancel</DialogButton>
-          <DialogButton type='confirm' onClick={handleConfirm}>
+        </Dialog.Description>
+        <Dialog.Footer>
+          <Dialog.Button type='cancel'>Cancel</Dialog.Button>
+          <Dialog.Button type='confirm' onClick={handleConfirm}>
             Confirm
-          </DialogButton>
-        </Footer>
-      </Content>
+          </Dialog.Button>
+        </Dialog.Footer>
+      </Dialog.Content>
     </Dialog>
   );
 };
@@ -56,16 +56,16 @@ export const WithActionProps: Story = () => {
 
   return (
     <Dialog>
-      <Trigger>
+      <Dialog.Trigger>
         <Button>Open</Button>
-      </Trigger>
-      <Content>
-        <Title>Same thing but with action props</Title>
-        <Description>
+      </Dialog.Trigger>
+      <Dialog.Content>
+        <Dialog.Title>Same thing but with action props</Dialog.Title>
+        <Dialog.Description>
           This action cannot be undone. This will permanently delete your account and remove your data from our servers.
-        </Description>
-        <DialogActions onConfirm={handleConfirm} />
-      </Content>
+        </Dialog.Description>
+        <Dialog.Actions onConfirm={handleConfirm} />
+      </Dialog.Content>
     </Dialog>
   );
 };
@@ -75,18 +75,18 @@ WithActionProps.args = {};
 export const ImageDialog: Story = () => {
   return (
     <Dialog>
-      <Trigger>
+      <Dialog.Trigger>
         <img
           src='https://cdn.pixabay.com/photo/2024/05/22/16/37/seagull-8781110_1280.jpg'
           alt='Open Dialog'
           width='300px'
           style={{ cursor: 'pointer' }}
         />
-      </Trigger>
-      <Content>
-        <Title>Image Title</Title>
+      </Dialog.Trigger>
+      <Dialog.Content>
+        <Dialog.Title>Image Title</Dialog.Title>
         <img src='https://cdn.pixabay.com/photo/2024/05/22/16/37/seagull-8781110_1280.jpg' alt='Full image inside dialog' />
-      </Content>
+      </Dialog.Content>
     </Dialog>
   );
 };
