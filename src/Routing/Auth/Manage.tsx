@@ -38,7 +38,8 @@ export default function Manage(): ReactNode {
     <DynamicForm
       toUpdate={data}
       submitButtonText='Update'
-      excludeFields={['missing_requirements', 'email']}
+      excludeFields={['missing_requirements', 'email', 'subscription', 'ip_address']}
+      readOnlyFields={['input_tokens', 'output_tokens']}
       additionalButtons={[
         <Button
           key='done'
