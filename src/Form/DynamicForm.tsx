@@ -1,4 +1,4 @@
-import { Box, Button, Select } from '@mui/material';
+import { Box, Button, Select, TextField } from '@mui/material';
 import Field from '../MUI/Styled/FormControl/Field';
 import timezones from 'timezones-list';
 
@@ -33,7 +33,8 @@ export type DynamicFormProps = {
   };
   submitButtonText?: string;
   excludeFields?: string[];
-  toUpdate?: {};
+  readOnlyFields?: string[];
+  toUpdate?: any;
   additionalButtons?: ReactNode[];
   onConfirm: (data: { [key: string]: DynamicFormFieldValueTypes }) => void;
 };
@@ -42,6 +43,7 @@ export default function DynamicForm({
   fields,
   toUpdate,
   excludeFields = [],
+  readOnlyFields = [],
   onConfirm,
   submitButtonText = 'Submit',
   additionalButtons = [],
@@ -99,13 +101,14 @@ export default function DynamicForm({
     console.log('Setting initial state');
     const initialState: { [key: string]: { value: DynamicFormFieldValueTypes; error: string } } = {};
     Object.keys(fields ?? toUpdate).forEach((key) => {
-      if (!excludeFields.includes(key))
+      if (!excludeFields.includes(key) && !readOnlyFields.includes(key)) {
         initialState[key] = {
           value: fields
             ? fields[key].value ?? typeDefaults[fields[key].type as keyof typeof typeDefaults]
             : toUpdate[key as keyof typeof toUpdate],
           error: '',
         };
+      }
     });
     setEditedState(initialState);
   }, [fields, toUpdate]); // Depend on `fields` to re-initialize state when `fields` prop changes
@@ -150,6 +153,20 @@ export default function DynamicForm({
                   }
                 />
               )}
+            </Box>
+          ),
+      )}
+      {readOnlyFields.map(
+        (fieldName) =>
+          toUpdate[fieldName as keyof typeof toUpdate].value !== undefined && (
+            <Box key={fieldName.toLowerCase().replaceAll(' ', '-')} gridColumn='span 2'>
+              <TextField
+                id={fieldName.toLowerCase().replaceAll(' ', '-')}
+                name={fieldName.toLowerCase().replaceAll(' ', '-')}
+                label={fields ? fields[fieldName].display ?? toTitleCase(fieldName) : toTitleCase(fieldName)}
+                value={toUpdate[fieldName as keyof typeof toUpdate]?.value?.toString() || ''}
+                disabled
+              />
             </Box>
           ),
       )}
