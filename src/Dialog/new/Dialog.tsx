@@ -57,6 +57,7 @@ const DialogButton = ({ type, onClick, children }: PropsWithChildren<DialogButto
     }
     if (onClick) {
       onClick();
+      closeDialog();
     }
   };
 
@@ -66,10 +67,15 @@ const DialogButton = ({ type, onClick, children }: PropsWithChildren<DialogButto
 const DialogActions = ({ onConfirm }: { onConfirm: () => void }) => {
   const { closeDialog } = useDialog();
 
+  const handleConfirm = () => {
+    onConfirm();
+    closeDialog();
+  };
+
   return (
     <DialogFooter>
       <Button onClick={closeDialog}>Cancel</Button>
-      <Button onClick={onConfirm}>Confirm</Button>
+      <Button onClick={handleConfirm}>Confirm</Button>
     </DialogFooter>
   );
 };

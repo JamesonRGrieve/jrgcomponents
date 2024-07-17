@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import React from 'react';
 import { Dialog } from './Dialog';
 import { Button } from '@mui/material';
+import { action } from '@storybook/addon-actions';
 
 const meta: Meta = {
   title: 'CompoundComponents/Dialog',
@@ -22,10 +23,6 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const DefaultDialog: Story = () => {
-  const handleConfirm = () => {
-    alert('Confirmed!');
-  };
-
   return (
     <Dialog>
       <Dialog.Trigger>
@@ -38,7 +35,7 @@ export const DefaultDialog: Story = () => {
         </Dialog.Description>
         <Dialog.Footer>
           <Dialog.Button type='cancel'>Cancel</Dialog.Button>
-          <Dialog.Button type='confirm' onClick={handleConfirm}>
+          <Dialog.Button type='confirm' onClick={action('onConfirm')}>
             Confirm
           </Dialog.Button>
         </Dialog.Footer>
@@ -50,10 +47,6 @@ export const DefaultDialog: Story = () => {
 DefaultDialog.args = {};
 
 export const WithActionProps: Story = () => {
-  const handleConfirm = () => {
-    alert('Confirmed!');
-  };
-
   return (
     <Dialog>
       <Dialog.Trigger>
@@ -64,7 +57,7 @@ export const WithActionProps: Story = () => {
         <Dialog.Description>
           This action cannot be undone. This will permanently delete your account and remove your data from our servers.
         </Dialog.Description>
-        <Dialog.Actions onConfirm={handleConfirm} />
+        <Dialog.Actions onConfirm={action('onConfirm')} />
       </Dialog.Content>
     </Dialog>
   );
