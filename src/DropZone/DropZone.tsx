@@ -12,7 +12,7 @@ const DropZone: React.FC<PropsWithChildren<DropZoneProps>> & {
   Active: React.FC<PropsWithChildren<BoxProps>>;
 } = ({ children, onUpload, ...props }) => {
   const activeChildProvided = Children.toArray(children).some(
-    (child) => React.isValidElement(child) && child.props['data-type'] === 'active',
+    (child) => React.isValidElement(child) && child.props['data-type'] === 'active-dropzone',
   );
 
   return (
@@ -26,15 +26,17 @@ const DropZone: React.FC<PropsWithChildren<DropZoneProps>> & {
 };
 
 const Active: React.FC<PropsWithChildren<BoxProps>> = ({ children, ...props }) => {
-  const { isDragActive, setIsDragActive } = useDropZone();
+  const { isDragActive, setIsDragActive, fileType, fileCount, isOverDropZone } = useDropZone();
 
   if (!isDragActive) {
     return null;
   }
 
+  const typeAndCount = fileType && fileCount && `${fileCount} ${fileCount === 1 ? 'file' : 'files'} (${fileType})`;
+
   return (
     <Box
-      data-type='active'
+      data-type='active-dropzone'
       position='absolute'
       top={0}
       left={0}
@@ -49,7 +51,9 @@ const Active: React.FC<PropsWithChildren<BoxProps>> = ({ children, ...props }) =
       color='black'
       {...props}
     >
-      {children || <Typography variant='h6'>Drop files here</Typography>}
+      {children || (
+        <Typography variant='h6'>{isOverDropZone ? `Drop ${typeAndCount} here` : `Upload ${typeAndCount}`}</Typography>
+      )}
 
       {/* Manual close button because drag events are janky and sometimes doesn't close properly */}
       <IconButton
