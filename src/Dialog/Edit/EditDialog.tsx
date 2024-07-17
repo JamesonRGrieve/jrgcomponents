@@ -17,6 +17,7 @@ const EditDialog: React.FC<EditDialogProps> = ({
   fields,
   toUpdate,
   excludeFields,
+  readOnlyFields,
   onConfirm,
   ButtonComponent,
   ButtonProps,
@@ -43,6 +44,7 @@ const EditDialog: React.FC<EditDialogProps> = ({
           <DynamicForm
             toUpdate={processedToUpdate}
             fields={fields}
+            readOnlyFields={readOnlyFields}
             onConfirm={(values) => {
               try {
                 onConfirm(values);
