@@ -9,7 +9,8 @@ import Field from '../../MUI/Styled/FormControl/Field';
 import IconButton from '../../MUI/Styled/Button/IconButton';
 import { PersonOutline } from '@mui/icons-material';
 
-export default function Identify(): ReactNode {
+export default function Identify({ title, description }: { title: any; description: any }): ReactNode {
+  console.log(title, description);
   const router = useRouter();
   const pathname = usePathname();
   const [error, setError] = React.useState<string>('');

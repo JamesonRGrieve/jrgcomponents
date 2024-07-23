@@ -7,7 +7,7 @@ import useSWR, { mutate } from 'swr';
 import DynamicForm, { DynamicFormFieldValueTypes } from '../../Form/DynamicForm';
 import { useRouter } from 'next/navigation';
 
-export default function Manage(): ReactNode {
+export default function Manage({ userDataSWRKey = '/user' }): ReactNode {
   const [responseMessage, setResponseMessage] = useState('');
   type User = {
     missing_requirements?: {
@@ -19,7 +19,7 @@ export default function Manage(): ReactNode {
     };
   };
   const router = useRouter();
-  const { data, error, isLoading } = useSWR<User, any, '/user'>('/user', async () => {
+  const { data, error, isLoading } = useSWR<User, any, string>(userDataSWRKey, async () => {
     return (
       await axios.get(`${process.env.NEXT_PUBLIC_AGIXT_SERVER}/v1/user`, {
         headers: {
@@ -104,7 +104,7 @@ export default function Manage(): ReactNode {
           if (updateResponse.detail) {
             setResponseMessage(updateResponse.detail.toString());
           }
-          await mutate('/user');
+          await mutate(userDataSWRKey);
           if (data.missing_requirements && Object.keys(data.missing_requirements).length === 0) {
             const redirect = getCookie('href') ?? '/';
             deleteCookie('href');

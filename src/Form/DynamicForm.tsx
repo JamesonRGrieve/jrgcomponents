@@ -1,4 +1,4 @@
-import { Box, Button, Select, TextField } from '@mui/material';
+import { Box, Button, Divider, FormControl, Select, TextField } from '@mui/material';
 import Field from '../MUI/Styled/FormControl/Field';
 import timezones from 'timezones-list';
 
@@ -156,23 +156,32 @@ export default function DynamicForm({
             </Box>
           ),
       )}
-      {readOnlyFields.map(
-        (fieldName) =>
-          toUpdate[fieldName as keyof typeof toUpdate].value !== undefined && (
-            <Box key={fieldName.toLowerCase().replaceAll(' ', '-')} gridColumn='span 2'>
-              <TextField
-                id={fieldName.toLowerCase().replaceAll(' ', '-')}
-                name={fieldName.toLowerCase().replaceAll(' ', '-')}
-                label={fields ? fields[fieldName].display ?? toTitleCase(fieldName) : toTitleCase(fieldName)}
-                value={toUpdate[fieldName as keyof typeof toUpdate]?.value?.toString() || ''}
-                disabled
-              />
-            </Box>
-          ),
-      )}
-      <Button sx={{ gridColumn: additionalButtons.length > 0 ? 'span 2' : '2 / 4' }} onClick={handleSubmit}>
+      <Button
+        sx={{ gridColumn: readOnlyFields.length > 0 ? '1 / 3' : additionalButtons.length > 0 ? 'span 2' : '2 / 4' }}
+        onClick={handleSubmit}
+      >
         {submitButtonText}
       </Button>
+      {readOnlyFields.length > 0 && <Divider sx={{ gridColumn: 'span 4' }} />}
+      {readOnlyFields.map((fieldName) => {
+        return (
+          toUpdate[fieldName as keyof typeof toUpdate] !== undefined && (
+            <Box key={fieldName.toLowerCase().replaceAll(' ', '-')} gridColumn='span 2'>
+              <FormControl fullWidth sx={{ my: '1rem' }}>
+                <TextField
+                  fullWidth
+                  id={fieldName.toLowerCase().replaceAll(' ', '-')}
+                  name={fieldName.toLowerCase().replaceAll(' ', '-')}
+                  label={fields ? fields[fieldName].display ?? toTitleCase(fieldName) : toTitleCase(fieldName)}
+                  value={toUpdate[fieldName as keyof typeof toUpdate]?.toString() || ''}
+                  disabled
+                />
+              </FormControl>
+            </Box>
+          )
+        );
+      })}
+
       {additionalButtons}
     </Box>
   );

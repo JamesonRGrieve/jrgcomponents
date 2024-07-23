@@ -2,15 +2,17 @@
 
 import { deleteCookie } from 'cookies-next';
 import { useRouter } from 'next/navigation';
-import React, { useEffect } from 'react';
+import React, { ReactNode, useEffect } from 'react';
 
-const Logout = () => {
+export type LogoutProps = { redirectTo?: string };
+
+const Logout = ({ redirectTo = '/' }: LogoutProps): ReactNode => {
   const router = useRouter();
   useEffect(() => {
     deleteCookie('jwt');
-    router.push('/');
-  }, []);
+    router.push(redirectTo);
+  }, [router, redirectTo]);
 
-  return <></>;
+  return null;
 };
 export default Logout;
