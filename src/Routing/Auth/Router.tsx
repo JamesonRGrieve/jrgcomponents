@@ -1,22 +1,26 @@
 // Use in ./app/user/[[...slug]]/page.tsx
 import React, { createContext, ReactNode, useContext } from 'react';
 import { notFound } from 'next/navigation';
-import User from './User';
+import User from './Identify';
 import Login from './Login';
 import Manage from './Manage';
 import Register from './Register';
 import Close from './Close';
 import Logout, { LogoutProps } from './Logout';
 import Subscribe from './Subscribe';
+type RouterPageProps = {
+  path: string;
+  heading?: string;
+};
 type AuthenticationConfig = {
-  identify: { path: string; props?: any };
-  login: { path: string; props?: any };
-  manage: { path: string; props?: any };
-  register: { path: string; props?: any };
-  close: { path: string; props?: any };
-  subscribe: { path: string; props?: any };
-  logout: { path: string; props: LogoutProps };
-  modes: {
+  identify: RouterPageProps & { props?: any };
+  login: RouterPageProps & { props?: any };
+  manage: RouterPageProps & { props?: any };
+  register: RouterPageProps & { props?: any };
+  close: RouterPageProps & { props?: any };
+  subscribe: RouterPageProps & { props?: any };
+  logout: RouterPageProps & { props: LogoutProps };
+  authModes: {
     basic: boolean;
     oauth2: boolean;
     magical: boolean;
@@ -33,43 +37,51 @@ export const useAuthentication = () => {
   }
   return context;
 };
+const pageConfigDefaults: AuthenticationConfig = {
+  identify: {
+    path: '/',
+    heading: 'Please Enter Your E-Mail Address',
+  },
+  login: {
+    path: '/login',
+    heading: 'Welcome Back, Please Authenticate',
+  },
+  manage: {
+    path: '/manage',
+    heading: 'Account Management',
+  },
+  register: {
+    path: '/register',
+    heading: 'Welcome, Please Register',
+  },
+  close: {
+    path: '/close',
+    heading: '',
+  },
+  subscribe: {
+    path: '/subscribe',
+    heading: 'Please Subscribe to Access The Application',
+  },
+  logout: {
+    path: '/logout',
+    props: undefined,
+    heading: '',
+  },
+  authModes: {
+    basic: false,
+    oauth2: true,
+    magical: true,
+  },
+};
 export default function AuthRouter({
   params,
   searchParams,
-  corePagesConfig = {
-    identify: {
-      path: '/',
-    },
-    login: {
-      path: '/login',
-    },
-    manage: {
-      path: '/manage',
-    },
-    register: {
-      path: '/register',
-    },
-    close: {
-      path: '/close',
-    },
-    subscribe: {
-      path: '/subscribe',
-    },
-    logout: {
-      path: '/logout',
-      props: undefined,
-    },
-    modes: {
-      basic: false,
-      oauth2: true,
-      magical: true,
-    },
-  },
+  corePagesConfig,
   additionalPages = {},
 }: {
   params: { slug?: string[] };
   searchParams: any;
-  corePagesConfig: AuthenticationConfig;
+  corePagesConfig?: AuthenticationConfig;
   additionalPages: { [key: string]: ReactNode };
 }) {
   const pages = {
@@ -86,7 +98,7 @@ export default function AuthRouter({
   const path = params.slug ? `/${params.slug.join('/')}` : '/';
   if (path in pages) {
     return (
-      <AuthenticationContext.Provider value={{ ...corePagesConfig }}>
+      <AuthenticationContext.Provider value={{ ...pageConfigDefaults, ...corePagesConfig }}>
         {pages[path.toString()]}
       </AuthenticationContext.Provider>
     );

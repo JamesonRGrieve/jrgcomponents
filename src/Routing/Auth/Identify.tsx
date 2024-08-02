@@ -1,17 +1,19 @@
 'use client';
-import { Box, Collapse } from '@mui/material';
+import { Box, Collapse, Typography } from '@mui/material';
 import axios, { AxiosError } from 'axios';
 import { usePathname, useRouter } from 'next/navigation';
-import React, { FormEvent, ReactNode } from 'react';
+import React, { FormEvent, ReactNode, useContext } from 'react';
 import { setCookie } from 'cookies-next';
 import OAuth from './OAuth';
 import Field from '../../MUI/Styled/FormControl/Field';
 import IconButton from '../../MUI/Styled/Button/IconButton';
 import { PersonOutline } from '@mui/icons-material';
-
+import { AuthenticationContext } from './Router';
 export default function Identify({ title, description }: { title: any; description: any }): ReactNode {
   console.log(title, description);
   const router = useRouter();
+  const authConfig = useContext(AuthenticationContext);
+
   const pathname = usePathname();
   const [error, setError] = React.useState<string>('');
   const [loading, setLoading] = React.useState<boolean>(false);
@@ -49,6 +51,8 @@ export default function Identify({ title, description }: { title: any; descripti
 
   return (
     <Box component='form' onSubmit={submitForm} display='flex' flexDirection='column' gap='1rem'>
+      {authConfig.identify.heading && <Typography variant='h2'>{authConfig.identify.heading}</Typography>}
+
       {process.env.NEXT_PUBLIC_ALLOW_EMAIL_SIGN_IN === 'true' && (
         <>
           <Field

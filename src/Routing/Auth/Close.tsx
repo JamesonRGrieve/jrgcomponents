@@ -1,12 +1,15 @@
 'use client';
 
-import React, { useEffect } from 'react';
-
+import React, { useContext, useEffect } from 'react';
+import { AuthenticationContext } from './Router';
+import { Typography } from '@mui/material';
 const CloseWindow = () => {
+  const authConfig = useContext(AuthenticationContext);
+
   useEffect(() => {
     window.close();
   }, []);
 
-  return <></>;
+  return authConfig.close.heading ? <Typography variant='h2'>{authConfig.close.heading}</Typography> : <></>;
 };
 export default CloseWindow;

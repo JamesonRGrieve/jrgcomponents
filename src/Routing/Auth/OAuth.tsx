@@ -1,18 +1,19 @@
 'use client';
 
-import React, { ReactNode, useCallback, useEffect } from 'react';
+import React, { ReactNode, useCallback, useContext, useEffect } from 'react';
 
 import OAuth2Login from 'react-simple-oauth2-login';
 
 import IconButton from '../../MUI/Styled/Button/IconButton';
 import { useRouter } from 'next/navigation';
 import { deleteCookie, getCookie } from 'cookies-next';
-
+import { AuthenticationContext } from './Router';
 import providers from './OAuthProviders';
 
 export default function Identify(): ReactNode {
-  console.log('OAuth.tsx: Identify()', process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID);
   const router = useRouter();
+  const authConfig = useContext(AuthenticationContext);
+
   const onOAuth2 = useCallback(
     (response: any) => {
       const redirect = getCookie('href') ?? '/';

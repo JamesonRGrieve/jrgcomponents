@@ -3,11 +3,12 @@ import { Box, Button, TextField, Typography } from '@mui/material';
 import axios, { AxiosError } from 'axios';
 import { getCookie } from 'cookies-next';
 import { useRouter } from 'next/navigation';
-import React, { FormEvent, ReactNode, useState } from 'react';
-
+import React, { FormEvent, ReactNode, useContext, useState } from 'react';
+import { AuthenticationContext } from './Router';
 export default function Register({ services }: { services: object }): ReactNode {
   const router = useRouter();
   const [responseMessage, setResponseMessage] = useState('');
+  const authConfig = useContext(AuthenticationContext);
 
   const submitForm = async (event: FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault();
@@ -27,6 +28,8 @@ export default function Register({ services }: { services: object }): ReactNode 
 
   return (
     <Box component='form' onSubmit={submitForm} display='flex' flexDirection='column' gap='1rem'>
+      {authConfig.register.heading && <Typography variant='h2'>{authConfig.register.heading}</Typography>}
+
       <input type='hidden' id='email' name='email' value={getCookie('email')} />
       <TextField id='first_name' label='First Name' variant='outlined' name='first_name' />
       <TextField id='last_name' label='Last Name' variant='outlined' name='last_name' />

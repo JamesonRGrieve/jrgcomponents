@@ -4,11 +4,12 @@ import { Box, Button, IconButton, TextField, Typography } from '@mui/material';
 import axios, { AxiosError } from 'axios';
 import { getCookie } from 'cookies-next';
 import { useRouter } from 'next/navigation';
-import React, { FormEvent, ReactNode, useState } from 'react';
+import React, { useContext, FormEvent, ReactNode, useState } from 'react';
 import QRCode from 'react-qr-code';
-
-export default function Login({ searchParams,  }: { searchParams: any }): ReactNode {
+import { AuthenticationContext } from './Router';
+export default function Login({ searchParams }: { searchParams: any }): ReactNode {
   const [responseMessage, setResponseMessage] = useState('');
+  const authConfig = useContext(AuthenticationContext);
   const router = useRouter();
   const submitForm = async (event: FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault();
@@ -41,6 +42,7 @@ export default function Login({ searchParams,  }: { searchParams: any }): ReactN
   const otp_uri = searchParams.otp_uri;
   return (
     <Box component='form' onSubmit={submitForm} display='flex' flexDirection='column' gap='1rem'>
+      {authConfig.login.heading && <Typography variant='h2'>{authConfig.login.heading}</Typography>}
       {otp_uri && !responseMessage && (
         <Box sx={{ backgroundColor: '#fff', padding: '0.5rem', maxWidth: '320px' }}>
           <QRCode
