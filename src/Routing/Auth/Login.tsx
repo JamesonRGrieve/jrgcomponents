@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation';
 import React, { FormEvent, ReactNode, useState } from 'react';
 import QRCode from 'react-qr-code';
 
-export default function Login({ searchParams }: { searchParams: any }): ReactNode {
+export default function Login({ searchParams,  }: { searchParams: any }): ReactNode {
   const [responseMessage, setResponseMessage] = useState('');
   const router = useRouter();
   const submitForm = async (event: FormEvent<HTMLFormElement>): Promise<void> => {

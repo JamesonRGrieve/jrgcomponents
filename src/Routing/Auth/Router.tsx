@@ -1,5 +1,5 @@
 // Use in ./app/user/[[...slug]]/page.tsx
-import React, { createContext, useContext } from 'react';
+import React, { createContext, ReactNode, useContext } from 'react';
 import { notFound } from 'next/navigation';
 import User from './User';
 import Login from './Login';
@@ -36,7 +36,7 @@ export const useAuthentication = () => {
 export default function AuthRouter({
   params,
   searchParams,
-  config = {
+  corePagesConfig = {
     identify: {
       path: '/',
     },
@@ -65,24 +65,31 @@ export default function AuthRouter({
       magical: true,
     },
   },
+  additionalPages = {},
 }: {
   params: { slug?: string[] };
   searchParams: any;
-  config: AuthenticationConfig;
+  corePagesConfig: AuthenticationConfig;
+  additionalPages: { [key: string]: ReactNode };
 }) {
   const pages = {
-    [config.identify.path]: <User {...config.identify.props} />,
-    [config.login.path]: <Login searchParams={searchParams} {...config.login.props} />,
-    [config.manage.path]: <Manage {...config.manage.props} />,
-    [config.register.path]: <Register {...config.register.props} />,
-    [config.close.path]: <Close {...config.close.props} />,
-    [config.subscribe.path]: <Subscribe searchParams={searchParams} {...config.subscribe.props} />,
-    [config.logout.path]: <Logout {...config.logout.props} />,
+    [corePagesConfig.identify.path]: <User {...corePagesConfig.identify.props} />,
+    [corePagesConfig.login.path]: <Login searchParams={searchParams} {...corePagesConfig.login.props} />,
+    [corePagesConfig.manage.path]: <Manage {...corePagesConfig.manage.props} />,
+    [corePagesConfig.register.path]: <Register {...corePagesConfig.register.props} />,
+    [corePagesConfig.close.path]: <Close {...corePagesConfig.close.props} />,
+    [corePagesConfig.subscribe.path]: <Subscribe searchParams={searchParams} {...corePagesConfig.subscribe.props} />,
+    [corePagesConfig.logout.path]: <Logout {...corePagesConfig.logout.props} />,
+    ...additionalPages,
   };
 
   const path = params.slug ? `/${params.slug.join('/')}` : '/';
   if (path in pages) {
-    return <AuthenticationContext.Provider value={{ ...config }}>{pages[path.toString()]}</AuthenticationContext.Provider>;
+    return (
+      <AuthenticationContext.Provider value={{ ...corePagesConfig }}>
+        {pages[path.toString()]}
+      </AuthenticationContext.Provider>
+    );
   } else {
     return notFound();
   }
