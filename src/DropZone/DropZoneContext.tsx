@@ -36,7 +36,7 @@ const defaultBlockList = ['text/plain', 'application/x-msdownload'];
 
 const getFileTypeValidation = (files: DataTransferItemList | FileList, allowList?: string[], blockList?: string[]) => {
   const effectiveBlockList = blockList || defaultBlockList;
-  const fileArray = Array.from(files);
+  const fileArray = Array.from(files as FileList);
   let commonFileType = fileArray[0].type;
   for (const file of fileArray) {
     const fileType = file.type;

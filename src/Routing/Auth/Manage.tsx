@@ -53,12 +53,15 @@ export default function Manage(): ReactNode {
       ]}
       onConfirm={async (data) => {
         console.log(data);
+
         const updateResponse = (
           await axios
             .put(
               `${process.env.NEXT_PUBLIC_AGIXT_SERVER}/v1/user`,
               {
-                ...data,
+                ...Object.entries(data).reduce((acc, [key, value]) => {
+                  return value ? { ...acc, key: value } : acc;
+                }, {}),
               },
               {
                 headers: {
@@ -80,7 +83,7 @@ export default function Manage(): ReactNode {
         submitButtonText='Submit Missing Information'
         fields={Object.entries(data.missing_requirements).reduce((acc, [key, value]) => {
           // @ts-expect-error This is a valid assignment.
-          acc[key] = { type: value };
+          acc[Object.keys(value)[0]] = { type: Object.values(value)[0] };
           return acc;
         }, {})}
         onConfirm={async (data) => {
