@@ -67,7 +67,7 @@ export const useAuth: MiddlewareHook = async (req) => {
             );
             toReturn.activated = true;
           }
-        } else if (response.status === 403) {
+        } else if (responseJSON?.missing_requirements || response.status === 403) {
           // Forbidden (Missing Values for User)
           if (!requestedURI.startsWith(process.env.AUTH_WEB + '/manage')) {
             toReturn.response = NextResponse.redirect(new URL(process.env.AUTH_WEB + '/manage'));
