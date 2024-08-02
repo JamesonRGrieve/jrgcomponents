@@ -3,8 +3,9 @@
 import { deleteCookie } from 'cookies-next';
 import { useRouter } from 'next/navigation';
 import React, { ReactNode, useContext, useEffect } from 'react';
-import { AuthenticationContext } from './Router';
 import { Typography } from '@mui/material';
+import { AuthenticationContext } from './Router';
+
 export type LogoutProps = { redirectTo?: string };
 
 const Logout = ({ redirectTo = '/' }: LogoutProps): ReactNode => {

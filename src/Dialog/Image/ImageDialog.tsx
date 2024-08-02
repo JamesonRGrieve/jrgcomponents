@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react';
-import Dialog, { CommonDialogProps } from '../Dialog';
 import Image from 'next/image';
 import { Box } from '@mui/material';
+import Dialog, { CommonDialogProps } from '../Dialog';
 
 export type ImageDialogProps = {
   imageSrc: string;

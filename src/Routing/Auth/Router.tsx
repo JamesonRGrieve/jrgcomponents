@@ -8,6 +8,7 @@ import Register from './Register';
 import Close from './Close';
 import Logout, { LogoutProps } from './Logout';
 import Subscribe from './Subscribe';
+
 type RouterPageProps = {
   path: string;
   heading?: string;

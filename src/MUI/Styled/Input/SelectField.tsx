@@ -1,4 +1,4 @@
-import { FormControl, MenuItem, Select } from '@mui/material';
+import { MenuItem, Select } from '@mui/material';
 import React from 'react';
 
 interface SelectFieldProps {

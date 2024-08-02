@@ -51,7 +51,7 @@ export const CustomActiveBody: Story = () => {
     <DropZone onUpload={action('onUpload')}>
       <DropZone.Active sx={{ bgcolor: 'grey', color: 'white', border: '1px dashed black' }}>
         <Typography variant='body1'>Custom message to drag and drop</Typography>
-        <Box sx={{ p: 2}}>
+        <Box sx={{ p: 2 }}>
           <Typography>More stuff here</Typography>
         </Box>
       </DropZone.Active>

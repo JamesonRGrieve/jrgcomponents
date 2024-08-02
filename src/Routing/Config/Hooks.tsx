@@ -34,7 +34,7 @@ export const useCookiesConfig = () => ({
   env: {
     NEXT_PUBLIC_COOKIE_DOMAIN: (() => {
       const domain = ((process.env.APP_URI ?? process.env.NEXT_PUBLIC_APP_URI ?? '').split('://')[1] ?? '').split(':')[0];
-      const ipPattern = /^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$/;
+      const ipPattern = /^(?:\d{1,3}\.){3}\d{1,3}$/;
       return ipPattern.test(domain) ? domain : domain.split('.').reverse().slice(0, 2).reverse().join('.');
     })(),
   },

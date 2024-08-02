@@ -47,9 +47,9 @@ import {
   VideoCallOutlined,
   VideoLibraryOutlined,
   WorkOutlineOutlined,
-  X,
 } from '@mui/icons-material';
 import React from 'react';
+
 const providers = {
   AOL: {
     client_id: process.env.NEXT_PUBLIC_AOL_CLIENT_ID,

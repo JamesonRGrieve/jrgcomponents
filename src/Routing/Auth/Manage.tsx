@@ -1,12 +1,13 @@
 'use client';
-import { Box, Button, TextField, Typography } from '@mui/material';
+import { Button, Typography } from '@mui/material';
 import axios from 'axios';
 import { deleteCookie, getCookie } from 'cookies-next';
-import React, { FormEvent, ReactNode, useContext, useState } from 'react';
+import React, { ReactNode, useContext, useState } from 'react';
 import useSWR, { mutate } from 'swr';
-import DynamicForm, { DynamicFormFieldValueTypes } from '../../Form/DynamicForm';
 import { useRouter } from 'next/navigation';
+import DynamicForm, { DynamicFormFieldValueTypes } from '../../Form/DynamicForm';
 import { AuthenticationContext } from './Router';
+
 export default function Manage({ userDataSWRKey = '/user' }): ReactNode {
   const [responseMessage, setResponseMessage] = useState('');
   type User = {

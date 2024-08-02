@@ -35,7 +35,7 @@ export const Default: StoryObj<DynamicFormProps> = {
           return true;
         },
       },
-      'timezone': { value: 'America/Edmonton', type: 'text' },
+      timezone: { value: 'America/Edmonton', type: 'text' },
     },
   },
 };

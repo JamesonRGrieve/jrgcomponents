@@ -5,6 +5,7 @@ import { getCookie } from 'cookies-next';
 import { useRouter } from 'next/navigation';
 import React, { FormEvent, ReactNode, useContext, useState } from 'react';
 import { AuthenticationContext } from './Router';
+
 export default function Register({ services }: { services: object }): ReactNode {
   const router = useRouter();
   const [responseMessage, setResponseMessage] = useState('');

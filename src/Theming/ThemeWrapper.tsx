@@ -5,6 +5,7 @@ import { setCookie } from 'cookies-next';
 import { ThemeState } from '../types/Theming';
 import buildThemeSet, { ThemeInjection } from './BuildThemeSet';
 import DefaultTheme from './sample-theme';
+
 export const ThemeContext: Context<ThemeState> = React.createContext<ThemeState>({
   dark: false,
   colorblind: false,

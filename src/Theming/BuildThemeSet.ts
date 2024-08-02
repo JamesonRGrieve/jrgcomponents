@@ -2,7 +2,6 @@ import { SxProps, Theme, createTheme, ThemeOptions } from '@mui/material';
 import { deepmerge } from '@mui/utils';
 import { Themes } from '../types/Theming';
 import NextLinkInjector from './NextLinkInjector';
-import DefaultTheme from './sample-theme';
 
 export type ThemeInjection = {
   theme: ThemeOptions;

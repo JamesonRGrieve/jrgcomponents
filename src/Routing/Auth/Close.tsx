@@ -1,8 +1,9 @@
 'use client';
 
 import React, { useContext, useEffect } from 'react';
-import { AuthenticationContext } from './Router';
 import { Typography } from '@mui/material';
+import { AuthenticationContext } from './Router';
+
 const CloseWindow = () => {
   const authConfig = useContext(AuthenticationContext);
 

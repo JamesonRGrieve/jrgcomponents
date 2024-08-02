@@ -1,8 +1,9 @@
-import { Box, Button, Divider, FormControl, Select, TextField } from '@mui/material';
-import Field from '../MUI/Styled/FormControl/Field';
+import { Box, Button, Divider, FormControl, TextField } from '@mui/material';
 import timezones from 'timezones-list';
 
 import React, { ReactNode, useCallback, useEffect, useState } from 'react';
+import Field from '../MUI/Styled/FormControl/Field';
+
 function toTitleCase(str: string) {
   // Replace underscores, or capital letters (in the middle of the string) with a space and the same character
   str = str.replace(/(_)|((?<=\w)[A-Z])/g, ' $&');

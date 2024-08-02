@@ -1,12 +1,12 @@
 'use client';
 
-import React, { ReactNode, useCallback, useContext, useEffect } from 'react';
+import React, { ReactNode, useCallback, useContext } from 'react';
 
 import OAuth2Login from 'react-simple-oauth2-login';
 
-import IconButton from '../../MUI/Styled/Button/IconButton';
 import { useRouter } from 'next/navigation';
 import { deleteCookie, getCookie } from 'cookies-next';
+import IconButton from '../../MUI/Styled/Button/IconButton';
 import { AuthenticationContext } from './Router';
 import providers from './OAuthProviders';
 

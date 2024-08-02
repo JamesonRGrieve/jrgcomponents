@@ -17,13 +17,12 @@ const getJWT = (req: NextRequest) => {
 const verifyJWT = async (jwt: string) => {
   const authEndpoint = `${process.env.MODE === 'development' || process.env.ENV === 'development' ? process.env.NEXT_PUBLIC_AUTH_SERVER : process.env.NEXT_PUBLIC_AUTH_SERVER.replace('localhost', 'agixt')}/v1/user`;
   console.log(`Verifying JWT Bearer ${jwt} with AUTH_SERVER at ${authEndpoint}...`);
-  const response = await fetch(authEndpoint, {
+  return await fetch(authEndpoint, {
     headers: {
       'Content-Type': 'application/json',
       Authorization: `${jwt}`,
     },
   });
-  return response;
 };
 
 export const useAuth: MiddlewareHook = async (req) => {
@@ -111,7 +110,7 @@ export const useAuth: MiddlewareHook = async (req) => {
           console.error(
             `Invalid token. Failed with TypeError>AggregateError. Logging out and redirecting to AUTH_WEB at ${process.env.AUTH_WEB}. ${exception.message} Exceptions to follow.`,
           );
-          for (const anError of ((exception as TypeError).cause as AggregateError).errors) {
+          for (const anError of exception.cause.errors) {
             console.error(anError.message);
           }
         } else if (exception instanceof AggregateError) {
