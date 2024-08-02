@@ -8,7 +8,8 @@ import { useRouter } from 'next/navigation';
 import DynamicForm, { DynamicFormFieldValueTypes } from '../../Form/DynamicForm';
 import { AuthenticationContext } from './Router';
 
-export default function Manage({ userDataSWRKey = '/user' }): ReactNode {
+export type ManageProps = { userDataSWRKey?: string };
+export default function Manage({ userDataSWRKey = '/user' }: ManageProps): ReactNode {
   const [responseMessage, setResponseMessage] = useState('');
   type User = {
     missing_requirements?: {

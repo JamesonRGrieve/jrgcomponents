@@ -9,9 +9,8 @@ import Field from '../../MUI/Styled/FormControl/Field';
 import IconButton from '../../MUI/Styled/Button/IconButton';
 import OAuth from './OAuth';
 import { AuthenticationContext } from './Router';
-
-export default function Identify({ title, description }: { title: any; description: any }): ReactNode {
-  console.log(title, description);
+export type IdentifyProps = {};
+export default function Identify(): ReactNode {
   const router = useRouter();
   const authConfig = useContext(AuthenticationContext);
 

@@ -4,6 +4,7 @@ import { getCookie } from 'cookies-next';
 import { useRouter } from 'next/navigation';
 import React, { Suspense, useContext } from 'react';
 import { AuthenticationContext } from './Router';
+export type SubscribeProps = { redirectTo?: string };
 
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace

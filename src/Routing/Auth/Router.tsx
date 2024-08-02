@@ -1,25 +1,25 @@
 // Use in ./app/user/[[...slug]]/page.tsx
 import React, { createContext, ReactNode, useContext } from 'react';
 import { notFound } from 'next/navigation';
-import User from './Identify';
-import Login from './Login';
-import Manage from './Manage';
-import Register from './Register';
-import Close from './Close';
+import User, { IdentifyProps } from './Identify';
+import Login, { LoginProps } from './Login';
+import Manage, { ManageProps } from './Manage';
+import Register, { RegisterProps } from './Register';
+import Close, { CloseProps } from './Close';
 import Logout, { LogoutProps } from './Logout';
-import Subscribe from './Subscribe';
+import Subscribe, { SubscribeProps } from './Subscribe';
 
 type RouterPageProps = {
   path: string;
   heading?: string;
 };
 type AuthenticationConfig = {
-  identify: RouterPageProps & { props?: any };
-  login: RouterPageProps & { props?: any };
-  manage: RouterPageProps & { props?: any };
-  register: RouterPageProps & { props?: any };
-  close: RouterPageProps & { props?: any };
-  subscribe: RouterPageProps & { props?: any };
+  identify: RouterPageProps & { props?: IdentifyProps };
+  login: RouterPageProps & { props?: LoginProps };
+  manage: RouterPageProps & { props?: ManageProps };
+  register: RouterPageProps & { props?: RegisterProps };
+  close: RouterPageProps & { props?: CloseProps };
+  subscribe: RouterPageProps & { props?: SubscribeProps };
   logout: RouterPageProps & { props: LogoutProps };
   authModes: {
     basic: boolean;
@@ -85,6 +85,7 @@ export default function AuthRouter({
   corePagesConfig?: AuthenticationConfig;
   additionalPages: { [key: string]: ReactNode };
 }) {
+  // TODO If we're doing this, these probably don't need to be in context, which can be used for just enabled modes etc.
   const pages = {
     [corePagesConfig.identify.path]: <User {...corePagesConfig.identify.props} />,
     [corePagesConfig.login.path]: <Login searchParams={searchParams} {...corePagesConfig.login.props} />,
@@ -100,6 +101,7 @@ export default function AuthRouter({
   if (path in pages) {
     return (
       <AuthenticationContext.Provider value={{ ...pageConfigDefaults, ...corePagesConfig }}>
+        {/* TODO Needs to be deep merged. */}
         {pages[path.toString()]}
       </AuthenticationContext.Provider>
     );

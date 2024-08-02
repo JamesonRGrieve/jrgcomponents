@@ -9,8 +9,8 @@ import { deleteCookie, getCookie } from 'cookies-next';
 import IconButton from '../../MUI/Styled/Button/IconButton';
 import { AuthenticationContext } from './Router';
 import providers from './OAuthProviders';
-
-export default function Identify(): ReactNode {
+export type OAuthProps = {};
+export default function OAuth(): ReactNode {
   const router = useRouter();
   const authConfig = useContext(AuthenticationContext);
 

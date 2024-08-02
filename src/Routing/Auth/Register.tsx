@@ -5,8 +5,9 @@ import { getCookie } from 'cookies-next';
 import { useRouter } from 'next/navigation';
 import React, { FormEvent, ReactNode, useContext, useState } from 'react';
 import { AuthenticationContext } from './Router';
+export type RegisterProps = {};
 
-export default function Register({ services }: { services: object }): ReactNode {
+export default function Register(): ReactNode {
   const router = useRouter();
   const [responseMessage, setResponseMessage] = useState('');
   const authConfig = useContext(AuthenticationContext);
@@ -34,23 +35,6 @@ export default function Register({ services }: { services: object }): ReactNode 
       <input type='hidden' id='email' name='email' value={getCookie('email')} />
       <TextField id='first_name' label='First Name' variant='outlined' name='first_name' />
       <TextField id='last_name' label='Last Name' variant='outlined' name='last_name' />
-      {process.env.NEXT_PUBLIC_SELECTED_SERVICE && (
-        <>
-          <TextField
-            id='username'
-            label={`${services[(process.env.NEXT_PUBLIC_SELECTED_SERVICE ?? '') as keyof typeof services]} Username`}
-            variant='outlined'
-            name='username'
-          />
-          <TextField
-            id='password'
-            label={`${services[(process.env.NEXT_PUBLIC_SELECTED_SERVICE ?? '') as keyof typeof services]} Password`}
-            variant='outlined'
-            name='password'
-            type='password'
-          />
-        </>
-      )}
       <Button type='submit'>Register</Button>
       {responseMessage && <Typography>{responseMessage}</Typography>}
     </Box>
