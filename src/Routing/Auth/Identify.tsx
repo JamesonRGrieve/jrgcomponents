@@ -8,11 +8,11 @@ import { PersonOutline } from '@mui/icons-material';
 import Field from '../../MUI/Styled/FormControl/Field';
 import IconButton from '../../MUI/Styled/Button/IconButton';
 import OAuth from './OAuth';
-import { AuthenticationContext } from './Router';
+import { useAuthentication } from './Router';
 export type IdentifyProps = {};
 export default function Identify(): ReactNode {
   const router = useRouter();
-  const authConfig = useContext(AuthenticationContext);
+  const authConfig = useAuthentication();
 
   const pathname = usePathname();
   const [error, setError] = React.useState<string>('');

@@ -1,3 +1,4 @@
+'use client';
 // Use in ./app/user/[[...slug]]/page.tsx
 import React, { createContext, ReactNode, useContext } from 'react';
 import { notFound } from 'next/navigation';
@@ -8,12 +9,13 @@ import Register, { RegisterProps } from './Register';
 import Close, { CloseProps } from './Close';
 import Logout, { LogoutProps } from './Logout';
 import Subscribe, { SubscribeProps } from './Subscribe';
+import { AuthenticationContext } from './AuthenticationContext';
 
 type RouterPageProps = {
   path: string;
   heading?: string;
 };
-type AuthenticationConfig = {
+export type AuthenticationConfig = {
   identify: RouterPageProps & { props?: IdentifyProps };
   login: RouterPageProps & { props?: LoginProps };
   manage: RouterPageProps & { props?: ManageProps };
@@ -27,9 +29,6 @@ type AuthenticationConfig = {
     magical: boolean;
   };
 };
-
-// Create the context
-export const AuthenticationContext = createContext<AuthenticationConfig | undefined>(undefined);
 
 export const useAuthentication = () => {
   const context = useContext(AuthenticationContext);
@@ -77,7 +76,7 @@ const pageConfigDefaults: AuthenticationConfig = {
 export default function AuthRouter({
   params,
   searchParams,
-  corePagesConfig,
+  corePagesConfig = pageConfigDefaults,
   additionalPages = {},
 }: {
   params: { slug?: string[] };
@@ -98,11 +97,11 @@ export default function AuthRouter({
   };
 
   const path = params.slug ? `/${params.slug.join('/')}` : '/';
-  if (path in pages) {
+  if (path in pages || path.startsWith(corePagesConfig.close.path)) {
     return (
       <AuthenticationContext.Provider value={{ ...pageConfigDefaults, ...corePagesConfig }}>
         {/* TODO Needs to be deep merged. */}
-        {pages[path.toString()]}
+        {path.startsWith(corePagesConfig.close.path) ? pages[corePagesConfig.close.path] : pages[path.toString()]}
       </AuthenticationContext.Provider>
     );
   } else {

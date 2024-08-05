@@ -6,7 +6,7 @@ import React, { ReactNode, useContext, useState } from 'react';
 import useSWR, { mutate } from 'swr';
 import { useRouter } from 'next/navigation';
 import DynamicForm, { DynamicFormFieldValueTypes } from '../../Form/DynamicForm';
-import { AuthenticationContext } from './Router';
+import { useAuthentication } from './Router';
 
 export type ManageProps = { userDataSWRKey?: string };
 export default function Manage({ userDataSWRKey = '/user' }: ManageProps): ReactNode {
@@ -21,7 +21,7 @@ export default function Manage({ userDataSWRKey = '/user' }: ManageProps): React
     };
   };
   const router = useRouter();
-  const authConfig = useContext(AuthenticationContext);
+  const authConfig = useAuthentication();
 
   const { data, error, isLoading } = useSWR<User, any, string>(userDataSWRKey, async () => {
     return (
@@ -68,7 +68,7 @@ export default function Manage({ userDataSWRKey = '/user' }: ManageProps): React
                   `${process.env.NEXT_PUBLIC_AGIXT_SERVER}/v1/user`,
                   {
                     ...Object.entries(data).reduce((acc, [key, value]) => {
-                      return value ? { ...acc, key: value } : acc;
+                      return value ? { ...acc, [key]: value } : acc;
                     }, {}),
                   },
                   {

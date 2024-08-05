@@ -6,11 +6,11 @@ import { getCookie } from 'cookies-next';
 import { useRouter } from 'next/navigation';
 import React, { useContext, FormEvent, ReactNode, useState } from 'react';
 import QRCode from 'react-qr-code';
-import { AuthenticationContext } from './Router';
+import { useAuthentication } from './Router';
 export type LoginProps = {};
 export default function Login({ searchParams }: { searchParams: any }): ReactNode {
   const [responseMessage, setResponseMessage] = useState('');
-  const authConfig = useContext(AuthenticationContext);
+  const authConfig = useAuthentication();
   const router = useRouter();
   const submitForm = async (event: FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault();

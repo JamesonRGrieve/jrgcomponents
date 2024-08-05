@@ -133,8 +133,11 @@ export const useAuth: MiddlewareHook = async (req) => {
       console.log(
         `${requestedURI} does ${requestedURI.startsWith(process.env.AUTH_WEB) ? '' : 'not '}start with ${process.env.AUTH_WEB}.`,
       );
-      if (authMode === AuthMode.MagicalAuth && requestedURI.startsWith(process.env.AUTH_WEB)) {
-        // Don't let users visit Identify, Register or Login pages if they're already logged in.
+      if (
+        authMode === AuthMode.MagicalAuth &&
+        requestedURI.startsWith(process.env.AUTH_WEB) &&
+        req.nextUrl.pathname !== '/user/manage'
+      ) {
         console.log('Pathname: ' + req.nextUrl.pathname);
       } else {
         console.log(

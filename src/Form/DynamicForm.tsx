@@ -55,7 +55,6 @@ export default function DynamicForm({
   const [editedState, setEditedState] = useState<{ [key: string]: { value: DynamicFormFieldValueTypes; error: string } }>(
     {},
   );
-  console.log(timezones);
   const handleChange = useCallback((event: any, id?: string) => {
     setEditedState((prevState) => ({
       ...prevState,

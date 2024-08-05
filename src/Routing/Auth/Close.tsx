@@ -2,11 +2,11 @@
 
 import React, { useContext, useEffect } from 'react';
 import { Typography } from '@mui/material';
-import { AuthenticationContext } from './Router';
+import { useAuthentication } from './Router';
 export type CloseProps = {};
 
 const CloseWindow = () => {
-  const authConfig = useContext(AuthenticationContext);
+  const authConfig = useAuthentication();
 
   useEffect(() => {
     window.close();

@@ -4,13 +4,13 @@ import axios, { AxiosError } from 'axios';
 import { getCookie } from 'cookies-next';
 import { useRouter } from 'next/navigation';
 import React, { FormEvent, ReactNode, useContext, useState } from 'react';
-import { AuthenticationContext } from './Router';
+import { useAuthentication } from './Router';
 export type RegisterProps = {};
 
 export default function Register(): ReactNode {
   const router = useRouter();
   const [responseMessage, setResponseMessage] = useState('');
-  const authConfig = useContext(AuthenticationContext);
+  const authConfig = useAuthentication();
 
   const submitForm = async (event: FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault();

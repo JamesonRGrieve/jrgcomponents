@@ -2,8 +2,8 @@
 import { Box, Typography } from '@mui/material';
 import { getCookie } from 'cookies-next';
 import { useRouter } from 'next/navigation';
-import React, { Suspense, useContext } from 'react';
-import { AuthenticationContext } from './Router';
+import React, { Suspense } from 'react';
+import { useAuthentication } from './Router';
 export type SubscribeProps = { redirectTo?: string };
 
 declare global {
@@ -17,7 +17,7 @@ declare global {
 
 export default function Subscribe({ searchParams }: { searchParams: any }): JSX.Element {
   const router = useRouter();
-  const authConfig = useContext(AuthenticationContext);
+  const authConfig = useAuthentication();
 
   if (process.env.NEXT_PUBLIC_STRIPE_ENABLED === 'true') {
     router.push('/');

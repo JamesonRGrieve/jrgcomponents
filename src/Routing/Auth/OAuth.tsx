@@ -7,12 +7,11 @@ import OAuth2Login from 'react-simple-oauth2-login';
 import { useRouter } from 'next/navigation';
 import { deleteCookie, getCookie } from 'cookies-next';
 import IconButton from '../../MUI/Styled/Button/IconButton';
-import { AuthenticationContext } from './Router';
+
 import providers from './OAuthProviders';
 export type OAuthProps = {};
 export default function OAuth(): ReactNode {
   const router = useRouter();
-  const authConfig = useContext(AuthenticationContext);
 
   const onOAuth2 = useCallback(
     (response: any) => {
