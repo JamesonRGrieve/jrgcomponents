@@ -1,5 +1,5 @@
+import React from 'react';
 import { Collapse, FormLabel, FormControl, Typography, Alert, AlertColor, InputLabel } from '@mui/material';
-import React, { useMemo } from 'react';
 import CheckField from '../Input/CheckField';
 import PasswordField from '../Input/PasswordField';
 import SelectField from '../Input/SelectField';
@@ -28,63 +28,48 @@ export type FieldProps = Field & {
   onChange?: any;
   messages?: Message[];
 };
-const Field: React.FC<FieldProps> = ({
+
+const FieldInput: React.FC<FieldProps> = ({
   nameID,
   label,
-  description,
   value,
   onChange,
   autoComplete,
   placeholder = '',
-  messages = [],
   type = 'text',
   items,
 }) => {
-  const inputComponents = useMemo(() => {
-    const injectedOnChange = onChange
-      ? (target: any) => {
-          onChange(target, nameID);
-        }
-      : null;
-    return {
-      text: (
-        <TextField
-          id={nameID}
-          name={nameID}
-          autoComplete={autoComplete}
-          value={value}
-          label={label}
-          onChange={injectedOnChange}
-          placeholder={placeholder}
-        />
-      ),
-      password: (
-        <PasswordField
-          id={nameID}
-          name={nameID}
-          label={label}
-          autoComplete={autoComplete}
-          value={value}
-          onChange={injectedOnChange}
-        />
-      ),
-      select: (
-        <SelectField id={nameID} name={nameID} value={value} onChange={injectedOnChange} items={items} label={label} />
-      ),
-      checkbox: (
-        <CheckField
-          id={nameID}
-          name={nameID}
-          value={['on', 'true'].includes(value?.toLowerCase())}
-          onChange={injectedOnChange}
-        />
-      ),
-      //multicheckbox: <MultiCheckField id={nameID} value={value} onChange={onChange} items={items} />,
-      radio: <RadioField id={nameID} name={nameID} value={value} onChange={injectedOnChange} items={items} />,
-      default: <TextField id={nameID} name={nameID} autoComplete={autoComplete} value={value} onChange={injectedOnChange} />,
-    };
-  }, [type, nameID, value, onChange, placeholder, items]);
+  const injectedOnChange = onChange
+    ? (target: any) => {
+        onChange(target, nameID);
+      }
+    : null;
 
+  const commonProps = {
+    id: nameID,
+    name: nameID,
+    value,
+    onChange: injectedOnChange,
+    label,
+  };
+
+  switch (type) {
+    case 'text':
+      return <TextField {...commonProps} autoComplete={autoComplete} placeholder={placeholder} />;
+    case 'password':
+      return <PasswordField {...commonProps} autoComplete={autoComplete} />;
+    case 'select':
+      return <SelectField {...commonProps} items={items} />;
+    case 'checkbox':
+      return <CheckField {...commonProps} value={['on', 'true'].includes(value?.toLowerCase())} />;
+    case 'radio':
+      return <RadioField {...commonProps} items={items} />;
+    default:
+      return <TextField {...commonProps} autoComplete={autoComplete} />;
+  }
+};
+
+const Field: React.FC<FieldProps> = ({ nameID, label, description, type = 'text', messages = [], ...rest }) => {
   return (
     <FormControl required fullWidth sx={{ my: '1rem' }}>
       {['checkbox', 'radio'].includes(type) ? (
@@ -99,8 +84,7 @@ const Field: React.FC<FieldProps> = ({
           {description}
         </Typography>
       )}
-      {/* Should render something from ./Input depending on the type prop. */}
-      {inputComponents[type as keyof typeof inputComponents] ?? inputComponents.default}
+      <FieldInput nameID={nameID} label={label} type={type} {...rest} />
       {messages && (
         <Collapse in={messages?.length > 0}>
           {/* Should render messages as a map of MUI Alert's */}
