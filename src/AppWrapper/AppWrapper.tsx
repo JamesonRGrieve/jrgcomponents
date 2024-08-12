@@ -131,6 +131,7 @@ export default function AppWrapper({
       {(header?.components?.left as unknown as Menu)?.menu && (
         <PopoutDrawer
           open={open.left}
+          close={() => setOpen((prevState: any) => ({ ...prevState, left: false }))}
           {...(header?.components?.left as unknown as Menu)}
           side='left'
           zIndex={1200}
@@ -160,6 +161,7 @@ export default function AppWrapper({
       {(header?.components?.right as unknown as Menu)?.menu && (
         <PopoutDrawer
           open={open.right}
+          close={() => setOpen((prevState: any) => ({ ...prevState, right: false }))}
           {...(header?.components?.right as unknown as Menu)}
           side='right'
           zIndex={1200}
