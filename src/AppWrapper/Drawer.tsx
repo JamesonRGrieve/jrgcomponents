@@ -63,6 +63,7 @@ const mobileStyles = {
   position: 'fixed',
   bottom: '0',
   top: '0',
+  minWidth: '75vw',
   paddingTop: 'env(safe-area-inset-top)',
   paddingBottom: 'env(safe-area-inset-bottom)',
 };
