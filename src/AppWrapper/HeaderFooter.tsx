@@ -16,33 +16,37 @@ export default function HeaderFooter({ height = '3rem', footer = false, componen
 export function Header({ height, components }: HeaderFooterProps) {
   const mobile = useMediaQuery('(max-width:600px)');
   return (
-    <AppBar
-      sx={{
-        height: height,
-        px: '1rem',
-        ...(mobile
-          ? {
-              height: 'unset',
-              px: '0.25rem',
-              pt: 'calc(0.25rem + env(safe-area-inset-top))',
-              pb: '0.25rem',
-            }
-          : {}),
-      }}
-      position={mobile ? 'fixed' : 'static'}
-    >
-      <CenterAlignedBox
-        left={components?.left}
-        center={
-          components?.center ?? (
-            <Typography variant='subtitle1' fontWeight={'bolder'} textAlign={'center'}>
-              {process.env.NEXT_PUBLIC_APP_NAME ?? 'Application Name'}
-            </Typography>
-          )
-        }
-        right={components?.right}
-      />
-    </AppBar>
+    <>
+      <AppBar
+        sx={{
+          height: height,
+          px: '1rem',
+          ...(mobile
+            ? {
+                height: 'unset',
+                px: '0.25rem',
+                pt: 'calc(0.25rem + env(safe-area-inset-top))',
+                pb: '0.25rem',
+              }
+            : {}),
+        }}
+        position={mobile ? 'fixed' : 'static'}
+      >
+        <CenterAlignedBox
+          left={components?.left}
+          center={
+            components?.center ?? (
+              <Typography variant='subtitle1' fontWeight={'bolder'} textAlign={'center'}>
+                {process.env.NEXT_PUBLIC_APP_NAME ?? 'Application Name'}
+              </Typography>
+            )
+          }
+          right={components?.right}
+        />
+      </AppBar>
+      {/* Spacer for mobile header when sticky. Here for locality */}
+      {mobile && <div style={{ height: 'calc(3rem + env(safe-area-inset-top))' }} />}
+    </>
   );
 }
 
