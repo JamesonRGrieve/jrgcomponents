@@ -139,25 +139,7 @@ export default function AppWrapper({
           bottomSpacing={footer?.height ?? '0'}
         />
       )}
-      <Box
-        component={inner ? 'main' : 'div'}
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          flexGrow: 1,
-          flexShrink: '0',
-          position: 'relative',
-          overflowY: 'auto',
-          transition: theme.transitions.create('margin', {
-            easing: theme.transitions.easing[open.left || open.right ? 'easeOut' : 'sharp'],
-            duration: theme.transitions.duration[open.left || open.right ? 'enteringScreen' : 'leavingScreen'],
-          }),
-          margin: `0 ${open.right ? (header?.components?.right as unknown as Menu)?.width : 0} 0 ${open.left ? (header?.components?.left as unknown as Menu)?.width : 0}`,
-          ...mainSX,
-        }}
-      >
-        {children}
-      </Box>
+      <MainSection {...{ inner, theme, open, header, mainSX, children }} />
       {(header?.components?.right as unknown as Menu)?.menu && (
         <PopoutDrawer
           open={open.right}
@@ -173,3 +155,41 @@ export default function AppWrapper({
     </>
   );
 }
+
+const MainSection = ({
+  inner,
+  open,
+  header,
+  mainSX,
+  footer,
+  children,
+}: AppWrapperProps & { children: ReactNode; open: { left: boolean; right: boolean } }) => {
+  const theme = useTheme();
+  // TODO: Change screen height on mobile when keyboard is opened
+
+  return (
+    <Box
+      component={inner ? 'main' : 'div'}
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        flexGrow: 1,
+        flexShrink: '0',
+        position: 'relative',
+        overflowY: 'auto',
+        transition: theme.transitions.create('margin', {
+          easing: theme.transitions.easing[open.left || open.right ? 'easeOut' : 'sharp'],
+          duration: theme.transitions.duration[open.left || open.right ? 'enteringScreen' : 'leavingScreen'],
+        }),
+        margin: `0 ${open.right ? (header?.components?.right as unknown as Menu)?.width : 0} 0 ${open.left ? (header?.components?.left as unknown as Menu)?.width : 0}`,
+        ...(!header ? { paddingTop: 'env(safe-area-inset-top)' } : {}),
+        ...(!footer ? { paddingBottom: 'env(safe-area-inset-bottom)' } : {}),
+        paddingLeft: 'env(safe-area-inset-left)',
+        paddingRight: 'env(safe-area-inset-right)',
+        ...mainSX,
+      }}
+    >
+      {children}
+    </Box>
+  );
+};
