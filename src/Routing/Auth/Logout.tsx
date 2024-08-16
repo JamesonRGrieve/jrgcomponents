@@ -8,7 +8,7 @@ import { useAuthentication } from './Router';
 
 export type LogoutProps = { redirectTo?: string };
 
-const Logout = ({ redirectTo = '/' }: LogoutProps): ReactNode => {
+export default function Logout({ redirectTo = '/' }: LogoutProps): ReactNode {
   const router = useRouter();
   const authConfig = useAuthentication();
 
@@ -17,7 +17,5 @@ const Logout = ({ redirectTo = '/' }: LogoutProps): ReactNode => {
     router.push(redirectTo);
   }, [router, redirectTo]);
 
-  return authConfig.logout.heading ? <Typography variant='h2'>{authConfig.logout.heading}</Typography> : <></>;
-  null;
-};
-export default Logout;
+  return authConfig.logout.heading ? <Typography variant='h2'>{authConfig.logout.heading}</Typography> : null;
+}

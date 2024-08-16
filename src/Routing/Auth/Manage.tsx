@@ -2,14 +2,18 @@
 import { Button, Typography } from '@mui/material';
 import axios from 'axios';
 import { deleteCookie, getCookie } from 'cookies-next';
-import React, { ReactNode, useContext, useState } from 'react';
+import React, { ReactNode, useState } from 'react';
 import useSWR, { mutate } from 'swr';
 import { useRouter } from 'next/navigation';
 import DynamicForm, { DynamicFormFieldValueTypes } from '../../Form/DynamicForm';
 import { useAuthentication } from './Router';
 
-export type ManageProps = { userDataSWRKey?: string };
-export default function Manage({ userDataSWRKey = '/user' }: ManageProps): ReactNode {
+export type ManageProps = { userDataSWRKey?: string; userDataEndpoint?: string; userUpdateEndpoint?: string };
+export default function Manage({
+  userDataSWRKey = '/user',
+  userDataEndpoint = '/v1/user',
+  userUpdateEndpoint = '/v1/user',
+}: ManageProps): ReactNode {
   const [responseMessage, setResponseMessage] = useState('');
   type User = {
     missing_requirements?: {
@@ -22,10 +26,9 @@ export default function Manage({ userDataSWRKey = '/user' }: ManageProps): React
   };
   const router = useRouter();
   const authConfig = useAuthentication();
-
   const { data, error, isLoading } = useSWR<User, any, string>(userDataSWRKey, async () => {
     return (
-      await axios.get(`${process.env.NEXT_PUBLIC_AGIXT_SERVER}/v1/user`, {
+      await axios.get(`${authConfig.authServer}${userDataEndpoint}`, {
         headers: {
           'Content-Type': 'application/json',
           Authorization: getCookie('jwt'),
@@ -56,7 +59,7 @@ export default function Manage({ userDataSWRKey = '/user' }: ManageProps): React
                 router.push('/');
               }}
             >
-              Go to {process.env.NEXT_PUBLIC_APP_NAME}
+              Go to {authConfig.appName}
             </Button>,
           ]}
           onConfirm={async (data) => {
@@ -65,7 +68,7 @@ export default function Manage({ userDataSWRKey = '/user' }: ManageProps): React
             const updateResponse = (
               await axios
                 .put(
-                  `${process.env.NEXT_PUBLIC_AGIXT_SERVER}/v1/user`,
+                  `${authConfig.authServer}${userUpdateEndpoint}`,
                   {
                     ...Object.entries(data).reduce((acc, [key, value]) => {
                       return value ? { ...acc, [key]: value } : acc;
@@ -99,7 +102,7 @@ export default function Manage({ userDataSWRKey = '/user' }: ManageProps): React
               const updateResponse = (
                 await axios
                   .put(
-                    `${process.env.NEXT_PUBLIC_AGIXT_SERVER}/v1/user`,
+                    `${authConfig.authServer}${userUpdateEndpoint}`,
                     {
                       ...data,
                     },

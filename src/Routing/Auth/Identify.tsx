@@ -2,17 +2,32 @@
 import { Box, Collapse, Typography } from '@mui/material';
 import axios, { AxiosError } from 'axios';
 import { usePathname, useRouter } from 'next/navigation';
-import React, { FormEvent, ReactNode, useContext } from 'react';
+import React, { FormEvent, ReactNode, useContext, useEffect } from 'react';
 import { setCookie } from 'cookies-next';
 import { PersonOutline } from '@mui/icons-material';
 import Field from '../../MUI/Styled/FormControl/Field';
 import IconButton from '../../MUI/Styled/Button/IconButton';
 import OAuth from './OAuth';
 import { useAuthentication } from './Router';
-export type IdentifyProps = {};
-export default function Identify(): ReactNode {
+import assert from '../../utils/Assert';
+export type IdentifyProps = {
+  identifyEndpoint?: string;
+  redirectToOnExists?: string;
+  redirectToOnNotExists?: string;
+};
+export default function Identify({
+  identifyEndpoint = '/v1/user/exists',
+  redirectToOnExists = '/login',
+  redirectToOnNotExists = '/register',
+}): ReactNode {
   const router = useRouter();
   const authConfig = useAuthentication();
+
+  /*
+  useEffect(() => {
+    assert(validateURI(authConfig.authServer + identifyEndpoint), 'Invalid identify endpoint.');
+  }, [identifyEndpoint]);
+  */
 
   const pathname = usePathname();
   const [error, setError] = React.useState<string>('');
@@ -31,7 +46,7 @@ export default function Identify(): ReactNode {
       );
       */
       const existsResponse = await axios
-        .get(`${process.env.NEXT_PUBLIC_AUTH_SERVER}/v1/user/exists?email=${formData.email.toString()}`)
+        .get(`${authConfig.authServer}${identifyEndpoint}?email=${formData.email.toString()}`)
         .catch((exception: AxiosError) => exception.response);
       /*
       assert(
@@ -41,7 +56,7 @@ export default function Identify(): ReactNode {
       */
       setCookie('email', formData.email.toString(), { domain: process.env.NEXT_PUBLIC_COOKIE_DOMAIN });
       console.log(existsResponse.data);
-      router.push(`${pathname}/${existsResponse.data ? 'login' : 'register'}`);
+      router.push(`${pathname}${existsResponse.data ? redirectToOnExists : redirectToOnNotExists}`);
       setLoading(false);
     } catch (exception) {
       setLoading(false);
@@ -53,23 +68,24 @@ export default function Identify(): ReactNode {
     <Box component='form' onSubmit={submitForm} display='flex' flexDirection='column' gap='1rem'>
       {authConfig.identify.heading && <Typography variant='h2'>{authConfig.identify.heading}</Typography>}
 
-      {process.env.NEXT_PUBLIC_ALLOW_EMAIL_SIGN_IN === 'true' && (
-        <>
-          <Field
-            nameID='email'
-            label='E-Mail Address'
-            autoComplete='username'
-            //submit={attemptIdentify}
-            placeholder='your@example.com'
-            messages={error && [{ level: 'error', value: error }]}
-          />
-          <Collapse in={!loading}>
-            <Box display='flex' flexDirection='column' gap='1rem'>
-              <IconButton label='Continue' icon={<PersonOutline fontSize='large' />} iconPosition='left' type='submit' />
-            </Box>
-          </Collapse>
-        </>
-      )}
+      {authConfig.authModes.basic ||
+        (authConfig.authModes.magical && (
+          <>
+            <Field
+              nameID='email'
+              label='E-Mail Address'
+              autoComplete='username'
+              //submit={attemptIdentify}
+              placeholder='your@example.com'
+              messages={error && [{ level: 'error', value: error }]}
+            />
+            <Collapse in={!loading}>
+              <Box display='flex' flexDirection='column' gap='1rem'>
+                <IconButton label='Continue' icon={<PersonOutline fontSize='large' />} iconPosition='left' type='submit' />
+              </Box>
+            </Collapse>
+          </>
+        ))}
       <OAuth />
     </Box>
   );
