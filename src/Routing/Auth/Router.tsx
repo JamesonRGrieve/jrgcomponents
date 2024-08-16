@@ -10,7 +10,7 @@ import Close, { CloseProps } from './Close';
 import Logout, { LogoutProps } from './Logout';
 import Subscribe, { SubscribeProps } from './Subscribe';
 import { AuthenticationContext } from './AuthenticationContext';
-import { assert } from '../../utils/Assert';
+import assert from '../../utils/Assert';
 
 type RouterPageProps = {
   path: string;
@@ -31,6 +31,8 @@ export type AuthenticationConfig = {
   };
   authServer: string;
   appName: string;
+  authBaseURI: string;
+  recaptchaSiteKey?: string;
 };
 
 export const useAuthentication = () => {
@@ -71,13 +73,15 @@ const pageConfigDefaults: AuthenticationConfig = {
     props: undefined,
     heading: '',
   },
-  authModes: {
-    basic: process.env.NEXT_PUBLIC_ALLOW_EMAIL_SIGN_IN === 'true',
-    oauth2: true,
-    magical: true,
-  },
-  authServer: process.env.NEXT_PUBLIC_AUTH_SERVER,
   appName: process.env.NEXT_PUBLIC_APP_NAME,
+  authBaseURI: process.env.NEXT_PUBLIC_AUTH_WEB,
+  authServer: process.env.NEXT_PUBLIC_AUTH_SERVER,
+  authModes: {
+    basic: process.env.NEXT_PUBLIC_ALLOW_BASIC_SIGN_IN === 'true' || true,
+    oauth2: true,
+    magical: process.env.NEXT_PUBLIC_ALLOW_MAGICAL_SIGN_IN === 'true' || false,
+  },
+  recaptchaSiteKey: process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY,
 };
 export default function AuthRouter({
   params,

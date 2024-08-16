@@ -2,17 +2,26 @@
 import { Button, Typography } from '@mui/material';
 import axios from 'axios';
 import { deleteCookie, getCookie } from 'cookies-next';
-import React, { ReactNode, useState } from 'react';
+import React, { FormEvent, ReactNode, useState } from 'react';
 import useSWR, { mutate } from 'swr';
 import { useRouter } from 'next/navigation';
 import DynamicForm, { DynamicFormFieldValueTypes } from '../../Form/DynamicForm';
 import { useAuthentication } from './Router';
+import { validateURI } from '../../utils/Validation';
+import { useAssertion } from '../../utils/Assert';
+import PasswordField from '../../MUI/Styled/Input/PasswordField';
 
-export type ManageProps = { userDataSWRKey?: string; userDataEndpoint?: string; userUpdateEndpoint?: string };
+export type ManageProps = {
+  userDataSWRKey?: string;
+  userDataEndpoint?: string;
+  userUpdateEndpoint?: string;
+  userPasswordChangeEndpoint?: string;
+};
 export default function Manage({
   userDataSWRKey = '/user',
   userDataEndpoint = '/v1/user',
   userUpdateEndpoint = '/v1/user',
+  userPasswordChangeEndpoint = '/v1/user/password',
 }: ManageProps): ReactNode {
   const [responseMessage, setResponseMessage] = useState('');
   type User = {
@@ -26,6 +35,14 @@ export default function Manage({
   };
   const router = useRouter();
   const authConfig = useAuthentication();
+  useAssertion(validateURI(authConfig.authServer + userDataEndpoint), 'Invalid identify endpoint.', [
+    authConfig.authServer,
+    userDataEndpoint,
+  ]);
+  useAssertion(validateURI(authConfig.authServer + userUpdateEndpoint), 'Invalid identify endpoint.', [
+    authConfig.authServer,
+    userUpdateEndpoint,
+  ]);
   const { data, error, isLoading } = useSWR<User, any, string>(userDataSWRKey, async () => {
     return (
       await axios.get(`${authConfig.authServer}${userDataEndpoint}`, {
@@ -129,6 +146,45 @@ export default function Manage({
           {responseMessage && <Typography>{responseMessage}</Typography>}
         </>
       )}
+      {authConfig.authModes.basic && (
+        <form
+          onSubmit={async (event: FormEvent<HTMLFormElement>): Promise<void> => {
+            const formData = Object.fromEntries(new FormData((event.currentTarget as HTMLFormElement) ?? undefined));
+
+            if (!formData['password']) setResponseMessage('Please enter a password.');
+            if (!formData['password-again']) setResponseMessage('Please enter your password again.');
+            if (formData['password'] !== formData['password-again']) setResponseMessage('Passwords do not match.');
+            const passwordResetResponse = await axios
+              .put(
+                `${authConfig.authServer}${userPasswordChangeEndpoint}`,
+                {
+                  ...data,
+                },
+                {
+                  headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: getCookie('jwt'),
+                  },
+                },
+              )
+              .catch((exception: any) => exception.response);
+            if (passwordResetResponse.data.detail) {
+              setResponseMessage(passwordResetResponse.data.detail.toString());
+            }
+            if (passwordResetResponse.status === 200) {
+              window.location.reload();
+            }
+          }}
+        >
+          <PasswordField id='old-password' name='old-password' label='Your Old Password' />
+          <PasswordField id='new-password' name='new-password' label='Your New Password' />
+          <PasswordField id='new-password-again' name='new-password-again' label='Your New Password (Again)' />
+        </form>
+      )}
+      {
+        // TODO MFA management / backup codes.
+        // TODO Quota management for user mode.
+      }
     </>
   );
 }

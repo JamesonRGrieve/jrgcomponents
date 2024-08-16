@@ -8,19 +8,36 @@ import React, { FormEvent, ReactNode, useState } from 'react';
 import QRCode from 'react-qr-code';
 import { useAuthentication } from './Router';
 import PasswordField from '../../MUI/Styled/Input/PasswordField';
+import { validateURI } from '../../utils/Validation';
+import { useAssertion } from '../../utils/Assert';
+import ReCAPTCHA from 'react-google-recaptcha';
 export type LoginProps = {
-  loginEndpoint?: string;
+  userLoginEndpoint?: string;
 };
-export default function Login({ searchParams, loginEndpoint = '/v1/login' }: { searchParams: any } & LoginProps): ReactNode {
+export default function Login({
+  searchParams,
+  userLoginEndpoint = '/v1/login',
+}: { searchParams: any } & LoginProps): ReactNode {
   const [responseMessage, setResponseMessage] = useState('');
   const authConfig = useAuthentication();
   const router = useRouter();
+  const [captcha, setCaptcha] = useState<string | null>(null);
+
+  useAssertion(validateURI(authConfig.authServer + userLoginEndpoint), 'Invalid login endpoint.', [
+    authConfig.authServer,
+    userLoginEndpoint,
+  ]);
   const submitForm = async (event: FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault();
+    if (authConfig.recaptchaSiteKey && !captcha) {
+      setResponseMessage('Please complete the reCAPTCHA.');
+      return;
+    }
+
     const formData = Object.fromEntries(new FormData((event.currentTarget as HTMLFormElement) ?? undefined));
     try {
       const response = await axios
-        .post(`${authConfig.authServer}${loginEndpoint}`, {
+        .post(`${authConfig.authServer}${userLoginEndpoint}`, {
           ...formData,
           referrer: getCookie('href') ?? window.location.href.split('?')[0],
         })
@@ -28,10 +45,7 @@ export default function Login({ searchParams, loginEndpoint = '/v1/login' }: { s
       if (response.status !== 200) {
         setResponseMessage(response.data.detail);
       } else {
-        if (
-          // /^((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=+$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=+$,\w]+@)[A-Za-z0-9.-]+)((?:\/[+~%/.\w_]*)?\??(?:[-+=&;%@.\w_]*)#?(?:[\w]*))?)$/.test(
-          !response.data.detail.includes(' ')
-        ) {
+        if (!validateURI(response.data.detail)) {
           console.log('Is URI.');
           router.push(response.data.detail);
         } else {
@@ -71,7 +85,22 @@ export default function Login({ searchParams, loginEndpoint = '/v1/login' }: { s
       <input type='hidden' id='email' name='email' value={getCookie('email')} />
       {authConfig.authModes.basic && <PasswordField />}
       <TextField id='token' label='Multi-Factor Code' variant='outlined' name='token' />
+      {authConfig.recaptchaSiteKey && (
+        <Box
+          sx={{
+            my: '0.8rem',
+          }}
+        >
+          <ReCAPTCHA
+            sitekey={authConfig.recaptchaSiteKey}
+            onChange={(token: string | null) => {
+              setCaptcha(token);
+            }}
+          />
+        </Box>
+      )}
       {responseMessage && <Typography>{responseMessage}</Typography>}
+
       <Button type='submit'>{responseMessage ? 'Continue' : 'Login'}</Button>
     </Box>
   );

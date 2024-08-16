@@ -2,10 +2,11 @@ import axios from 'axios';
 import { getCookie } from 'cookies-next';
 import React, { ReactNode } from 'react';
 import useSWR from 'swr';
-export default function PricingTable(): ReactNode {
+export type PricingTableProps = { appProductsEndpoint?: string };
+export default function PricingTable({ appProductsEndpoint = '/v1/products' }: PricingTableProps): ReactNode {
   const { data, error, isLoading } = useSWR<any, any, string>('/products', async () => {
     return (
-      await axios.get(`${process.env.NEXT_PUBLIC_AGIXT_SERVER}/v1/products`, {
+      await axios.get(`${process.env.NEXT_PUBLIC_AGIXT_SERVER}${appProductsEndpoint}`, {
         headers: {
           'Content-Type': 'application/json',
           Authorization: getCookie('jwt'),

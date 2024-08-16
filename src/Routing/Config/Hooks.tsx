@@ -43,7 +43,8 @@ export const useAuthConfig = () => ({
   env: {
     NEXT_PUBLIC_AUTH_WEB: process.env.AUTH_WEB || '',
     NEXT_PUBLIC_AUTH_SERVER: process.env.AUTH_SERVER || '',
-    NEXT_PUBLIC_ALLOW_EMAIL_SIGN_IN: process.env.ALLOW_EMAIL_SIGN_IN || 'true',
+    NEXT_PUBLIC_ALLOW_BASIC_SIGN_IN: process.env.ALLOW_BASIC_SIGN_IN || 'true',
+    NEXT_PUBLIC_ALLOW_MAGICAL_SIGN_IN: process.env.ALLOW_MAGICAL_SIGN_IN || 'false',
   },
 });
 export const useStripeConfig = () => ({

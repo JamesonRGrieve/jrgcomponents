@@ -2,7 +2,7 @@
 import { Box, Collapse, Typography } from '@mui/material';
 import axios, { AxiosError } from 'axios';
 import { usePathname, useRouter } from 'next/navigation';
-import React, { FormEvent, ReactNode, useContext, useEffect } from 'react';
+import React, { FormEvent, ReactNode } from 'react';
 import { setCookie } from 'cookies-next';
 import { PersonOutline } from '@mui/icons-material';
 import Field from '../../MUI/Styled/FormControl/Field';
@@ -10,6 +10,7 @@ import IconButton from '../../MUI/Styled/Button/IconButton';
 import OAuth from './OAuth';
 import { useAuthentication } from './Router';
 import assert, { useAssertion } from '../../utils/Assert';
+import { validateURI } from '../../utils/Validation';
 export type IdentifyProps = {
   identifyEndpoint?: string;
   redirectToOnExists?: string;
@@ -67,25 +68,24 @@ export default function Identify({
     <Box component='form' onSubmit={submitForm} display='flex' flexDirection='column' gap='1rem'>
       {authConfig.identify.heading && <Typography variant='h2'>{authConfig.identify.heading}</Typography>}
 
-      {authConfig.authModes.basic ||
-        (authConfig.authModes.magical && (
-          <>
-            <Field
-              nameID='email'
-              label='E-Mail Address'
-              autoComplete='username'
-              //submit={attemptIdentify}
-              placeholder='your@example.com'
-              messages={error && [{ level: 'error', value: error }]}
-            />
-            <Collapse in={!loading}>
-              <Box display='flex' flexDirection='column' gap='1rem'>
-                <IconButton label='Continue' icon={<PersonOutline fontSize='large' />} iconPosition='left' type='submit' />
-              </Box>
-            </Collapse>
-          </>
-        ))}
-      <OAuth />
+      {(authConfig.authModes.basic || authConfig.authModes.magical) && (
+        <>
+          <Field
+            nameID='email'
+            label='E-Mail Address'
+            autoComplete='username'
+            //submit={attemptIdentify}
+            placeholder='your@example.com'
+            messages={error && [{ level: 'error', value: error }]}
+          />
+          <Collapse in={!loading}>
+            <Box display='flex' flexDirection='column' gap='1rem'>
+              <IconButton label='Continue' icon={<PersonOutline fontSize='large' />} iconPosition='left' type='submit' />
+            </Box>
+          </Collapse>
+        </>
+      )}
+      {authConfig.authModes.oauth2 && <OAuth />}
     </Box>
   );
 }
