@@ -89,7 +89,10 @@
     "@mui/x-data-grid": "^6.20.4",
     "assert": "^2.1.0",
     "axios": "^1.7.4",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.1",
     "cookies-next": "^4.2.1",
+    "lucide-react": "^0.427.0",
     "next": "^14.2.5",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
@@ -98,6 +101,8 @@
     "react-qr-code": "^2.0.15",
     "react-simple-oauth2-login": "^0.5.4",
     "swr": "^2.2.5",
+    "tailwind-merge": "^2.5.2",
+    "tailwindcss-animate": "^1.0.7",
     "timezones-list": "^3.0.3"
   },
   "devDependencies": {
