@@ -10,7 +10,7 @@ import Close, { CloseProps } from './Close';
 import Logout, { LogoutProps } from './Logout';
 import Subscribe, { SubscribeProps } from './Subscribe';
 import { AuthenticationContext } from './AuthenticationContext';
-import assert from '../../utils/Assert';
+import { assert } from '../../utils/Assert';
 
 type RouterPageProps = {
   path: string;
