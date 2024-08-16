@@ -9,7 +9,7 @@ import Field from '../../MUI/Styled/FormControl/Field';
 import IconButton from '../../MUI/Styled/Button/IconButton';
 import OAuth from './OAuth';
 import { useAuthentication } from './Router';
-import useAssertion from '../../utils/Assert';
+import assert, { useAssertion } from '../../utils/Assert';
 export type IdentifyProps = {
   identifyEndpoint?: string;
   redirectToOnExists?: string;
@@ -23,7 +23,10 @@ export default function Identify({
   const router = useRouter();
   const authConfig = useAuthentication();
 
-  // useAssertion(validateURI(authConfig.authServer + identifyEndpoint), 'Invalid identify endpoint.', [identifyEndpoint]);
+  useAssertion(validateURI(authConfig.authServer + identifyEndpoint), 'Invalid identify endpoint.', [
+    authConfig.authServer,
+    identifyEndpoint,
+  ]);
 
   const pathname = usePathname();
   const [error, setError] = React.useState<string>('');

@@ -8,8 +8,10 @@ import React, { FormEvent, ReactNode, useState } from 'react';
 import QRCode from 'react-qr-code';
 import { useAuthentication } from './Router';
 import PasswordField from '../../MUI/Styled/Input/PasswordField';
-export type LoginProps = {};
-export default function Login({ searchParams }: { searchParams: any } & LoginProps): ReactNode {
+export type LoginProps = {
+  loginEndpoint?: string;
+};
+export default function Login({ searchParams, loginEndpoint = '/v1/login' }: { searchParams: any } & LoginProps): ReactNode {
   const [responseMessage, setResponseMessage] = useState('');
   const authConfig = useAuthentication();
   const router = useRouter();
@@ -18,7 +20,7 @@ export default function Login({ searchParams }: { searchParams: any } & LoginPro
     const formData = Object.fromEntries(new FormData((event.currentTarget as HTMLFormElement) ?? undefined));
     try {
       const response = await axios
-        .post(`${authConfig.authServer}/v1/login`, {
+        .post(`${authConfig.authServer}${loginEndpoint}`, {
           ...formData,
           referrer: getCookie('href') ?? window.location.href.split('?')[0],
         })
