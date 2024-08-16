@@ -10,6 +10,7 @@ import Close, { CloseProps } from './Close';
 import Logout, { LogoutProps } from './Logout';
 import Subscribe, { SubscribeProps } from './Subscribe';
 import { AuthenticationContext } from './AuthenticationContext';
+import assert from '../../utils/Assert';
 
 type RouterPageProps = {
   path: string;
@@ -28,10 +29,13 @@ export type AuthenticationConfig = {
     oauth2: boolean;
     magical: boolean;
   };
+  authServer: string;
+  appName: string;
 };
 
 export const useAuthentication = () => {
   const context = useContext(AuthenticationContext);
+  assert(context.authModes.basic !== context.authModes.magical, 'Basic and Magical modes cannot both be enabled.');
   if (context === undefined) {
     throw new Error('useAuthentication must be used within an AuthenticationProvider');
   }
@@ -68,10 +72,12 @@ const pageConfigDefaults: AuthenticationConfig = {
     heading: '',
   },
   authModes: {
-    basic: false,
+    basic: process.env.NEXT_PUBLIC_ALLOW_EMAIL_SIGN_IN === 'true',
     oauth2: true,
     magical: true,
   },
+  authServer: process.env.NEXT_PUBLIC_AUTH_SERVER,
+  appName: process.env.NEXT_PUBLIC_APP_NAME,
 };
 export default function AuthRouter({
   params,

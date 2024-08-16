@@ -2,22 +2,22 @@ import { TextField } from '@mui/material';
 import React from 'react';
 
 interface PasswordFieldProps {
-  id: string;
-  value: string;
-  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  id?: string;
+  value?: string;
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   helperText?: string;
   label?: string;
-  name: string;
+  name?: string;
   autoComplete?: string;
 }
 
 export default function PasswordField({
-  id,
+  id = 'password',
   value,
   onChange,
-  helperText,
-  name,
-  label,
+  helperText = 'Please enter your password.',
+  name = 'password',
+  label = 'Password',
   autoComplete = 'current-password',
 }: PasswordFieldProps) {
   return (

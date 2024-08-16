@@ -12,6 +12,6 @@ const CloseWindow = () => {
     window.close();
   }, []);
 
-  return authConfig.close.heading ? <Typography variant='h2'>{authConfig.close.heading}</Typography> : <></>;
+  return authConfig.close.heading ? <Typography variant='h2'>{authConfig.close.heading}</Typography> : null;
 };
 export default CloseWindow;

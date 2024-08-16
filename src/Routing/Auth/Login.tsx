@@ -4,11 +4,12 @@ import { Box, Button, IconButton, TextField, Typography } from '@mui/material';
 import axios, { AxiosError } from 'axios';
 import { getCookie } from 'cookies-next';
 import { useRouter } from 'next/navigation';
-import React, { useContext, FormEvent, ReactNode, useState } from 'react';
+import React, { FormEvent, ReactNode, useState } from 'react';
 import QRCode from 'react-qr-code';
 import { useAuthentication } from './Router';
+import PasswordField from '../../MUI/Styled/Input/PasswordField';
 export type LoginProps = {};
-export default function Login({ searchParams }: { searchParams: any }): ReactNode {
+export default function Login({ searchParams }: { searchParams: any } & LoginProps): ReactNode {
   const [responseMessage, setResponseMessage] = useState('');
   const authConfig = useAuthentication();
   const router = useRouter();
@@ -17,7 +18,7 @@ export default function Login({ searchParams }: { searchParams: any }): ReactNod
     const formData = Object.fromEntries(new FormData((event.currentTarget as HTMLFormElement) ?? undefined));
     try {
       const response = await axios
-        .post(`${process.env.NEXT_PUBLIC_AGIXT_SERVER}/v1/login`, {
+        .post(`${authConfig.authServer}/v1/login`, {
           ...formData,
           referrer: getCookie('href') ?? window.location.href.split('?')[0],
         })
@@ -45,7 +46,7 @@ export default function Login({ searchParams }: { searchParams: any }): ReactNod
     <Box component='form' onSubmit={submitForm} display='flex' flexDirection='column' gap='1rem'>
       {authConfig.login.heading && <Typography variant='h2'>{authConfig.login.heading}</Typography>}
       {otp_uri && !responseMessage && (
-        <Box sx={{ backgroundColor: '#fff', padding: '0.5rem', maxWidth: '320px' }}>
+        <Box sx={{ backgroundColor: '#fff', padding: '0.5rem', maxWidth: '320px', textAlign: 'center' }}>
           <QRCode
             size={256}
             style={{ height: 'auto', maxWidth: '100%', width: '100%' }}
@@ -54,7 +55,7 @@ export default function Login({ searchParams }: { searchParams: any }): ReactNod
           />
           <Typography>
             Scan the above QR code with Microsoft Authenticator, Google Authenticator or equivalent (or click the copy button
-            if you are using your Authenticator device).{' '}
+            if you are using your Authenticator device).
             <IconButton
               onClick={() => {
                 navigator.clipboard.writeText(otp_uri);
@@ -66,6 +67,7 @@ export default function Login({ searchParams }: { searchParams: any }): ReactNod
         </Box>
       )}
       <input type='hidden' id='email' name='email' value={getCookie('email')} />
+      {authConfig.authModes.basic && <PasswordField />}
       <TextField id='token' label='Multi-Factor Code' variant='outlined' name='token' />
       {responseMessage && <Typography>{responseMessage}</Typography>}
       <Button type='submit'>{responseMessage ? 'Continue' : 'Login'}</Button>
