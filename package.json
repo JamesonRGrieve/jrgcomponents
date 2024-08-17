@@ -87,9 +87,13 @@
     "@mui/system": "^5.16.7",
     "@mui/utils": "^5.16.6",
     "@mui/x-data-grid": "^6.20.4",
+    "@radix-ui/react-slot": "^1.1.0",
     "assert": "^2.1.0",
     "axios": "^1.7.4",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.1",
     "cookies-next": "^4.2.1",
+    "lucide-react": "^0.428.0",
     "next": "^14.2.5",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
@@ -98,7 +102,8 @@
     "react-qr-code": "^2.0.15",
     "react-simple-oauth2-login": "^0.5.4",
     "swr": "^2.2.5",
-    "tailwindcss": "^3.4.10",
+    "tailwind-merge": "^2.5.2",
+    "tailwindcss-animate": "^1.0.7",
     "timezones-list": "^3.0.3"
   },
   "devDependencies": {
@@ -120,6 +125,7 @@
     "@types/react-simple-oauth2-login": "^0.5.5",
     "@typescript-eslint/eslint-plugin": "^6.21.0",
     "@typescript-eslint/parser": "^6.21.0",
+    "autoprefixer": "^10.4.20",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-eslint-comments": "^3.2.0",
@@ -137,9 +143,11 @@
     "eslint-plugin-unused-imports": "^3.2.0",
     "gh-pages": "^6.1.1",
     "module-alias": "^2.2.3",
+    "postcss": "^8.4.41",
     "prettier": "^3.3.3",
     "shx": "^0.3.4",
     "storybook": "^8.2.9",
+    "tailwindcss": "^3.4.10",
     "ts-loader": "^9.5.1",
     "typescript": "^5.5.4"
   }
