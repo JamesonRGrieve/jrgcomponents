@@ -1,4 +1,6 @@
 import React from 'react';
+import { Input } from '../../../components/ui/input';
+import { Label } from '../../../components/ui/label';
 
 interface TextFieldProps {
   id: string;
@@ -9,6 +11,7 @@ interface TextFieldProps {
   name: string;
   autoComplete?: string;
   placeholder?: string;
+  className?: string;
 }
 
 export default function TextField({
@@ -20,24 +23,13 @@ export default function TextField({
   placeholder,
   name,
   autoComplete,
+  className,
 }: TextFieldProps) {
   return (
-    <div className='w-full mb-4'>
-      <label htmlFor={id} className='block text-sm font-medium text-gray-700 mb-1'>
-        {label}
-      </label>
-      <input
-        type='text'
-        id={id}
-        name={name}
-        value={value}
-        onChange={onChange}
-        autoComplete={autoComplete}
-        placeholder={placeholder}
-        required
-        className='mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm'
-      />
-      {helperText && <p className='mt-2 text-sm text-gray-500'>{helperText}</p>}
+    <div className='flex flex-col w-full gap-2 mb-4'>
+      <Label htmlFor={id}>{label}</Label>
+      <Input {...{ id, value, onChange, name, autoComplete, placeholder, className }} type='text' required />
+      {helperText && <p className='text-sm text-gray-500'>{helperText}</p>}
     </div>
   );
 }
