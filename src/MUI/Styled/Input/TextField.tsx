@@ -12,6 +12,7 @@ interface TextFieldProps {
   autoComplete?: string;
   placeholder?: string;
   className?: string;
+  type?: string;
 }
 
 export default function TextField({
@@ -24,11 +25,12 @@ export default function TextField({
   name,
   autoComplete,
   className,
+  type = 'text',
 }: TextFieldProps) {
   return (
     <div className='flex flex-col w-full gap-2 mb-4'>
       <Label htmlFor={id}>{label}</Label>
-      <Input {...{ id, value, onChange, name, autoComplete, placeholder, className }} type='text' required />
+      <Input {...{ id, value, onChange, name, autoComplete, placeholder, className, type }} required />
       {helperText && <p className='text-sm text-gray-500'>{helperText}</p>}
     </div>
   );
