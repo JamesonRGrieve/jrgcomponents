@@ -72,12 +72,10 @@ const FieldInput: React.FC<FieldProps> = ({
 const Field: React.FC<FieldProps> = ({ nameID, label, description, type = 'text', messages = [], ...rest }) => {
   return (
     <FormControl required fullWidth sx={{ my: '1rem' }}>
-      {['checkbox', 'radio'].includes(type) ? (
+      {['checkbox', 'radio'].includes(type) && (
         <FormLabel id={nameID + '-label'} htmlFor={nameID}>
           {label}
         </FormLabel>
-      ) : (
-        type === 'select' && <InputLabel id={nameID + '-label'}>{label}</InputLabel>
       )}
       {description && (
         <Typography variant='body1' gutterBottom>
