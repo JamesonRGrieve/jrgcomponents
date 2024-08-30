@@ -40,7 +40,7 @@ export type AuthenticationConfig = {
 
 export const useAuthentication = () => {
   const context = useContext(AuthenticationContext);
-  assert(context.authModes.basic !== context.authModes.magical, 'Basic and Magical modes cannot both be enabled.');
+  assert(!context.authModes.basic && !context.authModes.magical, 'Basic and Magical modes cannot both be enabled.');
   if (context === undefined) {
     throw new Error('useAuthentication must be used within an AuthenticationProvider');
   }
@@ -84,9 +84,9 @@ const pageConfigDefaults: AuthenticationConfig = {
   authBaseURI: process.env.NEXT_PUBLIC_AUTH_WEB,
   authServer: process.env.NEXT_PUBLIC_AUTH_SERVER,
   authModes: {
-    basic: process.env.NEXT_PUBLIC_ALLOW_BASIC_SIGN_IN === 'true' || true,
+    basic: process.env.NEXT_PUBLIC_ALLOW_BASIC_SIGN_IN === 'true',
     oauth2: true,
-    magical: process.env.NEXT_PUBLIC_ALLOW_MAGICAL_SIGN_IN === 'true' || false,
+    magical: process.env.NEXT_PUBLIC_ALLOW_MAGICAL_SIGN_IN === 'true',
   },
   recaptchaSiteKey: process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY,
   enableOU: false,
@@ -107,6 +107,10 @@ export default function AuthRouter({
     ...pageConfigDefaults,
     ...corePagesConfig,
   };
+  console.log('Basic', process.env.NEXT_PUBLIC_ALLOW_BASIC_SIGN_IN);
+  console.log('Magical', process.env.NEXT_PUBLIC_ALLOW_MAGICAL_SIGN_IN);
+
+  console.log('Core Pages Config', corePagesConfig);
   const pages = {
     [corePagesConfig.identify.path]: <User {...corePagesConfig.identify.props} />,
     [corePagesConfig.login.path]: <Login searchParams={searchParams} {...corePagesConfig.login.props} />,
