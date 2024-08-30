@@ -10,7 +10,7 @@
     "prettier": "prettier .",
     "prettier-fix": "prettier --write .",
     "fix": "prettier --write . && eslint . --ext .js,.jsx,.ts,.tsx --fix",
-    "compile": "tsc --jsx react-jsx && shx cp -r ./src/Style ./dist",
+    "compile": "tsc --jsx react-jsx && shx cp -r ./src/Style ./dist && npx postcss dist/Style/globals.css -o dist/Style/globals.css",
     "storybook": "storybook dev -p 6009",
     "storybook-build": "storybook build",
     "storybook-deploy": "storybook build && gh-pages -d storybook-static"
