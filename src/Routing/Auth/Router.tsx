@@ -11,6 +11,7 @@ import Logout, { LogoutProps } from './Logout';
 import Subscribe, { SubscribeProps } from './Subscribe';
 import { AuthenticationContext } from './AuthenticationContext';
 import assert from '../../utils/Assert';
+import OrganizationalUnit, { OrganizationalUnitProps } from './OU';
 
 type RouterPageProps = {
   path: string;
@@ -24,6 +25,7 @@ export type AuthenticationConfig = {
   close: RouterPageProps & { props?: CloseProps };
   subscribe: RouterPageProps & { props?: SubscribeProps };
   logout: RouterPageProps & { props: LogoutProps };
+  ou: RouterPageProps & { props?: OrganizationalUnitProps };
   authModes: {
     basic: boolean;
     oauth2: boolean;
@@ -33,6 +35,7 @@ export type AuthenticationConfig = {
   appName: string;
   authBaseURI: string;
   recaptchaSiteKey?: string;
+  enableOU: boolean;
 };
 
 export const useAuthentication = () => {
@@ -68,6 +71,10 @@ const pageConfigDefaults: AuthenticationConfig = {
     path: '/subscribe',
     heading: 'Please Subscribe to Access The Application',
   },
+  ou: {
+    path: '/ou',
+    heading: 'Organizational Unit Management',
+  },
   logout: {
     path: '/logout',
     props: undefined,
@@ -82,6 +89,7 @@ const pageConfigDefaults: AuthenticationConfig = {
     magical: process.env.NEXT_PUBLIC_ALLOW_MAGICAL_SIGN_IN === 'true' || false,
   },
   recaptchaSiteKey: process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY,
+  enableOU: false,
 };
 export default function AuthRouter({
   params,
@@ -95,6 +103,10 @@ export default function AuthRouter({
   additionalPages: { [key: string]: ReactNode };
 }) {
   // TODO If we're doing this, these probably don't need to be in context, which can be used for just enabled modes etc.
+  corePagesConfig = {
+    ...pageConfigDefaults,
+    ...corePagesConfig,
+  };
   const pages = {
     [corePagesConfig.identify.path]: <User {...corePagesConfig.identify.props} />,
     [corePagesConfig.login.path]: <Login searchParams={searchParams} {...corePagesConfig.login.props} />,
@@ -103,6 +115,9 @@ export default function AuthRouter({
     [corePagesConfig.close.path]: <Close {...corePagesConfig.close.props} />,
     [corePagesConfig.subscribe.path]: <Subscribe searchParams={searchParams} {...corePagesConfig.subscribe.props} />,
     [corePagesConfig.logout.path]: <Logout {...corePagesConfig.logout.props} />,
+    ...(corePagesConfig.enableOU
+      ? { [corePagesConfig.ou.path]: <OrganizationalUnit searchParams={searchParams} {...corePagesConfig.ou.props} /> }
+      : {}),
     ...additionalPages,
   };
 
