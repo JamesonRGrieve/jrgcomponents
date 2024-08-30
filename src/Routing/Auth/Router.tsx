@@ -40,7 +40,7 @@ export type AuthenticationConfig = {
 
 export const useAuthentication = () => {
   const context = useContext(AuthenticationContext);
-  assert(!context.authModes.basic && !context.authModes.magical, 'Basic and Magical modes cannot both be enabled.');
+  assert(!context.authModes.basic || !context.authModes.magical, 'Basic and Magical modes cannot both be enabled.');
   if (context === undefined) {
     throw new Error('useAuthentication must be used within an AuthenticationProvider');
   }
