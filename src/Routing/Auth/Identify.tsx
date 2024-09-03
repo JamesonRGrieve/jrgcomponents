@@ -15,11 +15,13 @@ export type IdentifyProps = {
   identifyEndpoint?: string;
   redirectToOnExists?: string;
   redirectToOnNotExists?: string;
+  oAuthOverrides?: any;
 };
 export default function Identify({
   identifyEndpoint = '/v1/user/exists',
   redirectToOnExists = '/login',
   redirectToOnNotExists = '/register',
+  oAuthOverrides = {},
 }): ReactNode {
   const router = useRouter();
   const authConfig = useAuthentication();
@@ -85,7 +87,7 @@ export default function Identify({
           </Collapse>
         </>
       )}
-      {authConfig.authModes.oauth2 && <OAuth />}
+      {authConfig.authModes.oauth2 && <OAuth overrides={oAuthOverrides} />}
     </Box>
   );
 }
