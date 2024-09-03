@@ -10,7 +10,7 @@
     "prettier": "prettier .",
     "prettier-fix": "prettier --write .",
     "fix": "prettier --write . && eslint . --ext .js,.jsx,.ts,.tsx --fix",
-    "compile": "tsc --jsx react-jsx && shx cp -r ./src/Style ./dist && npx postcss dist/Style/globals.css -o dist/Style/globals.css",
+    "compile": "tsc --jsx react-jsx && shx cp -r ./src/Style ./dist && npx postcss ./dist/Style/globals.css -o ./dist/Style/globals.css",
     "storybook": "storybook dev -p 6009",
     "storybook-build": "storybook build",
     "storybook-deploy": "storybook build && gh-pages -d storybook-static"
@@ -158,7 +158,8 @@
     "eslint-plugin-unused-imports": "^3.2.0",
     "gh-pages": "^6.1.1",
     "module-alias": "^2.2.3",
-    "postcss": "^8.4.41",
+    "postcss": "^8.4.44",
+    "postcss-cli": "^11.0.0",
     "prettier": "^3.3.3",
     "shx": "^0.3.4",
     "storybook": "^8.2.9",
