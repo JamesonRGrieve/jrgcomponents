@@ -10,6 +10,9 @@ import { useAuthentication } from './Router';
 import { validateURI } from '../../utils/Validation';
 import { useAssertion } from '../../utils/Assert';
 import PasswordField from '../../MUI/Styled/Input/PasswordField';
+import { Separator } from '../../components/ui/separator';
+import SwitchDark from '../../Theming/SwitchDark';
+import SwitchColorblind from '../../Theming/SwitchColorblind';
 
 export type ManageProps = {
   userDataSWRKey?: string;
@@ -17,6 +20,9 @@ export type ManageProps = {
   userUpdateEndpoint?: string;
   userPasswordChangeEndpoint?: string;
 };
+
+type ActivePage = 'Profile' | 'Account' | 'Appearance' | 'Notifications';
+
 export default function Manage({
   userDataSWRKey = '/user',
   userDataEndpoint = '/v1/user',
@@ -24,6 +30,8 @@ export default function Manage({
   userPasswordChangeEndpoint = '/v1/user/password',
 }: ManageProps): ReactNode {
   const [responseMessage, setResponseMessage] = useState('');
+  const [active, setActive] = useState<ActivePage>('Profile');
+
   type User = {
     missing_requirements?: {
       [key: string]: {
@@ -54,9 +62,83 @@ export default function Manage({
       })
     ).data;
   });
+
   return (
-    <>
-      {authConfig.manage.heading && <Typography variant='h2'>{authConfig.manage.heading}</Typography>}
+    <div className='w-full'>
+      <main className='flex min-h-[calc(100vh_-_theme(spacing.16))] flex-1 flex-col gap-4 bg-muted/40 p-4 md:gap-8 md:p-10'>
+        <div className='grid w-full max-w-6xl gap-2 mx-auto'>
+          {authConfig.manage.heading && <h2 className='text-3xl font-semibold'>{authConfig.manage.heading}</h2>}
+        </div>
+        <div className='mx-auto grid w-full max-w-6xl items-start gap-6 md:grid-cols-[180px_1fr] lg:grid-cols-[250px_1fr]'>
+          <nav className='flex space-x-2 md:flex-col lg:space-x-0 lg:space-y-1'>
+            {['Profile', 'Account', 'Appearance', 'Notifications'].map((label) => (
+              <button
+                key={label}
+                className={
+                  'inline-flex items-center justify-start px-4 py-2 text-sm font-medium transition-colors rounded-md disabled:pointer-events-none disabled:opacity-50 hover:text-accent-foreground h-9 hover:bg-muted' +
+                  (active === label ? ' bg-muted' : '')
+                }
+                disabled={label === 'Notifications'}
+                onClick={() => setActive(label as ActivePage)}
+              >
+                {label}
+              </button>
+            ))}
+          </nav>
+          <div className=''>
+            {active === 'Profile' && (
+              <Profile
+                {...{
+                  isLoading,
+                  error,
+                  data,
+                  router,
+                  authConfig,
+                  userDataSWRKey,
+                  responseMessage,
+                  userUpdateEndpoint,
+                  setResponseMessage,
+                }}
+              />
+            )}
+            {active === 'Account' && <Account {...{ authConfig, data, userPasswordChangeEndpoint, setResponseMessage }} />}
+            {active === 'Appearance' && <Appearance />}
+            {active === 'Notifications' && <Notifications />}
+          </div>
+        </div>
+      </main>
+    </div>
+  );
+}
+
+const Profile = ({
+  isLoading,
+  error,
+  data,
+  router,
+  authConfig,
+  userDataSWRKey,
+  responseMessage,
+  userUpdateEndpoint,
+  setResponseMessage,
+}: {
+  isLoading: boolean;
+  error: any;
+  data: any;
+  router: any;
+  authConfig: any;
+  userDataSWRKey: string;
+  responseMessage: string;
+  userUpdateEndpoint: string;
+  setResponseMessage: (message: string) => void;
+}) => {
+  return (
+    <div>
+      <div>
+        <h3 className='text-lg font-medium'>Profile</h3>
+        <p className='text-sm text-muted-foreground'>Apply basic changes to your profile</p>
+      </div>
+      <Separator className='my-4' />
       {isLoading ? (
         <Typography>Loading Current Data...</Typography>
       ) : error ? (
@@ -146,6 +228,28 @@ export default function Manage({
           {responseMessage && <Typography>{responseMessage}</Typography>}
         </>
       )}
+    </div>
+  );
+};
+
+const Account = ({
+  authConfig,
+  data,
+  userPasswordChangeEndpoint = '/v1/user/password',
+  setResponseMessage,
+}: {
+  authConfig: any;
+  data: any;
+  userPasswordChangeEndpoint?: string;
+  setResponseMessage: (message: string) => void;
+}) => {
+  return (
+    <div>
+      <div>
+        <h3 className='text-lg font-medium'>Account</h3>
+        <p className='text-sm text-muted-foreground'>Update your account information</p>
+      </div>
+      <Separator className='my-4' />
       {authConfig.authModes.basic && (
         <form
           onSubmit={async (event: FormEvent<HTMLFormElement>): Promise<void> => {
@@ -185,6 +289,34 @@ export default function Manage({
         // TODO MFA management / backup codes.
         // TODO Quota management for user mode.
       }
-    </>
+    </div>
   );
-}
+};
+
+const Appearance = () => {
+  return (
+    <div>
+      <div>
+        <h3 className='text-lg font-medium'>Appearance</h3>
+        <p className='text-sm text-muted-foreground'>
+          Customize the interface. Switch between light and dark mode as well as colorblind mode
+        </p>
+      </div>
+      <Separator className='my-4' />
+      <SwitchDark />
+      <SwitchColorblind />
+    </div>
+  );
+};
+
+const Notifications = () => {
+  return (
+    <div>
+      <div>
+        <h3 className='text-lg font-medium'>Notifications</h3>
+        <p className='text-sm text-muted-foreground'>Change your notification preferences</p>
+      </div>
+      <Separator className='my-4' />
+    </div>
+  );
+};
