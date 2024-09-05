@@ -4,8 +4,8 @@ import { Label } from '../../../components/ui/label';
 
 interface TextFieldProps extends React.InputHTMLAttributes<HTMLInputElement> {
   id: string;
-  value: string;
-  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  value?: string;
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   helperText?: string;
   label?: string;
   name: string;
