@@ -2,8 +2,9 @@
 
 import React, { useState, useMemo } from 'react';
 import { Collapse, Typography } from '@mui/material';
-import Dialog, { DialogProps } from '../Dialog';
+import { DialogProps } from '../Dialog';
 import DynamicForm, { DynamicFormProps } from '../../Form/DynamicForm';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '../../components/ui/dialog';
 
 export type EditDialogProps = DialogProps & DynamicFormProps & { excludeFields?: string[] };
 
@@ -34,13 +35,13 @@ const EditDialog: React.FC<EditDialogProps> = ({
     }
     return toReturn;
   }, [toUpdate, excludeFields]);
+
   return (
-    <Dialog
-      onClose={onClose}
-      title={title}
-      sx={sx}
-      content={
-        <>
+    <Dialog>
+      <DialogTrigger>{ButtonComponent && <ButtonComponent {...ButtonProps} />}</DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>{title}</DialogTitle>
           <DynamicForm
             toUpdate={processedToUpdate}
             fields={fields}
@@ -53,14 +54,12 @@ const EditDialog: React.FC<EditDialogProps> = ({
               }
             }}
           />
-          <Collapse in={errorMessage !== ''}>
-            <Typography color='error'>{errorMessage}</Typography>
-          </Collapse>
-        </>
-      }
-      ButtonComponent={ButtonComponent}
-      ButtonProps={ButtonProps}
-    />
+        </DialogHeader>
+        <Collapse in={errorMessage !== ''}>
+          <Typography color='error'>{errorMessage}</Typography>
+        </Collapse>
+      </DialogContent>
+    </Dialog>
   );
 };
 

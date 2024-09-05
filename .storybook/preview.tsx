@@ -5,6 +5,7 @@ import theme from '../src/Theming/sample-theme';
 import { Title, Subtitle, Description, Primary, Controls, Stories } from '@storybook/blocks';
 import ReferenceGrid from '../src/Storybook/ReferenceGrid';
 import ComparisonGrid from '../src/Storybook/ComparisonGrid';
+import '../src/Style/globals.css';
 
 export const globalTypes = {
   theme: {
