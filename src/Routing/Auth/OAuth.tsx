@@ -1,6 +1,6 @@
 'use client';
 
-import React, { ReactNode, useCallback, useContext } from 'react';
+import React, { ReactNode, useCallback, useContext, useMemo } from 'react';
 
 import OAuth2Login from 'react-simple-oauth2-login';
 
@@ -9,10 +9,12 @@ import { deleteCookie, getCookie } from 'cookies-next';
 import IconButton from '../../MUI/Styled/Button/IconButton';
 
 import providers from './OAuthProviders';
-export type OAuthProps = {};
-export default function OAuth(): ReactNode {
+export type OAuthProps = {
+  overrides?: any;
+};
+export default function OAuth({ overrides }: OAuthProps): ReactNode {
   const router = useRouter();
-
+  const oAuthProviders = useMemo(() => ({ ...providers, ...overrides }) as typeof providers, [providers, overrides]);
   const onOAuth2 = useCallback(
     (response: any) => {
       const redirect = getCookie('href') ?? '/';
@@ -31,9 +33,9 @@ export default function OAuth(): ReactNode {
   */
   return (
     <>
-      {Object.values(providers).some((provider) => provider.client_id) &&
+      {Object.values(oAuthProviders).some((provider) => provider.client_id) &&
         process.env.NEXT_PUBLIC_ALLOW_EMAIL_SIGN_IN === 'true' && <hr />}
-      {Object.entries(providers).map(
+      {Object.entries(oAuthProviders).map(
         ([key, provider]) =>
           provider.client_id && (
             <OAuth2Login
