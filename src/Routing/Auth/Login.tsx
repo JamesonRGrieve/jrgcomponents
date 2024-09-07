@@ -64,7 +64,7 @@ export default function Login({
     <Box component='form' onSubmit={submitForm} display='flex' flexDirection='column' gap='1rem'>
       {authConfig.login.heading && <Typography variant='h2'>{authConfig.login.heading}</Typography>}
       {otp_uri && !responseMessage && (
-        <Box sx={{ backgroundColor: '#fff', padding: '0.5rem', maxWidth: '320px', textAlign: 'center' }}>
+        <div className='max-w-xs p-2 mx-auto text-center bg-white'>
           <QRCode
             size={256}
             style={{ height: 'auto', maxWidth: '100%', width: '100%' }}
@@ -82,7 +82,7 @@ export default function Login({
               <ContentCopyOutlined />
             </IconButton>
           </Typography>
-        </Box>
+        </div>
       )}
       <input type='hidden' id='email' name='email' value={getCookie('email')} />
       {authConfig.authModes.basic && <PasswordField />}
