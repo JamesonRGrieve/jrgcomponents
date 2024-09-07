@@ -58,6 +58,17 @@ export function ThemeWrapper({
       themeChangeCallback(themeState.dark, themeState.colorblind);
     }
   }, [themeState, themeChangeCallback]);
+
+  // Theme switcher for tailwind
+  useEffect(() => {
+    const root = document.documentElement;
+    if (themeState.dark) {
+      root.classList.add('dark');
+    } else {
+      root.classList.remove('dark');
+    }
+  }, [themeState.dark]);
+
   return (
     <ThemeContext.Provider value={{ ...themeState, mutate: setThemeState }}>
       <ThemeProvider

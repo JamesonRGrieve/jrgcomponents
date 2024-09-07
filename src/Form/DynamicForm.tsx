@@ -1,8 +1,9 @@
-import { Box, Button, Divider, FormControl, TextField } from '@mui/material';
+import { Box, Button, Divider, FormControl } from '@mui/material';
 import timezones from 'timezones-list';
 
 import React, { ReactNode, useCallback, useEffect, useState } from 'react';
 import Field from '../MUI/Styled/FormControl/Field';
+import TextField from '../MUI/Styled/Input/TextField';
 
 export function toTitleCase(str: string) {
   // Replace underscores, or capital letters (in the middle of the string) with a space and the same character
@@ -104,7 +105,7 @@ export default function DynamicForm({
       if (!excludeFields.includes(key) && !readOnlyFields.includes(key)) {
         initialState[key] = {
           value: fields
-            ? fields[key].value ?? typeDefaults[fields[key].type as keyof typeof typeDefaults]
+            ? (fields[key].value ?? typeDefaults[fields[key].type as keyof typeof typeDefaults])
             : toUpdate[key as keyof typeof toUpdate],
           error: '',
         };
@@ -122,7 +123,7 @@ export default function DynamicForm({
               {['tz', 'timezone'].includes(key) ? (
                 <Field
                   nameID={key.toLowerCase().replaceAll(' ', '-')}
-                  label={fields ? fields[key].display ?? toTitleCase(key) : toTitleCase(key)}
+                  label={fields ? (fields[key].display ?? toTitleCase(key)) : toTitleCase(key)}
                   value={value?.value?.toString() || ''}
                   onChange={handleChange}
                   messages={value.error ? [{ level: 'error', value: value.error }] : []}
@@ -140,7 +141,7 @@ export default function DynamicForm({
               ) : (
                 <Field
                   nameID={key.toLowerCase().replaceAll(' ', '-')}
-                  label={fields ? fields[key].display ?? toTitleCase(key) : toTitleCase(key)}
+                  label={fields ? (fields[key].display ?? toTitleCase(key)) : toTitleCase(key)}
                   value={value?.value?.toString() || ''}
                   onChange={handleChange}
                   messages={value.error ? [{ level: 'error', value: value.error }] : []}
@@ -169,10 +170,11 @@ export default function DynamicForm({
             <Box key={fieldName.toLowerCase().replaceAll(' ', '-')} gridColumn='span 2'>
               <FormControl fullWidth sx={{ my: '1rem' }}>
                 <TextField
-                  fullWidth
+                  // fullWidth
+                  onChange={() => null}
                   id={fieldName.toLowerCase().replaceAll(' ', '-')}
                   name={fieldName.toLowerCase().replaceAll(' ', '-')}
-                  label={fields ? fields[fieldName].display ?? toTitleCase(fieldName) : toTitleCase(fieldName)}
+                  label={fields ? (fields[fieldName].display ?? toTitleCase(fieldName)) : toTitleCase(fieldName)}
                   value={toUpdate[fieldName as keyof typeof toUpdate]?.toString() || ''}
                   disabled
                 />

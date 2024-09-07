@@ -1,6 +1,6 @@
 'use client';
 import { ContentCopyOutlined } from '@mui/icons-material';
-import { Box, Button, IconButton, TextField, Typography } from '@mui/material';
+import { Box, Button, IconButton, Typography } from '@mui/material';
 import axios, { AxiosError } from 'axios';
 import { getCookie } from 'cookies-next';
 import { useRouter } from 'next/navigation';
@@ -11,6 +11,8 @@ import PasswordField from '../../MUI/Styled/Input/PasswordField';
 import { validateURI } from '../../utils/Validation';
 import { useAssertion } from '../../utils/Assert';
 import ReCAPTCHA from 'react-google-recaptcha';
+import TextField from '../../MUI/Styled/Input/TextField';
+
 export type LoginProps = {
   userLoginEndpoint?: string;
 };
@@ -84,7 +86,7 @@ export default function Login({
       )}
       <input type='hidden' id='email' name='email' value={getCookie('email')} />
       {authConfig.authModes.basic && <PasswordField />}
-      <TextField id='token' label='Multi-Factor Code' variant='outlined' name='token' />
+      <TextField id='token' label='Multi-Factor Code' placeholder='Enter your 6 digit code' name='token' />
       {authConfig.recaptchaSiteKey && (
         <Box
           sx={{

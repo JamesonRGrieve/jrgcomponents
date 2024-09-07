@@ -58,6 +58,7 @@ export default function buildThemeSet({
             backgroundColor: theme.palette[ownerState.color][theme.palette.mode],
             color: theme.palette.text.primary,
             borderBottom: '2px solid ' + theme.palette[ownerState.color][theme.palette.mode === 'dark' ? 'light' : 'dark'],
+            textDecorationColor: theme.palette.primary[theme.palette.mode === 'dark' ? 'light' : 'dark'],
           }),
         },
       },

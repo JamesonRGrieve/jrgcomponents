@@ -1,4 +1,4 @@
-import { Drawer, List } from '@mui/material';
+import { Drawer, List, useMediaQuery } from '@mui/material';
 import React from 'react';
 import MenuSWR from '../SWR/MenuSWR';
 
@@ -11,6 +11,7 @@ export default function PopoutDrawer({
   topSpacing,
   bottomSpacing,
   zIndex,
+  close,
 }: {
   open: any;
   side: 'left' | 'right';
@@ -21,7 +22,10 @@ export default function PopoutDrawer({
   edgeSpacing?: string;
   bottomSpacing?: string;
   zIndex: any;
+  close: () => void;
 }) {
+  const isMobile = useMediaQuery('(max-width:600px)');
+
   return (
     <Drawer
       sx={{
@@ -39,11 +43,13 @@ export default function PopoutDrawer({
           right: side == 'right' ? '0' : 'unset',
           top: topSpacing,
           overflowY: 'auto',
+          ...(isMobile ? mobileStyles : {}),
         },
       }}
-      variant='persistent'
+      variant={isMobile ? 'temporary' : 'persistent'}
       anchor={side}
       open={open}
+      onClose={() => close()}
     >
       <List sx={{ direction: 'ltr', padding: '0' }}>
         <MenuSWR swr={swr} menu={menu} />
@@ -51,3 +57,13 @@ export default function PopoutDrawer({
     </Drawer>
   );
 }
+
+const mobileStyles = {
+  height: '100%',
+  position: 'fixed',
+  bottom: '0',
+  top: '0',
+  minWidth: '75vw',
+  paddingTop: 'env(safe-area-inset-top)',
+  paddingBottom: 'env(safe-area-inset-bottom)',
+};
