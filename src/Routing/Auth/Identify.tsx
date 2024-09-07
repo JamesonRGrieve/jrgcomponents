@@ -11,6 +11,7 @@ import OAuth from './OAuth';
 import { useAuthentication } from './Router';
 import assert, { useAssertion } from '../../utils/Assert';
 import { validateURI } from '../../utils/Validation';
+import { Separator } from '../../components/ui/separator';
 export type IdentifyProps = {
   identifyEndpoint?: string;
   redirectToOnExists?: string;
@@ -87,7 +88,16 @@ export default function Identify({
           </Collapse>
         </>
       )}
-      {authConfig.authModes.oauth2 && <OAuth overrides={oAuthOverrides} />}
+      {authConfig.authModes.oauth2 && (
+        <>
+          <div className='flex items-center gap-2 my-2'>
+            <Separator className='flex-1' />
+            <span>or</span>
+            <Separator className='flex-1' />
+          </div>
+          <OAuth overrides={oAuthOverrides} />
+        </>
+      )}
     </Box>
   );
 }
