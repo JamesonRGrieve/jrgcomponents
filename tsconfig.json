@@ -22,11 +22,7 @@
       {
         "name": "next"
       }
-    ],
-    "baseUrl": "./",
-    "paths": {
-      "@/*": ["src/*"]
-    }
+    ]
   },
   "include": ["src/**/*", "src/index.ts", "src/Style/**/*.css"],
   "exclude": ["node_modules", "dist", "src/**/*.stories.*"]
