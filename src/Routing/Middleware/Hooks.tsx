@@ -199,6 +199,11 @@ export const useNextAPIBypass: MiddlewareHook = async (req) => {
   return toReturn;
 };
 
+export const useSocketIOBypass: MiddlewareHook = async (req) => ({
+  activated: getRequestedURI(req).includes('socket.io'),
+  response: NextResponse.next(),
+});
+
 export const useOAuth2: MiddlewareHook = async (req) => {
   const provider = req.nextUrl.pathname.split('?')[0].split('/').pop();
   /*

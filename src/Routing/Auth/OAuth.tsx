@@ -23,6 +23,8 @@ export default function OAuth({ overrides }: OAuthProps): ReactNode {
     },
     [router],
   );
+  //console.log('OAuth Providers: ');
+  //console.log(oAuthProviders);
   /*
   // Eventually automatically launch if it's the only provider.
   useEffect(() => {
