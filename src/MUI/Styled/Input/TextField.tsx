@@ -25,14 +25,8 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(function TextFiel
       <Label htmlFor={id}>{label}</Label>
       <Input
         {...props}
-        id={id}
-        value={value}
-        onChange={onChange}
-        name={name}
-        autoComplete={autoComplete}
-        placeholder={placeholder}
+        {...{ id, value, onChange, name, autoComplete, placeholder, type, ref }}
         className={`border ${error ? 'border-red-500' : 'border-gray-300'} ${className}`}
-        ref={ref}
       />
       {error && typeof error === 'string' && <p className='text-sm text-red-500'>{error}</p>}
       {!error && helperText && <p className='text-sm text-gray-500'>{helperText}</p>}
