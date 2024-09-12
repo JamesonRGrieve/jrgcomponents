@@ -53,7 +53,7 @@ const pageConfigDefaults: AuthenticationConfig = {
   },
   login: {
     path: '/login',
-    heading: 'Welcome Back, Please Authenticate',
+    heading: 'Please Authenticate',
   },
   manage: {
     path: '/manage',
