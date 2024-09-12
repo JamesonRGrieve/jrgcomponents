@@ -49,7 +49,7 @@ export const useAuthentication = () => {
 const pageConfigDefaults: AuthenticationConfig = {
   identify: {
     path: '/',
-    heading: 'Please Enter Your E-Mail Address',
+    heading: 'Welcome',
   },
   login: {
     path: '/login',
