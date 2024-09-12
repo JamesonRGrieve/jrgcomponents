@@ -63,8 +63,8 @@ export default function Login({
   return (
     <Box component='form' onSubmit={submitForm} display='flex' flexDirection='column' gap='1rem'>
       {authConfig.login.heading && <Typography variant='h2'>{authConfig.login.heading}</Typography>}
-      {otp_uri && !responseMessage && (
-        <div className='max-w-xs p-2 mx-auto text-center bg-white'>
+      {otp_uri && (
+        <div className='max-w-xs p-2 mx-auto text-center'>
           <QRCode
             size={256}
             style={{ height: 'auto', maxWidth: '100%', width: '100%' }}
