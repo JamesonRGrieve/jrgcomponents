@@ -2,22 +2,34 @@
 import { Box, Collapse, Typography } from '@mui/material';
 import axios, { AxiosError } from 'axios';
 import { usePathname, useRouter } from 'next/navigation';
-import React, { FormEvent, ReactNode } from 'react';
+import { ReactNode } from 'react';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { setCookie } from 'cookies-next';
 import { PersonOutline } from '@mui/icons-material';
-import Field from '../../MUI/Styled/FormControl/Field';
 import IconButton from '../../MUI/Styled/Button/IconButton';
 import OAuth from './OAuth';
 import { useAuthentication } from './Router';
-import assert, { useAssertion } from '../../utils/Assert';
+import { useAssertion } from '../../utils/Assert';
 import { validateURI } from '../../utils/Validation';
 import { Separator } from '../../components/ui/separator';
+import TextField from '../../MUI/Styled/Input/TextField';
+
+const schema = z.object({
+  email: z.string().email({ message: 'Please enter a valid E-Mail address.' }),
+  redirectTo: z.string().optional(),
+});
+
+type FormData = z.infer<typeof schema>;
+
 export type IdentifyProps = {
   identifyEndpoint?: string;
   redirectToOnExists?: string;
   redirectToOnNotExists?: string;
   oAuthOverrides?: any;
 };
+
 export default function Identify({
   identifyEndpoint = '/v1/user/exists',
   redirectToOnExists = '/login',
@@ -26,78 +38,78 @@ export default function Identify({
 }): ReactNode {
   const router = useRouter();
   const authConfig = useAuthentication();
+  const pathname = usePathname();
 
   useAssertion(validateURI(authConfig.authServer + identifyEndpoint), 'Invalid identify endpoint.', [
     authConfig.authServer,
     identifyEndpoint,
   ]);
 
-  const pathname = usePathname();
-  const [error, setError] = React.useState<string>('');
-  const [loading, setLoading] = React.useState<boolean>(false);
-  const submitForm = async (event: FormEvent<HTMLFormElement>): Promise<void> => {
+  const {
+    register,
+    handleSubmit,
+    setError,
+    formState: { errors, isSubmitting },
+  } = useForm<FormData>({
+    resolver: zodResolver(schema),
+  });
+
+  const onSubmit: SubmitHandler<FormData> = async (formData) => {
     try {
-      event.preventDefault();
-      setLoading(true);
-      const formData = Object.fromEntries(new FormData((event.currentTarget as HTMLFormElement) ?? undefined));
-      console.log(formData);
-      /*
-      assert(formData.email, 'Please enter your E-Mail address.');
-      assert(
-        /^[\w.!#$%&'*+/=?^`{|}~-]+@[a-zA-Z\d-]+(?:\.[a-zA-Z\d-]+)*$/.test(formData.email.toString()),
-        'Invalid e-mail address.',
-      );
-      */
-      const existsResponse = await axios
-        .get(`${authConfig.authServer}${identifyEndpoint}?email=${formData.email.toString()}`)
-        .catch((exception: AxiosError) => exception.response);
-      /*
-      assert(
-        existsResponse.status === 200,
-        'An error occurred while sending your E-Mail address to the server. Please try again later.',
-      );
-      */
-      setCookie('email', formData.email.toString(), { domain: process.env.NEXT_PUBLIC_COOKIE_DOMAIN });
-      console.log(existsResponse.data);
+      const existsResponse = await axios.get(`${authConfig.authServer}${identifyEndpoint}?email=${formData.email}`);
+
+      setCookie('email', formData.email, { domain: process.env.NEXT_PUBLIC_COOKIE_DOMAIN });
       router.push(`${pathname}${existsResponse.data ? redirectToOnExists : redirectToOnNotExists}`);
-      setLoading(false);
     } catch (exception) {
-      setLoading(false);
-      setError(exception.message);
+      const axiosError = exception as AxiosError;
+      setError('email', { type: 'server', message: axiosError.message });
     }
   };
 
-  return (
-    <Box component='form' onSubmit={submitForm} display='flex' flexDirection='column' gap='1rem'>
-      {authConfig.identify.heading && <Typography variant='h2'>{authConfig.identify.heading}</Typography>}
+  const showEmail = authConfig.authModes.basic || authConfig.authModes.magical;
+  const showOAuth = authConfig.authModes.oauth2;
 
-      {(authConfig.authModes.basic || authConfig.authModes.magical) && (
+  return (
+    <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col gap-4 min-w-96'>
+      <div className='text-center'>
+        {authConfig.identify.heading && <h2 className='text-3xl font-bold'>{authConfig.identify.heading}</h2>}
+        {showEmail && showOAuth && (
+          <p className='my-2 text-balance text-muted-foreground'>Please choose from one of the following</p>
+        )}
+      </div>
+
+      {showEmail && (
         <>
-          <Field
-            nameID='email'
+          <TextField
+            id='email'
             label='E-Mail Address'
             autoComplete='username'
-            //submit={attemptIdentify}
             placeholder='your@example.com'
-            messages={error && [{ level: 'error', value: error }]}
+            error={errors.email?.message}
+            {...register('email')}
           />
-          <Collapse in={!loading}>
+          <Collapse in={!isSubmitting}>
             <Box display='flex' flexDirection='column' gap='1rem'>
-              <IconButton label='Continue' icon={<PersonOutline fontSize='large' />} iconPosition='left' type='submit' />
+              <IconButton
+                label='Continue with Email'
+                icon={<PersonOutline fontSize='large' />}
+                iconPosition='left'
+                type='submit'
+              />
             </Box>
           </Collapse>
         </>
       )}
-      {authConfig.authModes.oauth2 && (
-        <>
-          <div className='flex items-center gap-2 my-2'>
-            <Separator className='flex-1' />
-            <span>or</span>
-            <Separator className='flex-1' />
-          </div>
-          <OAuth overrides={oAuthOverrides} />
-        </>
+
+      {showEmail && showOAuth && (
+        <div className='flex items-center gap-2 my-2'>
+          <Separator className='flex-1' />
+          <span>or</span>
+          <Separator className='flex-1' />
+        </div>
       )}
-    </Box>
+
+      {showOAuth && <OAuth overrides={oAuthOverrides} />}
+    </form>
   );
 }
