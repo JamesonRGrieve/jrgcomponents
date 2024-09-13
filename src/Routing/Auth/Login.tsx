@@ -47,7 +47,7 @@ export default function Login({
       if (response.status !== 200) {
         setResponseMessage(response.data.detail);
       } else {
-        if (!validateURI(response.data.detail)) {
+        if (validateURI(response.data.detail)) {
           console.log('Is URI.');
           router.push(response.data.detail);
         } else {
