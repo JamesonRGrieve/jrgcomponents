@@ -15,6 +15,7 @@ import { useAssertion } from '../../utils/Assert';
 import { validateURI } from '../../utils/Validation';
 import { Separator } from '../../components/ui/separator';
 import TextField from '../../MUI/Styled/Input/TextField';
+import AuthCard from './AuthCard';
 
 const schema = z.object({
   email: z.string().email({ message: 'Please enter a valid E-Mail address.' }),
@@ -70,46 +71,48 @@ export default function Identify({
   const showOAuth = authConfig.authModes.oauth2;
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col gap-4 min-w-96'>
-      <div className='text-center'>
-        {authConfig.identify.heading && <h2 className='text-3xl font-bold'>{authConfig.identify.heading}</h2>}
-        {showEmail && showOAuth && (
-          <p className='my-2 text-balance text-muted-foreground'>Please choose from one of the following</p>
+    <AuthCard title='Welcome' description='Please choose an authentication method.'>
+      <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col gap-4'>
+        {/* <div className='text-center'>
+          {authConfig.identify.heading && <h2 className='text-3xl font-bold'>{authConfig.identify.heading}</h2>}
+          {showEmail && showOAuth && (
+            <p className='my-2 text-balance text-muted-foreground'>Please choose from one of the following</p>
+          )}
+        </div> */}
+
+        {showEmail && (
+          <>
+            <TextField
+              id='email'
+              label='E-Mail Address'
+              autoComplete='username'
+              placeholder='your@example.com'
+              error={errors.email?.message}
+              {...register('email')}
+            />
+            <Collapse in={!isSubmitting}>
+              <Box display='flex' flexDirection='column' gap='1rem'>
+                <IconButton
+                  label='Continue with Email'
+                  icon={<PersonOutline fontSize='large' />}
+                  iconPosition='left'
+                  type='submit'
+                />
+              </Box>
+            </Collapse>
+          </>
         )}
-      </div>
 
-      {showEmail && (
-        <>
-          <TextField
-            id='email'
-            label='E-Mail Address'
-            autoComplete='username'
-            placeholder='your@example.com'
-            error={errors.email?.message}
-            {...register('email')}
-          />
-          <Collapse in={!isSubmitting}>
-            <Box display='flex' flexDirection='column' gap='1rem'>
-              <IconButton
-                label='Continue with Email'
-                icon={<PersonOutline fontSize='large' />}
-                iconPosition='left'
-                type='submit'
-              />
-            </Box>
-          </Collapse>
-        </>
-      )}
+        {showEmail && showOAuth && (
+          <div className='flex items-center gap-2 my-2'>
+            <Separator className='flex-1' />
+            <span>or</span>
+            <Separator className='flex-1' />
+          </div>
+        )}
 
-      {showEmail && showOAuth && (
-        <div className='flex items-center gap-2 my-2'>
-          <Separator className='flex-1' />
-          <span>or</span>
-          <Separator className='flex-1' />
-        </div>
-      )}
-
-      {showOAuth && <OAuth overrides={oAuthOverrides} />}
-    </form>
+        {showOAuth && <OAuth overrides={oAuthOverrides} />}
+      </form>
+    </AuthCard>
   );
 }
