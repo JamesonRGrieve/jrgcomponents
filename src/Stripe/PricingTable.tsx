@@ -14,7 +14,7 @@ export default function PricingTable({ appProductsEndpoint = '/v1/products' }: P
       })
     ).data;
   });
-  console.log(data);
+  //console.log(data);
   return isLoading ? (
     <p>Loading pricing...</p>
   ) : error ? (
