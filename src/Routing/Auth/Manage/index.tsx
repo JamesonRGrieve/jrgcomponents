@@ -66,8 +66,16 @@ export default function Manage({
   return (
     <div className='w-full'>
       <main className='flex min-h-[calc(100vh_-_theme(spacing.16))] flex-1 flex-col gap-4 bg-transparent p-4 md:gap-8 md:p-10'>
-        <div className='grid w-full max-w-6xl gap-2 mx-auto'>
+        <div className='flex justify-between w-full max-w-6xl gap-2 mx-auto'>
           {authConfig.manage.heading && <h2 className='text-3xl font-semibold'>{authConfig.manage.heading}</h2>}
+          <Button
+            key='done'
+            onClick={() => {
+              router.push('/');
+            }}
+          >
+            Go to {authConfig.appName}
+          </Button>
         </div>
         <div className='mx-auto grid w-full max-w-6xl items-start gap-6 md:grid-cols-[180px_1fr] lg:grid-cols-[250px_1fr]'>
           <Nav {...{ active, setActive }} />
