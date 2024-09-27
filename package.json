@@ -10,7 +10,7 @@
     "prettier": "prettier .",
     "prettier-fix": "prettier --write .",
     "fix": "prettier --write . && eslint . --ext .js,.jsx,.ts,.tsx --fix",
-    "compile": "tsc --jsx react-jsx && shx cp -r ./src/Style ./dist && npx postcss ./dist/Style/globals.css -o ./dist/Style/globals.css",
+    "compile": "tsc --jsx react-jsx && shx cp -r ./src/Style ./dist && npx postcss ./dist/Style/globals.css -o ./dist/Style/globals.css && shx cp ./tailwind.config.js ./dist",
     "storybook": "storybook dev -p 6009",
     "storybook-build": "storybook build",
     "storybook-deploy": "storybook build && gh-pages -d storybook-static"
@@ -38,6 +38,7 @@
   },
   "exports": {
     ".": "./dist/index.js",
+    "./tailwind.config.js": "./dist/tailwind.config.js",
     "./Theming/SwitchDark": "./dist/Theming/SwitchDark.js",
     "./Theming/SwitchColorblind": "./dist/Theming/SwitchColorblind.js",
     "./Theming/ThemeWrapper": "./dist/Theming/ThemeWrapper.js",
