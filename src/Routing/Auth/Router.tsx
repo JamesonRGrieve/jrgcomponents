@@ -12,6 +12,7 @@ import Subscribe, { SubscribeProps } from './Subscribe';
 import { AuthenticationContext } from './AuthenticationContext';
 import assert from '../../utils/Assert';
 import OrganizationalUnit, { OrganizationalUnitProps } from './OU';
+import ErrorPage, { ErrorPageProps } from './ErrorPage';
 
 type RouterPageProps = {
   path: string;
@@ -26,6 +27,7 @@ export type AuthenticationConfig = {
   subscribe: RouterPageProps & { props?: SubscribeProps };
   logout: RouterPageProps & { props: LogoutProps };
   ou: RouterPageProps & { props?: OrganizationalUnitProps };
+  error: RouterPageProps & { props?: ErrorPageProps };
   authModes: {
     basic: boolean;
     oauth2: boolean;
@@ -49,11 +51,11 @@ export const useAuthentication = () => {
 const pageConfigDefaults: AuthenticationConfig = {
   identify: {
     path: '/',
-    heading: 'Please Enter Your E-Mail Address',
+    heading: 'Welcome',
   },
   login: {
     path: '/login',
-    heading: 'Welcome Back, Please Authenticate',
+    heading: 'Please Authenticate',
   },
   manage: {
     path: '/manage',
@@ -79,6 +81,10 @@ const pageConfigDefaults: AuthenticationConfig = {
     path: '/logout',
     props: undefined,
     heading: '',
+  },
+  error: {
+    path: '/error',
+    heading: 'Error',
   },
   appName: process.env.NEXT_PUBLIC_APP_NAME,
   authBaseURI: process.env.NEXT_PUBLIC_AUTH_WEB,
@@ -122,6 +128,7 @@ export default function AuthRouter({
     ...(corePagesConfig.enableOU
       ? { [corePagesConfig.ou.path]: <OrganizationalUnit searchParams={searchParams} {...corePagesConfig.ou.props} /> }
       : {}),
+    [corePagesConfig.error.path]: <ErrorPage {...corePagesConfig.error.props} />,
     ...additionalPages,
   };
 

@@ -12,6 +12,9 @@ import { validateURI } from '../../utils/Validation';
 import { useAssertion } from '../../utils/Assert';
 import ReCAPTCHA from 'react-google-recaptcha';
 import TextField from '../../MUI/Styled/Input/TextField';
+import { Check, Copy } from 'lucide-react';
+import AuthCard from './AuthCard';
+import { Button as NewButton } from '../../components/ui/button';
 
 export type LoginProps = {
   userLoginEndpoint?: string;
@@ -47,7 +50,7 @@ export default function Login({
       if (response.status !== 200) {
         setResponseMessage(response.data.detail);
       } else {
-        if (!validateURI(response.data.detail)) {
+        if (validateURI(response.data.detail)) {
           console.log('Is URI.');
           router.push(response.data.detail);
         } else {
@@ -61,49 +64,67 @@ export default function Login({
   };
   const otp_uri = searchParams.otp_uri;
   return (
-    <Box component='form' onSubmit={submitForm} display='flex' flexDirection='column' gap='1rem'>
-      {authConfig.login.heading && <Typography variant='h2'>{authConfig.login.heading}</Typography>}
-      {otp_uri && !responseMessage && (
-        <div className='max-w-xs p-2 mx-auto text-center bg-white'>
-          <QRCode
-            size={256}
-            style={{ height: 'auto', maxWidth: '100%', width: '100%' }}
-            value={otp_uri ?? ''}
-            viewBox={`0 0 256 256`}
-          />
-          <Typography>
-            Scan the above QR code with Microsoft Authenticator, Google Authenticator or equivalent (or click the copy button
-            if you are using your Authenticator device).
-            <IconButton
-              onClick={() => {
-                navigator.clipboard.writeText(otp_uri);
-              }}
-            >
-              <ContentCopyOutlined />
-            </IconButton>
-          </Typography>
-        </div>
-      )}
-      <input type='hidden' id='email' name='email' value={getCookie('email')} />
-      {authConfig.authModes.basic && <PasswordField />}
-      <TextField id='token' label='Multi-Factor Code' placeholder='Enter your 6 digit code' name='token' />
-      {authConfig.recaptchaSiteKey && (
-        <Box
-          sx={{
-            my: '0.8rem',
-          }}
-        >
-          <ReCAPTCHA
-            sitekey={authConfig.recaptchaSiteKey}
-            onChange={(token: string | null) => {
-              setCaptcha(token);
-            }}
-          />
-        </Box>
-      )}
-      {responseMessage && <Typography>{responseMessage}</Typography>}
+    <AuthCard title='Login' description='Please login to your account.' showBackButton>
+      <Box component='form' onSubmit={submitForm} display='flex' flexDirection='column' gap='1rem'>
+        {/* {authConfig.login.heading && <Typography variant='h2'>{authConfig.login.heading}</Typography>} */}
 
-      <Button type='submit'>{responseMessage ? 'Continue' : 'Login'}</Button>
-    </Box>
+        {otp_uri && (
+          <div className='flex flex-col max-w-xs gap-2 mx-auto text-center'>
+            <QRCode
+              size={256}
+              style={{ height: 'auto', maxWidth: '100%', width: '100%' }}
+              value={otp_uri ?? ''}
+              viewBox={`0 0 256 256`}
+            />
+            <p className='text-sm text-center text-muted-foreground'>
+              Scan the above QR code with Microsoft Authenticator, Google Authenticator or equivalent (or click the copy
+              button if you are using your Authenticator device).
+            </p>
+            <CopyButton otp_uri={otp_uri} />
+          </div>
+        )}
+        <input type='hidden' id='email' name='email' value={getCookie('email')} />
+        {authConfig.authModes.basic && <PasswordField />}
+        <TextField id='token' label='Multi-Factor Code' placeholder='Enter your 6 digit code' name='token' />
+        {authConfig.recaptchaSiteKey && (
+          <Box
+            sx={{
+              my: '0.8rem',
+            }}
+          >
+            <ReCAPTCHA
+              sitekey={authConfig.recaptchaSiteKey}
+              onChange={(token: string | null) => {
+                setCaptcha(token);
+              }}
+            />
+          </Box>
+        )}
+
+        <Button type='submit'>{responseMessage ? 'Continue' : 'Login'}</Button>
+        {responseMessage && <AuthCard.ResponseMessage>{responseMessage}</AuthCard.ResponseMessage>}
+      </Box>
+    </AuthCard>
   );
 }
+
+const CopyButton = ({ otp_uri }: { otp_uri: string }) => {
+  const [isCopied, setIsCopied] = useState(false);
+
+  return (
+    <NewButton
+      variant='outline'
+      size='sm'
+      type='button'
+      className='flex items-center gap-2 mx-auto'
+      onClick={() => {
+        setIsCopied(true);
+        navigator.clipboard.writeText(otp_uri);
+        setTimeout(() => setIsCopied(false), 2000);
+      }}
+    >
+      {isCopied ? <Check className='w-4 h-4' /> : <Copy className='w-4 h-4' />}
+      {isCopied ? 'Copied!' : 'Copy Link'}
+    </NewButton>
+  );
+};

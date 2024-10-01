@@ -72,18 +72,15 @@ export const useAuth: MiddlewareHook = async (req) => {
             toReturn.response = NextResponse.redirect(new URL(process.env.AUTH_WEB + '/manage'));
             toReturn.activated = true;
           }
-        } else if (response.status === 500) {
+        } else if (response.status >= 500 && response.status < 600) {
           // Internal Server Error
           // This should not delete the JWT.
           console.error(
             `Invalid token response, status ${response.status}, detail ${responseJSON.detail}. Server error, please try again later.`,
           );
-        } else if (response.status === 502) {
-          // Bad Gateway
-          // This should not delete the JWT.
-          console.error(
-            `Invalid token response, status ${response.status}, detail ${responseJSON.detail}. Is the server down?`,
-          );
+
+          toReturn.response = NextResponse.redirect(new URL(process.env.AUTH_WEB + '/error', req.url));
+          toReturn.activated = true;
         } else if (response.status !== 200) {
           console.log('Uncaught response error code.');
           // @ts-expect-error NextJS' types are wrong.
