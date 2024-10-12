@@ -78,7 +78,8 @@
     "./MFA/Authenticator": "./dist/Routing/Auth/MFA/Authenticator.js",
     "./MFA/EMail": "./dist/Routing/Auth/MFA/EMail.js",
     "./MFA/SMS": "./dist/Routing/Auth/MFA/SMS.js",
-    "./Tabs/Panel": "./dist/Tabs/TabPanel.js"
+    "./Tabs/Panel": "./dist/Tabs/TabPanel.js",
+    "./useTheme": "./dist/lib/hooks/useTheme.js"
   },
   "dependencies": {
     "@emotion/react": "^11.13.3",
