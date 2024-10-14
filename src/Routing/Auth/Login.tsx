@@ -85,7 +85,13 @@ export default function Login({
         )}
         <input type='hidden' id='email' name='email' value={getCookie('email')} />
         {authConfig.authModes.basic && <PasswordField />}
-        <TextField id='token' label='Multi-Factor Code' placeholder='Enter your 6 digit code' name='token' />
+        <TextField
+          id='token'
+          label='Multi-Factor Code'
+          placeholder='Enter your 6 digit code'
+          name='token'
+          autoComplete='one-time-code'
+        />
         {authConfig.recaptchaSiteKey && (
           <Box
             sx={{
