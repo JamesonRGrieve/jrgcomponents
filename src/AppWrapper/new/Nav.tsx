@@ -14,23 +14,15 @@ type NavItemProps = {
 
 type NavProps = {
   navItems: NavItem[];
-  mobile?: boolean;
   itemProps?: NavItemProps;
 } & React.HTMLAttributes<HTMLDivElement>;
 
-export const Nav = ({ navItems, itemProps, mobile, className, ...props }: NavProps) => {
+export const Nav = ({ navItems, itemProps, className, ...props }: NavProps) => {
   const pathname = usePathname();
   const { className: itemClassName, active, ...itemRest } = itemProps || {};
 
   return (
-    <nav
-      className={cn(
-        'flex-col hidden gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6',
-        mobile && 'flex',
-        className,
-      )}
-      {...props}
-    >
+    <nav className={cn('flex gap-6 md:gap-5 lg:gap-6 md:text-sm font-medium text-lg', className)} {...props}>
       {navItems.map((item) => (
         <Link
           key={item.name}
