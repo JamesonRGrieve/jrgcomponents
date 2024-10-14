@@ -52,7 +52,7 @@ export default function Login({
       } else {
         if (validateURI(response.data.detail)) {
           console.log('Is URI.');
-          router.push(response.data.detail);
+          window.location.href = response.data.detail;
         } else {
           console.log('Is not URI.');
           setResponseMessage(response.data.detail);
