@@ -79,7 +79,11 @@
     "./MFA/EMail": "./dist/Routing/Auth/MFA/EMail.js",
     "./MFA/SMS": "./dist/Routing/Auth/MFA/SMS.js",
     "./Tabs/Panel": "./dist/Tabs/TabPanel.js",
-    "./useTheme": "./dist/lib/hooks/useTheme.js"
+    "./useTheme": "./dist/lib/hooks/useTheme.js",
+    "./AppWrapper/New/Header": "./dist/AppWrapper/new/Header.js",
+    "./AppWrapper/New/MobileSideBar": "./dist/AppWrapper/new/MobileSideBar.js",
+    "./AppWrapper/New/Nav": "./dist/AppWrapper/new/Nav.js",
+    "./AppWrapper/New/Wrapper": "./dist/AppWrapper/new/Wrapper.js"
   },
   "dependencies": {
     "@emotion/react": "^11.13.3",
