@@ -52,7 +52,7 @@ export default function Login({
       } else {
         if (validateURI(response.data.detail)) {
           console.log('Is URI.');
-          router.push(response.data.detail);
+          window.location.href = response.data.detail;
         } else {
           console.log('Is not URI.');
           setResponseMessage(response.data.detail);
@@ -85,7 +85,13 @@ export default function Login({
         )}
         <input type='hidden' id='email' name='email' value={getCookie('email')} />
         {authConfig.authModes.basic && <PasswordField />}
-        <TextField id='token' label='Multi-Factor Code' placeholder='Enter your 6 digit code' name='token' />
+        <TextField
+          id='token'
+          label='Multi-Factor Code'
+          placeholder='Enter your 6 digit code'
+          name='token'
+          autoComplete='one-time-code'
+        />
         {authConfig.recaptchaSiteKey && (
           <Box
             sx={{
