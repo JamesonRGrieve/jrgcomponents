@@ -79,7 +79,7 @@
     "./MFA/EMail": "./dist/Routing/Auth/MFA/EMail.js",
     "./MFA/SMS": "./dist/Routing/Auth/MFA/SMS.js",
     "./Tabs/Panel": "./dist/Tabs/TabPanel.js",
-    "./useTheme": "./dist/lib/hooks/useTheme.js",
+    "./useTheme": "./dist/Theming/useTheme.js",
     "./Header": "./dist/AppWrapper/new/Header.js",
     "./MobileSideBar": "./dist/AppWrapper/new/MobileSideBar.js",
     "./Nav": "./dist/AppWrapper/new/Nav.js",

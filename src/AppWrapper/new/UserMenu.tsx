@@ -3,7 +3,7 @@
 import { CircleUser } from 'lucide-react';
 import { deleteCookie } from 'cookies-next';
 import Link from 'next/link';
-import { useTheme } from '../../lib/hooks/useTheme';
+import { useTheme } from '../../Theming/useTheme';
 
 import { Button } from '../../components/ui/button';
 import {
