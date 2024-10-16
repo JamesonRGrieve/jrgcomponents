@@ -66,7 +66,7 @@
     "./AppWrapper/List": "./dist/AppWrapper/List.js",
     "./Form/Button/ActionButton": "./dist/MUI/Styled/Button/ActionButton.js",
     "./Form/Button/IconButton": "./dist/MUI/Styled/Button/IconButton.js",
-    "./Header": "./dist/AppWrapper/HeaderFooter.js",
+    "./Header/deprecated": "./dist/AppWrapper/HeaderFooter.js",
     "./Footer": "./dist/AppWrapper/HeaderFooter.js",
     "./AppWrapper/HeaderFooter": "./dist/AppWrapper/HeaderFooter.js",
     "./Style/Global": "./dist/Style/globals.css",
@@ -80,10 +80,11 @@
     "./MFA/SMS": "./dist/Routing/Auth/MFA/SMS.js",
     "./Tabs/Panel": "./dist/Tabs/TabPanel.js",
     "./useTheme": "./dist/lib/hooks/useTheme.js",
-    "./AppWrapper/New/Header": "./dist/AppWrapper/new/Header.js",
-    "./AppWrapper/New/MobileSideBar": "./dist/AppWrapper/new/MobileSideBar.js",
-    "./AppWrapper/New/Nav": "./dist/AppWrapper/new/Nav.js",
-    "./AppWrapper/New/Wrapper": "./dist/AppWrapper/new/Wrapper.js"
+    "./Header": "./dist/AppWrapper/new/Header.js",
+    "./MobileSideBar": "./dist/AppWrapper/new/MobileSideBar.js",
+    "./Nav": "./dist/AppWrapper/new/Nav.js",
+    "./Wrapper": "./dist/AppWrapper/new/Wrapper.js",
+    "./UserMenu": "./dist/AppWrapper/new/UserMenu.js"
   },
   "dependencies": {
     "@emotion/react": "^11.13.3",
