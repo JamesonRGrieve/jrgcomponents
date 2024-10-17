@@ -44,7 +44,7 @@
     "./Theming/ThemeWrapper": "./dist/Theming/ThemeWrapper.js",
     "./Theming/BuildThemeSet": "./dist/Theming/BuildThemeSet.js",
     "./Theming/Sample": "./dist/Theming/sample-theme.js",
-    "./Theming/ThemeToggle": "./dist/Theming/Toggle.js",
+    "./Theming/ThemeToggle": "./dist/Theming/ThemeToggle.js",
     "./Head": "./dist/Meta/Head.js",
     "./types/Theming": "./dist/types/Theming.js",
     "./Form/Field": "./dist/MUI/Styled/FormControl/Field.js",
