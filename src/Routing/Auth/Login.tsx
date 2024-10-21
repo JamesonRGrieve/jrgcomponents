@@ -70,12 +70,19 @@ export default function Login({
 
         {otp_uri && (
           <div className='flex flex-col max-w-xs gap-2 mx-auto text-center'>
-            <QRCode
-              size={256}
-              style={{ height: 'auto', maxWidth: '100%', width: '100%' }}
-              value={otp_uri ?? ''}
-              viewBox={`0 0 256 256`}
-            />
+            <div
+              style={{
+                padding: '0.5rem',
+                backgroundColor: 'white',
+              }}
+            >
+              <QRCode
+                size={256}
+                style={{ height: 'auto', maxWidth: '100%', width: '100%' }}
+                value={otp_uri ?? ''}
+                viewBox={`0 0 256 256`}
+              />
+            </div>
             <p className='text-sm text-center text-muted-foreground'>
               Scan the above QR code with Microsoft Authenticator, Google Authenticator or equivalent (or click the copy
               button if you are using your Authenticator device).

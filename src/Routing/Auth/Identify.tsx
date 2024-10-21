@@ -34,7 +34,7 @@ export type IdentifyProps = {
 export default function Identify({
   identifyEndpoint = '/v1/user/exists',
   redirectToOnExists = '/login',
-  redirectToOnNotExists = '/register',
+  redirectToOnNotExists = '/register', // TODO Default this to /register if in basic mode, and /login in magical mode
   oAuthOverrides = {},
 }): ReactNode {
   const router = useRouter();

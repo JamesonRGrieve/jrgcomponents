@@ -109,6 +109,7 @@ export default function AuthRouter({
   additionalPages: { [key: string]: ReactNode };
 }) {
   // TODO If we're doing this, these probably don't need to be in context, which can be used for just enabled modes etc.
+  // TODO Make this recursive so we don't need to copy paste the values if we go further than one layer deep.
   corePagesConfig = {
     ...pageConfigDefaults,
     ...corePagesConfig,
