@@ -4,6 +4,7 @@ import { styled } from '@mui/material/styles';
 import React, { ReactNode, useContext } from 'react';
 
 import { ThemeContext } from './ThemeWrapper';
+import { useTheme } from './useTheme';
 
 const SwitchThemed = styled(Switch)(({ theme }) => ({
   width: '62px !important',
@@ -60,13 +61,24 @@ const SwitchThemed = styled(Switch)(({ theme }) => ({
 }));
 export default function StyledSwitch(): ReactNode {
   const themeState = useContext(ThemeContext);
+  const { currentTheme, setTheme } = useTheme()
+  const isColorBlind = currentTheme.includes('colorblind');
+  const isDark = currentTheme.includes('dark');
+
+  const switchTheme = () => {
+    if (!isColorBlind) {
+      return setTheme(isDark ? 'default' : 'dark');
+    }
+    setTheme(isDark ? 'colorblind' : 'colorblind-dark');
+    
+    themeState.mutate({ ...themeState, dark: !themeState.dark });
+  }
+
   return (
     <Tooltip title={themeState.dark ? 'Switch to Light Mode' : 'Switch to Dark Mode'}>
       <SwitchThemed
-        checked={themeState.dark}
-        onClick={() => {
-          themeState.mutate({ ...themeState, dark: !themeState.dark });
-        }}
+        checked={currentTheme.includes('dark') || themeState.dark}
+        onClick={switchTheme}
       />
     </Tooltip>
   );
