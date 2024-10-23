@@ -21,6 +21,8 @@ export const Nav = ({ navItems, itemProps, className, ...props }: NavProps) => {
   const pathname = usePathname();
   const { className: itemClassName, active, ...itemRest } = itemProps || {};
 
+  if (navItems.length > 2) return <div />; // If there's only one nav item, there's no point of nav.
+
   return (
     <nav className={cn('flex gap-6 md:gap-5 lg:gap-6 md:text-sm font-medium text-lg', className)} {...props}>
       {navItems.map((item) => (
