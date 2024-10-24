@@ -224,7 +224,9 @@ export const useOAuth2: MiddlewareHook = async (req) => {
   };
   const queryParams = getQueryParams(req);
   if (queryParams.code) {
-    const oAuthEndpoint = `${process.env.MODE === 'development' ? process.env.NEXT_PUBLIC_AUTH_SERVER : process.env.NEXT_PUBLIC_AUTH_SERVER.replace('localhost', 'agixt')}/v1/oauth2/${provider}`;
+    const oAuthEndpoint = process.env.MODE === 'development' 
+      ? `${process.env.NEXT_PUBLIC_AUTH_SERVER.replace('localhost', 'agixt')}/v1/oauth2/${provider}`
+      : `${process.env.NEXT_PUBLIC_AUTH_SERVER}/v1/oauth2/${provider}`;
     console.log(`Exchanging code ${queryParams.code} with ${provider} at ${oAuthEndpoint}...`);
     const auth = await fetch(oAuthEndpoint, {
       method: 'POST',
