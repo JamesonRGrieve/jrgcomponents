@@ -85,7 +85,8 @@
     "./MobileSideBar": "./dist/AppWrapper/new/MobileSideBar.js",
     "./Nav": "./dist/AppWrapper/new/Nav.js",
     "./Wrapper": "./dist/AppWrapper/new/Wrapper.js",
-    "./UserMenu": "./dist/AppWrapper/new/UserMenu.js"
+    "./UserMenu": "./dist/AppWrapper/new/UserMenu.js",
+    "./NewDialog": "./dist/Dialog/new/Dialog.js"
   },
   "dependencies": {
     "@emotion/react": "^11.13.3",

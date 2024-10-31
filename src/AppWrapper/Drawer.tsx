@@ -1,12 +1,13 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { ReactNode, useEffect, useState } from 'react';
 import MenuSWR from '../SWR/MenuSWR';
 
 export default function PopoutDrawer({
   open,
   side,
   width,
+  staticMenu = null,
   menu,
   swr,
   topSpacing,
@@ -17,8 +18,9 @@ export default function PopoutDrawer({
   open: boolean;
   side: 'left' | 'right';
   width: string;
-  menu: any;
-  swr: any;
+  menu?: any;
+  staticMenu?: ReactNode | null;
+  swr?: any;
   topSpacing: string;
   bottomSpacing?: string;
   zIndex: number;
@@ -32,25 +34,24 @@ export default function PopoutDrawer({
     window.addEventListener('resize', checkMobile);
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
-
-  const drawerClasses = `
-    ${isMobile ? 'fixed' : 'absolute'}
-    ${side}-0
+  // TODO Why tf won't border-r-2 work?
+  return (
+    <>
+      {isMobile && open && (
+        <div className='fixed inset-0 bg-black bg-opacity-50' style={{ zIndex: zIndex - 1 }} onClick={close} />
+      )}
+      <div
+        className={`${isMobile ? 'fixed' : 'absolute'} ${side}-0
+    border-${side === 'left' ? 'r' : 'l'}-2 
+    border-solid
+    border-gray-200
     bg-white
     overflow-y-auto
     transition-transform
     duration-300
     ease-in-out
     ${open ? 'translate-x-0' : side === 'left' ? '-translate-x-full' : 'translate-x-full'}
-  `;
-
-  const overlayClasses = 'fixed inset-0 bg-black bg-opacity-50';
-
-  return (
-    <>
-      {isMobile && open && <div className={overlayClasses} style={{ zIndex: zIndex - 1 }} onClick={close} />}
-      <div
-        className={drawerClasses}
+  `}
         style={{
           width,
           top: topSpacing,
@@ -60,9 +61,7 @@ export default function PopoutDrawer({
           paddingBottom: isMobile ? 'env(safe-area-inset-bottom)' : undefined,
         }}
       >
-        <ul className='p-0 m-0 list-none'>
-          <MenuSWR swr={swr} menu={menu} />
-        </ul>
+        <ul className='p-0 m-0 list-none'>{staticMenu ? staticMenu : <MenuSWR swr={swr} menu={menu} />}</ul>
       </div>
     </>
   );

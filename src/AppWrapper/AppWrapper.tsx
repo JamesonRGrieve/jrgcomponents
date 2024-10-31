@@ -8,13 +8,20 @@ import HeaderFooter, { HeaderFooterProps } from './HeaderFooter';
 import PopoutDrawer from './Drawer';
 import PopoutButton from './Button';
 
-type Menu = {
-  heading?: string;
-  icon?: ReactNode;
-  swr: any;
-  menu: any;
-  width: string;
-};
+type Menu =
+  | {
+      heading?: string;
+      icon?: ReactNode;
+      swr?: any;
+      menu?: any;
+      width: string;
+    }
+  | {
+      heading?: string;
+      icon?: ReactNode;
+      staticMenu: ReactNode;
+      width: string;
+    };
 
 type PopoutHeaderProps = {
   height?: string;
@@ -99,7 +106,7 @@ export default function AppWrapper({
           components={
             header?.components && {
               left:
-                (header?.components?.left as unknown as Menu)?.menu !== undefined ? (
+                (header?.components?.left as unknown as Menu)?.width !== undefined ? (
                   <PopoutButton
                     open={open.left}
                     handleToggle={() => {
@@ -122,7 +129,7 @@ export default function AppWrapper({
                 )
               ) : undefined,
               right:
-                (header?.components?.right as unknown as Menu)?.menu !== undefined ? (
+                (header?.components?.right as unknown as Menu)?.width !== undefined ? (
                   <PopoutButton
                     open={open.right}
                     handleToggle={() => {
@@ -139,7 +146,7 @@ export default function AppWrapper({
           }
         />
       )}
-      {(header?.components?.left as unknown as Menu)?.menu && (
+      {(header?.components?.left as unknown as Menu)?.width && (
         <PopoutDrawer
           open={open.left}
           close={() => setOpen((prevState: any) => ({ ...prevState, left: false }))}
@@ -151,7 +158,7 @@ export default function AppWrapper({
         />
       )}
       <MainSection {...{ inner, open, header, mainSX, footer, children }} />
-      {(header?.components?.right as unknown as Menu)?.menu && (
+      {(header?.components?.right as unknown as Menu)?.width && (
         <PopoutDrawer
           open={open.right}
           close={() => setOpen((prevState: any) => ({ ...prevState, right: false }))}

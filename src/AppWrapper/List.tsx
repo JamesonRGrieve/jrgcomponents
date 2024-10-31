@@ -1,6 +1,24 @@
-import { ListItemText, ListItemButton, ListItemIcon } from '@mui/material';
+'use client';
+
 import { usePathname, useRouter } from 'next/navigation';
 import React, { ReactNode } from 'react';
+
+export type MenuListItem = {
+  label: string;
+  Icon?: ReactNode;
+  tooltip?: string;
+  href?: string;
+  click?: (e: React.MouseEvent) => void;
+  selected?: boolean;
+  indent?: number;
+  buttons?: {
+    Icon: ReactNode;
+    tooltip?: string;
+    href?: string;
+    click?: (e: React.MouseEvent) => void;
+  }[];
+  subItems?: MenuListItem[];
+};
 
 export default function MenuList({ items }: { items: (MenuListItem | ReactNode)[] }) {
   return (
@@ -11,62 +29,62 @@ export default function MenuList({ items }: { items: (MenuListItem | ReactNode)[
     </>
   );
 }
+
 function MenuItem({ item }: { item: MenuListItem }) {
   const pathname = usePathname();
   const router = useRouter();
   const [open, setOpen] = React.useState(false);
+
+  const handleClick = (e: React.MouseEvent) => {
+    if (item.click) {
+      item.click(e);
+    }
+    if (item.subItems && item.subItems.length > 0) {
+      setOpen((old) => !old);
+    }
+    if (item.href) {
+      router.push(item.href);
+    }
+  };
+
+  const isSelected = item.selected || pathname.split('/')[1] === item.label;
+
   return (
     <>
-      <ListItemButton
-        onClick={(e: any) => {
-          if (item.click) {
-            item.click(e);
-          }
-          if (item.subItems && item.subItems.length > 0) {
-            setOpen((old) => !old);
-          }
-          if (item.href) {
-            router.push(item.href);
-          }
-        }}
-        selected={item.selected || pathname.split('/')[1] == item.label}
-        sx={{ pl: `${item.indent ? item.indent + 1 : 1}rem` }}
+      <button
+        onClick={handleClick}
+        className={`
+          w-full text-left py-2 px-4 hover:bg-gray-100 transition-colors duration-200
+          ${isSelected ? 'bg-gray-200' : ''}
+          ${item.indent ? `pl-${item.indent + 4}` : 'pl-4'}
+        `}
       >
-        {item.Icon && <ListItemIcon>{item.Icon}</ListItemIcon>}
-        <ListItemText primary={item.label} />
-        {item.buttons &&
-          item.buttons.length > 0 &&
-          item.buttons.map((button, index) => (
-            <ListItemIcon
-              key={index}
-              onClick={(e: any) => {
-                button.href ? router.push(button.href) : button.click ? button.click(e) : null;
-              }}
-            >
-              {button.Icon}
-            </ListItemIcon>
-          ))}
-      </ListItemButton>
+        <div className='flex items-center'>
+          {item.Icon && <div className='mr-4'>{item.Icon}</div>}
+          <span>{item.label}</span>
+          <div className='ml-auto flex'>
+            {item.buttons &&
+              item.buttons.length > 0 &&
+              item.buttons.map((button, index) => (
+                <button
+                  key={index}
+                  onClick={(e: React.MouseEvent) => {
+                    e.stopPropagation();
+                    button.href ? router.push(button.href) : button.click ? button.click(e) : null;
+                  }}
+                  className='ml-2 p-1 hover:bg-gray-200 rounded-full'
+                  title={button.tooltip}
+                >
+                  {button.Icon}
+                </button>
+              ))}
+          </div>
+        </div>
+      </button>
       {open &&
         item.subItems &&
         item.subItems.length > 0 &&
-        item.subItems.map((item) => <MenuItem key={item.label} item={item} />)}
+        item.subItems.map((subItem) => <MenuItem key={subItem.label} item={subItem} />)}
     </>
   );
 }
-export type MenuListItem = {
-  label: string;
-  Icon?: ReactNode;
-  tooltip?: string;
-  href?: string;
-  click?: (e: MouseEvent) => void;
-  selected?: boolean;
-  indent?: number;
-  buttons?: {
-    Icon: ReactNode;
-    tooltip?: string;
-    href?: string;
-    click?: (e: MouseEvent) => void;
-  }[];
-  subItems?: MenuListItem[];
-};
