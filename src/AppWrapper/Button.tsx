@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react';
-import { ChevronRight, ChevronLeft } from 'lucide-react';
+import { AiOutlineRight as ChevronRight, AiOutlineLeft as ChevronLeft } from 'react-icons/ai';
 
 export default function PopoutDrawerWrapperAppBarButton({
   open,
