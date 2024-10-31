@@ -133,6 +133,7 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@esbuild/win32-x64": "^0.24.0",
     "@storybook/addon-actions": "^8.1.4",
     "@storybook/addon-docs": "^8.1.4",
     "@storybook/addon-essentials": "^8.2.9",

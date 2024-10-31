@@ -1,4 +1,3 @@
-import { Drawer, List, useMediaQuery } from '@mui/material';
 import React from 'react';
 import MenuSWR from '../SWR/MenuSWR';
 
@@ -13,57 +12,59 @@ export default function PopoutDrawer({
   zIndex,
   close,
 }: {
-  open: any;
+  open: boolean;
   side: 'left' | 'right';
-  width: any;
+  width: string;
   menu: any;
   swr: any;
   topSpacing: string;
-  edgeSpacing?: string;
   bottomSpacing?: string;
-  zIndex: any;
+  zIndex: number;
   close: () => void;
 }) {
-  const isMobile = useMediaQuery('(max-width:600px)');
+  const isMobile = window.innerWidth <= 600;
+
+  const drawerStyles = {
+    width: width,
+    top: topSpacing,
+    bottom: bottomSpacing ?? '0',
+    zIndex: zIndex,
+    transform: open
+      ? 'translateX(0)'
+      : side === 'left'
+        ? 'translateX(-100vw)' // Moves the closed drawer completely off the screen to the left
+        : 'translateX(100vw)', // Moves the closed drawer completely off the screen to the right
+    transition: 'transform 0.3s ease-in-out',
+    position: 'absolute' as const,
+    [side]: '0',
+    overflowY: 'auto' as const,
+    boxSizing: 'border-box' as const,
+    backgroundColor: 'white',
+    ...(isMobile
+      ? {
+          height: '100%',
+          position: 'fixed' as const,
+          paddingTop: 'env(safe-area-inset-top)',
+          paddingBottom: 'env(safe-area-inset-bottom)',
+        }
+      : {}),
+  };
+
+  const overlayStyles = {
+    position: 'fixed' as const,
+    inset: '0',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    zIndex: zIndex - 1,
+  };
 
   return (
-    <Drawer
-      sx={{
-        direction: side == 'right' ? 'lrt' : 'rtl',
-        width: width,
-        flexShrink: 0,
-        zIndex: zIndex,
-        '& .MuiDrawer-paper': {
-          height: 'unset',
-          width: width,
-          boxSizing: 'border-box',
-          position: 'absolute',
-          bottom: bottomSpacing ?? '0',
-          left: side == 'left' ? '0' : 'unset',
-          right: side == 'right' ? '0' : 'unset',
-          top: topSpacing,
-          overflowY: 'auto',
-          ...(isMobile ? mobileStyles : {}),
-        },
-      }}
-      variant={isMobile ? 'temporary' : 'persistent'}
-      anchor={side}
-      open={open}
-      onClose={() => close()}
-    >
-      <List sx={{ direction: 'ltr', padding: '0' }}>
-        <MenuSWR swr={swr} menu={menu} />
-      </List>
-    </Drawer>
+    <>
+      {isMobile && open && <div style={overlayStyles} onClick={close} />}
+      <div style={drawerStyles}>
+        <ul style={{ padding: 0, margin: 0, listStyle: 'none' }}>
+          <MenuSWR swr={swr} menu={menu} />
+        </ul>
+      </div>
+    </>
   );
 }
-
-const mobileStyles = {
-  height: '100%',
-  position: 'fixed',
-  bottom: '0',
-  top: '0',
-  minWidth: '75vw',
-  paddingTop: 'env(safe-area-inset-top)',
-  paddingBottom: 'env(safe-area-inset-bottom)',
-};

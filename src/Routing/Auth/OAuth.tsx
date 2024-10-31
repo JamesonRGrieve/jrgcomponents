@@ -35,6 +35,7 @@ export default function OAuth({ overrides }: OAuthProps): ReactNode {
   */
   return (
     <>
+      <p>TESTING TESTING TESTING</p>
       {Object.values(oAuthProviders).some((provider) => provider.client_id) &&
         process.env.NEXT_PUBLIC_ALLOW_EMAIL_SIGN_IN === 'true' && <hr />}
       {Object.entries(oAuthProviders).map(

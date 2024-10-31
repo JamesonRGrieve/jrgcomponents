@@ -1,5 +1,4 @@
 import React from 'react';
-import { AppBar, Typography, useMediaQuery } from '@mui/material';
 import CenterAlignedBox, { CenterAlignedBoxProps } from '../Layout/CenterAlignedBox';
 
 export type HeaderFooterProps = {
@@ -8,59 +7,59 @@ export type HeaderFooterProps = {
   components?: CenterAlignedBoxProps;
 };
 
-// TODO: Remove after refactoring where this is used
 export default function HeaderFooter({ height = '3rem', footer = false, components }: HeaderFooterProps) {
   return footer ? <Footer {...{ height, components }} /> : <Header {...{ height, components }} />;
 }
 
 export function Header({ height, components }: HeaderFooterProps) {
-  const mobile = useMediaQuery('(max-width:600px)');
+  const isMobile = window.innerWidth <= 600;
+
   return (
     <>
-      <AppBar
-        sx={{
-          height: height,
-          px: '1rem',
-          ...(mobile
-            ? {
-                height: 'unset',
-                px: '0.25rem',
-                pt: 'calc(0.25rem + env(safe-area-inset-top))',
-                pb: '0.25rem',
-              }
-            : {}),
-        }}
-        position={mobile ? 'fixed' : 'static'}
+      <header
+        className={`
+          bg-primary text-primary-foreground 
+          flex items-center px-4 
+          ${
+            isMobile
+              ? `
+            fixed top-0 left-0 right-0 
+            pt-[calc(0.25rem+env(safe-area-inset-top))] 
+            pb-1 
+            h-auto`
+              : `h-[${height}] static`
+          }
+        `}
       >
         <CenterAlignedBox
           left={components?.left}
           center={
             components?.center ?? (
-              <Typography variant='subtitle1' fontWeight={'bolder'} textAlign={'center'}>
+              <h2 className='text-center font-bold text-subtitle'>
                 {process.env.NEXT_PUBLIC_APP_NAME ?? 'Application Name'}
-              </Typography>
+              </h2>
             )
           }
           right={components?.right}
         />
-      </AppBar>
-      {/* Spacer for mobile header when sticky. Here for locality */}
-      {mobile && <div style={{ height: 'calc(3rem + env(safe-area-inset-top))' }} />}
+      </header>
+
+      {/* Spacer for mobile header when sticky */}
+      {isMobile && <div className='h-[calc(3rem+env(safe-area-inset-top))]' />}
     </>
   );
 }
 
 export function Footer({ height, components }: HeaderFooterProps) {
   return (
-    <AppBar
-      sx={{
-        height: height,
-        px: '1rem',
-        justifySelf: 'end',
-      }}
-      position='static'
+    <footer
+      className={`
+        bg-primary text-primary-foreground 
+        flex items-center justify-self-end 
+        px-4 h-[${height}] static
+      `}
     >
       <CenterAlignedBox left={components?.left} center={components?.center} right={components?.right} />
-    </AppBar>
+    </footer>
   );
 }
