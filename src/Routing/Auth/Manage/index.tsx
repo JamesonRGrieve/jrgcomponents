@@ -13,6 +13,7 @@ import { Profile } from './Profile';
 import { Account } from './Account';
 import { Appearance } from './Appearance';
 import { Notifications } from './Notifications';
+import { Invitations } from './Invitations';
 
 export type ManageProps = {
   userDataSWRKey?: string;
@@ -21,7 +22,7 @@ export type ManageProps = {
   userPasswordChangeEndpoint?: string;
 };
 
-type ActivePage = 'Profile' | 'Account' | 'Appearance' | 'Notifications';
+type ActivePage = 'Profile' | 'Account' | 'Appearance' | 'Notifications' | 'Invitations';
 
 export default function Manage({
   userDataSWRKey = '/user',
@@ -98,6 +99,7 @@ export default function Manage({
             {active === 'Account' && <Account {...{ authConfig, data, userPasswordChangeEndpoint, setResponseMessage }} />}
             {active === 'Appearance' && <Appearance />}
             {active === 'Notifications' && <Notifications />}
+            {active === 'Invitations' && <Invitations {...{ authConfig, data, setResponseMessage }} />}
           </div>
         </div>
       </main>
@@ -108,7 +110,7 @@ export default function Manage({
 const Nav = ({ active, setActive }: { active: ActivePage; setActive: (page: ActivePage) => void }) => {
   return (
     <nav className='flex space-x-2 md:flex-col lg:space-x-0 lg:space-y-1'>
-      {['Profile', 'Account', 'Appearance', 'Notifications'].map((label) => (
+      {['Profile', 'Account', 'Invitations', 'Appearance', 'Notifications'].map((label) => (
         <Button
           key={label}
           variant='ghost'

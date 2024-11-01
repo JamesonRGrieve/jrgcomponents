@@ -103,13 +103,13 @@ export default function Identify({
           </>
         )}
 
-        {showEmail && showOAuth && (
+        {showEmail && showOAuth ? (
           <div className='flex items-center gap-2 my-2'>
             <Separator className='flex-1' />
             <span>or</span>
             <Separator className='flex-1' />
           </div>
-        )}
+        ) : null}
 
         {showOAuth && <OAuth overrides={oAuthOverrides} />}
       </form>
