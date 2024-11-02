@@ -40,7 +40,7 @@ export default function Identify({
   const router = useRouter();
   const authConfig = useAuthentication();
   const pathname = usePathname();
-
+  console.log('TEST');
   useAssertion(validateURI(authConfig.authServer + identifyEndpoint), 'Invalid identify endpoint.', [
     authConfig.authServer,
     identifyEndpoint,

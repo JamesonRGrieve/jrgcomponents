@@ -14,6 +14,7 @@ import { Account } from './Account';
 import { Appearance } from './Appearance';
 import { Notifications } from './Notifications';
 import { Invitations } from './Invitations';
+import { cn } from '../../../lib/utils';
 
 export type ManageProps = {
   userDataSWRKey?: string;
@@ -21,6 +22,7 @@ export type ManageProps = {
   userUpdateEndpoint?: string;
   userPasswordChangeEndpoint?: string;
 };
+const MENU_ITEMS: ActivePage[] = ['Profile', 'Account', 'Invitations', 'Appearance', 'Notifications'];
 
 type ActivePage = 'Profile' | 'Account' | 'Appearance' | 'Notifications' | 'Invitations';
 
@@ -32,7 +34,7 @@ export default function Manage({
 }: ManageProps): ReactNode {
   const [responseMessage, setResponseMessage] = useState('');
   const [active, setActive] = useState<ActivePage>('Profile');
-
+  console.log(MENU_ITEMS);
   type User = {
     missing_requirements?: {
       [key: string]: {
@@ -109,14 +111,14 @@ export default function Manage({
 
 const Nav = ({ active, setActive }: { active: ActivePage; setActive: (page: ActivePage) => void }) => {
   return (
-    <nav className='flex space-x-2 md:flex-col lg:space-x-0 lg:space-y-1'>
-      {['Profile', 'Account', 'Invitations', 'Appearance', 'Notifications'].map((label) => (
+    <nav className='flex flex-col space-y-1'>
+      {MENU_ITEMS.map((label) => (
         <Button
           key={label}
           variant='ghost'
-          className={'justify-start' + (active === label ? ' bg-muted' : '')}
+          className={cn('justify-start', active === label ? 'bg-muted' : '')}
           disabled={label === 'Notifications'}
-          onClick={() => setActive(label as ActivePage)}
+          onClick={() => setActive(label)}
         >
           {label}
         </Button>
