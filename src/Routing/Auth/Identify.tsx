@@ -41,6 +41,9 @@ export default function Identify({
   const authConfig = useAuthentication();
   const pathname = usePathname();
   console.log('TEST');
+  if (redirectToOnNotExists === '/register' && authConfig.authModes.magical) {
+    redirectToOnNotExists = '/login';
+  }
   useAssertion(validateURI(authConfig.authServer + identifyEndpoint), 'Invalid identify endpoint.', [
     authConfig.authServer,
     identifyEndpoint,
@@ -58,7 +61,6 @@ export default function Identify({
   const onSubmit: SubmitHandler<FormData> = async (formData) => {
     try {
       const existsResponse = await axios.get(`${authConfig.authServer}${identifyEndpoint}?email=${formData.email}`);
-
       setCookie('email', formData.email, { domain: process.env.NEXT_PUBLIC_COOKIE_DOMAIN });
       router.push(`${pathname}${existsResponse.data ? redirectToOnExists : redirectToOnNotExists}`);
     } catch (exception) {
