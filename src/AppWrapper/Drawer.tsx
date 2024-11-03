@@ -1,11 +1,13 @@
-import { Drawer, List, useMediaQuery } from '@mui/material';
-import React from 'react';
+'use client';
+
+import React, { ReactNode, useEffect, useState } from 'react';
 import MenuSWR from '../SWR/MenuSWR';
 
 export default function PopoutDrawer({
   open,
   side,
   width,
+  staticMenu = null,
   menu,
   swr,
   topSpacing,
@@ -13,57 +15,54 @@ export default function PopoutDrawer({
   zIndex,
   close,
 }: {
-  open: any;
+  open: boolean;
   side: 'left' | 'right';
-  width: any;
-  menu: any;
-  swr: any;
+  width: string;
+  menu?: any;
+  staticMenu?: ReactNode | null;
+  swr?: any;
   topSpacing: string;
-  edgeSpacing?: string;
   bottomSpacing?: string;
-  zIndex: any;
+  zIndex: number;
   close: () => void;
 }) {
-  const isMobile = useMediaQuery('(max-width:600px)');
+  const [isMobile, setIsMobile] = useState(false);
 
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth <= 600);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+  // TODO Why tf won't border-r-2 work?
   return (
-    <Drawer
-      sx={{
-        direction: side == 'right' ? 'lrt' : 'rtl',
-        width: width,
-        flexShrink: 0,
-        zIndex: zIndex,
-        '& .MuiDrawer-paper': {
-          height: 'unset',
-          width: width,
-          boxSizing: 'border-box',
-          position: 'absolute',
-          bottom: bottomSpacing ?? '0',
-          left: side == 'left' ? '0' : 'unset',
-          right: side == 'right' ? '0' : 'unset',
+    <>
+      {isMobile && open && (
+        <div className='fixed inset-0 bg-black bg-opacity-50' style={{ zIndex: zIndex - 1 }} onClick={close} />
+      )}
+      <div
+        className={`${isMobile ? 'fixed' : 'absolute'} ${side}-0
+    border-${side === 'left' ? 'r' : 'l'}-2 
+    border-solid
+    border-gray-200
+    bg-white
+    overflow-y-auto
+    transition-transform
+    duration-300
+    ease-in-out
+    ${open ? 'translate-x-0' : side === 'left' ? '-translate-x-full' : 'translate-x-full'}
+  `}
+        style={{
+          width,
           top: topSpacing,
-          overflowY: 'auto',
-          ...(isMobile ? mobileStyles : {}),
-        },
-      }}
-      variant={isMobile ? 'temporary' : 'persistent'}
-      anchor={side}
-      open={open}
-      onClose={() => close()}
-    >
-      <List sx={{ direction: 'ltr', padding: '0' }}>
-        <MenuSWR swr={swr} menu={menu} />
-      </List>
-    </Drawer>
+          bottom: bottomSpacing ?? '0',
+          zIndex,
+          paddingTop: isMobile ? 'env(safe-area-inset-top)' : undefined,
+          paddingBottom: isMobile ? 'env(safe-area-inset-bottom)' : undefined,
+        }}
+      >
+        <ul className='p-0 m-0 list-none'>{staticMenu ? staticMenu : <MenuSWR swr={swr} menu={menu} />}</ul>
+      </div>
+    </>
   );
 }
-
-const mobileStyles = {
-  height: '100%',
-  position: 'fixed',
-  bottom: '0',
-  top: '0',
-  minWidth: '75vw',
-  paddingTop: 'env(safe-area-inset-top)',
-  paddingBottom: 'env(safe-area-inset-bottom)',
-};

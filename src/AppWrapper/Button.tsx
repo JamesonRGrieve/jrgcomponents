@@ -1,6 +1,5 @@
-import { Box, Typography, IconButton } from '@mui/material';
-import { ChevronRight, ChevronLeft } from '@mui/icons-material';
 import React, { ReactNode } from 'react';
+import { AiOutlineRight as ChevronRight, AiOutlineLeft as ChevronLeft } from 'react-icons/ai';
 
 export default function PopoutDrawerWrapperAppBarButton({
   open,
@@ -10,31 +9,25 @@ export default function PopoutDrawerWrapperAppBarButton({
   icon,
 }: {
   open: boolean;
-  handleToggle: any;
+  handleToggle: () => void;
   side: 'left' | 'right';
   heading: string;
   icon?: ReactNode;
 }) {
   return (
-    <Box
+    <div
       aria-label='open drawer'
       onClick={handleToggle}
-      sx={{
-        margin: `0 ${side === 'right' ? '1rem' : '0'} 0 ${side === 'left' ? '1rem' : '0'}`,
-        justifyContent: 'flex-end',
-        display: 'flex',
-        alignItems: 'center',
-        cursor: 'pointer',
-        height: '100%',
-        flexDirection: side == 'left' ? 'row-reverse' : 'row',
-      }}
+      className={`
+        flex items-center h-full cursor-pointer
+        ${side === 'right' ? 'mr-4' : 'ml-4'}
+        ${side === 'left' ? 'flex-row-reverse' : 'flex-row'}
+      `}
     >
-      <IconButton edge='start' color='inherit' sx={{ ml: '0.2rem' }}>
-        {icon ?? ((side == 'left') !== open ? <ChevronRight /> : <ChevronLeft />)}
-      </IconButton>
-      <Typography variant='h6' component='h1' noWrap>
-        {heading}
-      </Typography>
-    </Box>
+      <button className='ml-[0.2rem] text-inherit' aria-label={`${side} drawer toggle`}>
+        {icon ?? ((side === 'left') !== open ? <ChevronRight /> : <ChevronLeft />)}
+      </button>
+      <h1 className='text-lg font-semibold truncate'>{heading}</h1>
+    </div>
   );
 }

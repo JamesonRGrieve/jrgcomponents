@@ -41,6 +41,7 @@ export const useCookiesConfig = () => ({
 });
 export const useAuthConfig = () => ({
   env: {
+    PUBLIC_ROUTES: process.env.PUBLIC_ROUTES || '/',
     NEXT_PUBLIC_AUTH_WEB: process.env.AUTH_WEB || '',
     NEXT_PUBLIC_AUTH_SERVER: process.env.AUTH_SERVER || '',
     NEXT_PUBLIC_ALLOW_BASIC_SIGN_IN: process.env.ALLOW_BASIC_SIGN_IN || 'false',

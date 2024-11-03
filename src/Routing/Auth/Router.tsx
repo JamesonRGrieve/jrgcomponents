@@ -1,5 +1,4 @@
 'use client';
-// Use in ./app/user/[[...slug]]/page.tsx
 import React, { createContext, ReactNode, useContext } from 'react';
 import { notFound } from 'next/navigation';
 import User, { IdentifyProps } from './Identify';
@@ -14,10 +13,20 @@ import assert from '../../utils/Assert';
 import OrganizationalUnit, { OrganizationalUnitProps } from './OU';
 import ErrorPage, { ErrorPageProps } from './ErrorPage';
 
+// Add the new function to check for OAuth client IDs
+const isOAuth2Enabled = (): boolean => {
+  const microsoftClientId = process.env.NEXT_PUBLIC_MICROSOFT_CLIENT_ID;
+  const googleClientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
+  const githubClientId = process.env.NEXT_PUBLIC_GITHUB_CLIENT_ID;
+  
+  return !!(microsoftClientId || googleClientId || githubClientId);
+};
+
 type RouterPageProps = {
   path: string;
   heading?: string;
 };
+
 export type AuthenticationConfig = {
   identify: RouterPageProps & { props?: IdentifyProps };
   login: RouterPageProps & { props?: LoginProps };
@@ -48,6 +57,7 @@ export const useAuthentication = () => {
   }
   return context;
 };
+
 const pageConfigDefaults: AuthenticationConfig = {
   identify: {
     path: '/',
@@ -91,12 +101,13 @@ const pageConfigDefaults: AuthenticationConfig = {
   authServer: process.env.NEXT_PUBLIC_AUTH_SERVER,
   authModes: {
     basic: process.env.NEXT_PUBLIC_ALLOW_BASIC_SIGN_IN === 'true',
-    oauth2: true,
+    oauth2: isOAuth2Enabled(), // Now using the function to determine OAuth2 status
     magical: process.env.NEXT_PUBLIC_ALLOW_MAGICAL_SIGN_IN === 'true',
   },
   recaptchaSiteKey: process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY,
   enableOU: false,
 };
+
 export default function AuthRouter({
   params,
   searchParams,
@@ -108,14 +119,13 @@ export default function AuthRouter({
   corePagesConfig?: AuthenticationConfig;
   additionalPages: { [key: string]: ReactNode };
 }) {
-  // TODO If we're doing this, these probably don't need to be in context, which can be used for just enabled modes etc.
-  // TODO Make this recursive so we don't need to copy paste the values if we go further than one layer deep.
   corePagesConfig = {
     ...pageConfigDefaults,
     ...corePagesConfig,
   };
   console.log('Basic', process.env.NEXT_PUBLIC_ALLOW_BASIC_SIGN_IN);
   console.log('Magical', process.env.NEXT_PUBLIC_ALLOW_MAGICAL_SIGN_IN);
+  console.log('OAuth2', isOAuth2Enabled()); // Added OAuth2 logging
 
   console.log('Core Pages Config', corePagesConfig);
   const pages = {
@@ -137,7 +147,6 @@ export default function AuthRouter({
   if (path in pages || path.startsWith(corePagesConfig.close.path)) {
     return (
       <AuthenticationContext.Provider value={{ ...pageConfigDefaults, ...corePagesConfig }}>
-        {/* TODO Needs to be deep merged. */}
         {path.startsWith(corePagesConfig.close.path) ? pages[corePagesConfig.close.path] : pages[path.toString()]}
       </AuthenticationContext.Provider>
     );
