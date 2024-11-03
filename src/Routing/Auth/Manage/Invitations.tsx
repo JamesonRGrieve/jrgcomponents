@@ -19,21 +19,21 @@ const AUTHORIZED_ROLES = [0, 1, 2];
 export const Invitations = ({
   authConfig,
   data,
-  userInvitationEndpoint = '/v1/invitations',
   setResponseMessage,
 }: {
   authConfig: any;
   data: any;
-  userInvitationEndpoint?: string;
   setResponseMessage: (message: string) => void;
 }) => {
   const [email, setEmail] = useState('');
   const [roleId, setRoleId] = useState<string>('3'); // Default to User role
 
   // Check if user has permission to invite
+  /* Will need to make sure we're getting the role from the right place.
   if (!data?.role || !AUTHORIZED_ROLES.includes(data.role)) {
     return null;
   }
+    */
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -45,7 +45,7 @@ export const Invitations = ({
 
     try {
       const response = await axios.post(
-        `${authConfig.authServer}${userInvitationEndpoint}`,
+        `${authConfig.authServer}/v1/invitations`,
         {
           email: email,
           role_id: parseInt(roleId),
