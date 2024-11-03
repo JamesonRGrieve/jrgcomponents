@@ -1,20 +1,28 @@
 'use client';
-import React, { ReactNode, useState } from 'react';
-import { Box, SxProps, Typography, useMediaQuery, useTheme } from '@mui/material';
-import { Palette } from '@mui/icons-material';
+
+import React, { ReactNode, useState, useEffect } from 'react';
+import { Palette } from 'lucide-react';
 import SwitchDark from '../Theming/SwitchDark';
 import SwitchColorblind from '../Theming/SwitchColorblind';
 import HeaderFooter, { HeaderFooterProps } from './HeaderFooter';
 import PopoutDrawer from './Drawer';
 import PopoutButton from './Button';
 
-type Menu = {
-  heading?: string;
-  icon?: ReactNode;
-  swr: any;
-  menu: any;
-  width: string;
-};
+type Menu =
+  | {
+      heading?: string;
+      icon?: ReactNode;
+      swr?: any;
+      menu?: any;
+      width: string;
+    }
+  | {
+      heading?: string;
+      icon?: ReactNode;
+      staticMenu: ReactNode;
+      width: string;
+    };
+
 type PopoutHeaderProps = {
   height?: string;
   components?: {
@@ -23,19 +31,22 @@ type PopoutHeaderProps = {
     right?: ReactNode | Menu;
   };
 };
+
 export type AppWrapperProps = {
   header?: HeaderFooterProps | PopoutHeaderProps;
   footer?: HeaderFooterProps;
   inner?: boolean;
-  mainSX?: SxProps;
+  mainSX?: React.CSSProperties;
   keepThemeToggles?: boolean;
 };
+
 const switches = (
   <>
     <SwitchDark />
     <SwitchColorblind />
   </>
 );
+
 export default function AppWrapper({
   header,
   footer,
@@ -45,9 +56,17 @@ export default function AppWrapper({
   children,
 }: AppWrapperProps & { children: ReactNode }) {
   const [open, setOpen] = useState({ left: false, right: false });
-  const theme = useTheme();
-  const mobile = useMediaQuery('(max-width:600px)');
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth <= 600);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
   console.log(header, footer, mainSX);
+
   header = header
     ? {
         height: '3rem',
@@ -63,12 +82,11 @@ export default function AppWrapper({
             ) : (
               header.components.right
             )
-          ) : mobile ? (
+          ) : isMobile ? (
             {
               icon: <Palette />,
               swr: () => {},
               menu: () => switches,
-
               width: '5rem',
             }
           ) : (
@@ -77,7 +95,9 @@ export default function AppWrapper({
         },
       }
     : undefined;
+
   footer = footer ? { height: '2rem', ...footer } : undefined;
+
   return (
     <>
       {header && (
@@ -86,7 +106,7 @@ export default function AppWrapper({
           components={
             header?.components && {
               left:
-                (header?.components?.left as unknown as Menu)?.menu !== undefined ? (
+                (header?.components?.left as unknown as Menu)?.width !== undefined ? (
                   <PopoutButton
                     open={open.left}
                     handleToggle={() => {
@@ -101,17 +121,15 @@ export default function AppWrapper({
                 ),
               center: header?.components?.center ? (
                 typeof header?.components?.center === 'string' ? (
-                  <Typography variant='h6' component={inner ? 'h2' : 'h1'} textAlign='center' noWrap>
+                  <h1 className={`text-center ${inner ? 'text-2xl' : 'text-3xl'} whitespace-nowrap`}>
                     {header?.components?.center}
-                  </Typography>
+                  </h1>
                 ) : (
-                  <Box display='flex' justifyContent='space-between' alignItems='center' height='100%'>
-                    {header?.components?.center}
-                  </Box>
+                  <div className='flex h-full justify-between items-center'>{header?.components?.center}</div>
                 )
               ) : undefined,
               right:
-                (header?.components?.right as unknown as Menu)?.menu !== undefined ? (
+                (header?.components?.right as unknown as Menu)?.width !== undefined ? (
                   <PopoutButton
                     open={open.right}
                     handleToggle={() => {
@@ -128,7 +146,7 @@ export default function AppWrapper({
           }
         />
       )}
-      {(header?.components?.left as unknown as Menu)?.menu && (
+      {(header?.components?.left as unknown as Menu)?.width && (
         <PopoutDrawer
           open={open.left}
           close={() => setOpen((prevState: any) => ({ ...prevState, left: false }))}
@@ -139,8 +157,8 @@ export default function AppWrapper({
           bottomSpacing={footer?.height ?? '0'}
         />
       )}
-      <MainSection {...{ inner, theme, open, header, mainSX, children }} />
-      {(header?.components?.right as unknown as Menu)?.menu && (
+      <MainSection {...{ inner, open, header, mainSX, footer, children }} />
+      {(header?.components?.right as unknown as Menu)?.width && (
         <PopoutDrawer
           open={open.right}
           close={() => setOpen((prevState: any) => ({ ...prevState, right: false }))}
@@ -164,32 +182,24 @@ const MainSection = ({
   footer,
   children,
 }: AppWrapperProps & { children: ReactNode; open: { left: boolean; right: boolean } }) => {
-  const theme = useTheme();
-  // TODO: Change screen height on mobile when keyboard is opened
-
   return (
-    <Box
-      component={inner ? 'main' : 'div'}
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        flexGrow: 1,
-        flexShrink: '0',
-        position: 'relative',
-        overflowY: 'auto',
-        transition: theme.transitions.create('margin', {
-          easing: theme.transitions.easing[open.left || open.right ? 'easeOut' : 'sharp'],
-          duration: theme.transitions.duration[open.left || open.right ? 'enteringScreen' : 'leavingScreen'],
-        }),
-        margin: `0 ${open.right ? (header?.components?.right as unknown as Menu)?.width : 0} 0 ${open.left ? (header?.components?.left as unknown as Menu)?.width : 0}`,
-        ...(!header ? { paddingTop: 'env(safe-area-inset-top)' } : {}),
-        ...(!footer ? { paddingBottom: 'env(safe-area-inset-bottom)' } : {}),
+    <div
+      className={`
+        flex flex-col flex-grow flex-shrink-0 relative overflow-y-auto
+        transition-[margin] duration-300 ease-in-out
+      `}
+      style={{
+        margin: `0 ${open.right ? (header?.components?.right as unknown as Menu)?.width : 0} 0 ${
+          open.left ? (header?.components?.left as unknown as Menu)?.width : 0
+        }`,
+        paddingTop: !header ? 'env(safe-area-inset-top)' : undefined,
+        paddingBottom: !footer ? 'env(safe-area-inset-bottom)' : undefined,
         paddingLeft: 'env(safe-area-inset-left)',
         paddingRight: 'env(safe-area-inset-right)',
         ...mainSX,
       }}
     >
       {children}
-    </Box>
+    </div>
   );
 };
