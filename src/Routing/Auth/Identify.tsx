@@ -69,6 +69,7 @@ export default function Identify({
 
   const showEmail = authConfig.authModes.basic || authConfig.authModes.magical;
   const showOAuth = authConfig.authModes.oauth2;
+  // This logic is insufficient
 
   return (
     <AuthCard title='Welcome' description='Please choose an authentication method.'>
