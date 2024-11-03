@@ -27,13 +27,16 @@ export const Invitations = ({
 }) => {
   const [email, setEmail] = useState('');
   const [roleId, setRoleId] = useState<string>('3'); // Default to User role
-
-  // Check if user has permission to invite
-  /* Will need to make sure we're getting the role from the right place.
+  // TODO: Add a selector to choose a company to invite to if the user has multiple companies
+  /* 
+  Commented to avoid potential breakage from assumptions.
+  Check if user has permission to invite.
+  Will need to make sure we're getting the role from the right place before re-enabling this.
+  
   if (!data?.role || !AUTHORIZED_ROLES.includes(data.role)) {
     return null;
   }
-    */
+  */
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -42,7 +45,6 @@ export const Invitations = ({
       setResponseMessage('Please enter an email to invite.');
       return;
     }
-
     try {
       const response = await axios.post(
         `${authConfig.authServer}/v1/invitations`,
