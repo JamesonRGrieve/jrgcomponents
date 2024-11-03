@@ -652,3 +652,4 @@ FodyWeavers.xsd
 # End of https://www.toptal.com/developers/gitignore/api/visualstudio,visualstudiocode,windows,macos,linux,web,node,nextjs
 
 metadata.json
+test.ipynb

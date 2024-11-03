@@ -93,7 +93,8 @@ export const useAuth: MiddlewareHook = async (req) => {
           authMode === AuthMode.MagicalAuth &&
           requestedURI.startsWith(process.env.AUTH_WEB) &&
           jwt.length > 0 &&
-          req.nextUrl.pathname !== '/user/manage'
+          req.nextUrl.pathname !== '/user/manage' &&
+          req.nextUrl.pathname !== '/'
         ) {
           console.log(
             `Detected authenticated user attempting to visit non-management page. Redirecting to ${process.env.AUTH_WEB}/manage...`,
