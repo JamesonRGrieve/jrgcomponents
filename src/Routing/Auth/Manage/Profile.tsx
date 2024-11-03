@@ -43,7 +43,7 @@ export const Profile = ({
         <DynamicForm
           toUpdate={data}
           submitButtonText='Update'
-          excludeFields={['missing_requirements', 'email', 'subscription', 'ip_address']}
+          excludeFields={['missing_requirements', 'email', 'subscription', 'stripe_id', 'ip_address']}
           readOnlyFields={['input_tokens', 'output_tokens']}
           additionalButtons={[
             <Button
