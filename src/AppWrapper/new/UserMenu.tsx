@@ -20,6 +20,8 @@ import {
   DropdownMenuTrigger,
 } from '../../components/ui/dropdown-menu';
 import { cn } from '../../lib/utils';
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 type MenuItem = {
   name: string;
@@ -29,9 +31,22 @@ type MenuItem = {
 type UserMenuGroups = MenuItem[][];
 
 export const UserMenu = ({ userMenuItems }: { userMenuItems: UserMenuGroups }) => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const router = useRouter();
+
+  const handleRouting = (path: string) => {
+    setIsMenuOpen(false);
+    router.push(path);
+  };
+
+  const handleLogout = () => {
+    deleteCookie('jwt');
+    document.location = '/';
+  };
+
   return (
     <div className='flex items-center gap-4 md:gap-2 lg:gap-4'>
-      <DropdownMenu>
+      <DropdownMenu open={isMenuOpen} onOpenChange={setIsMenuOpen}>
         <DropdownMenuTrigger asChild>
           <Button variant='outline' size='icon' className='bg-transparent rounded-full'>
             <CircleUser className='w-5 h-5' />
@@ -45,8 +60,8 @@ export const UserMenu = ({ userMenuItems }: { userMenuItems: UserMenuGroups }) =
               <DropdownMenuSeparator />
               <DropdownMenuGroup key={index}>
                 {items.map((item) => (
-                  <DropdownMenuItem key={item.name}>
-                    <Link href={item.href}>{item.name}</Link>
+                  <DropdownMenuItem key={item.name} onClick={() => handleRouting(item.href)}>
+                    {item.name}
                   </DropdownMenuItem>
                 ))}
               </DropdownMenuGroup>
@@ -55,15 +70,7 @@ export const UserMenu = ({ userMenuItems }: { userMenuItems: UserMenuGroups }) =
           <DropdownMenuSeparator />
           <Appearance />
           <DropdownMenuSeparator />
-          <DropdownMenuItem
-            onClick={(event) => {
-              event.preventDefault();
-              deleteCookie('jwt');
-              document.location = '/';
-            }}
-          >
-            Logout
-          </DropdownMenuItem>
+          <DropdownMenuItem onClick={handleLogout}>Logout</DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
     </div>
