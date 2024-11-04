@@ -134,7 +134,7 @@ export const useAuth: MiddlewareHook = async (req) => {
         authMode === AuthMode.MagicalAuth &&
         requestedURI.startsWith(process.env.AUTH_WEB) &&
         req.nextUrl.pathname !== '/user/manage' &&
-        req.nextUrl.pathname !== '/'
+        !process.env.PUBLIC_ROUTES.split(',').includes(req.nextUrl.pathname)
       ) {
         console.log('Pathname: ' + req.nextUrl.pathname);
       } else {

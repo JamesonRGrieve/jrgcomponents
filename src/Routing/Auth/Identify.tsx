@@ -40,10 +40,10 @@ export default function Identify({
   const router = useRouter();
   const authConfig = useAuthentication();
   const pathname = usePathname();
-  console.log('TEST');
-  if (redirectToOnNotExists === '/register' && authConfig.authModes.magical) {
-    redirectToOnNotExists = '/login';
-  }
+  // console.log('TEST');
+  // if (redirectToOnNotExists === '/register' && authConfig.authModes.magical) {
+  //   redirectToOnNotExists = '/login';
+  // }
   useAssertion(validateURI(authConfig.authServer + identifyEndpoint), 'Invalid identify endpoint.', [
     authConfig.authServer,
     identifyEndpoint,

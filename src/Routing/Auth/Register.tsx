@@ -3,7 +3,7 @@ import { Box, Button, TextField, Typography } from '@mui/material';
 import axios, { AxiosError } from 'axios';
 import { getCookie } from 'cookies-next';
 import { useRouter } from 'next/navigation';
-import React, { FormEvent, ReactNode, useEffect, useState } from 'react';
+import React, { FormEvent, ReactNode, useEffect, useState, useRef } from 'react';
 import { useAuthentication } from './Router';
 import { toTitleCase } from '../../Form/DynamicForm';
 import PasswordField from '../../MUI/Styled/Input/PasswordField';
@@ -18,8 +18,10 @@ export type RegisterProps = {
 };
 
 export default function Register({ additionalFields, userRegisterEndpoint = '/v1/user' }: RegisterProps): ReactNode {
+  const formRef = useRef(null);
   const router = useRouter();
   const [captcha, setCaptcha] = useState<string | null>(null);
+  const [submitted, setSubmitted] = useState(false);
 
   const [responseMessage, setResponseMessage] = useState('');
   const authConfig = useAuthentication();
@@ -39,57 +41,72 @@ export default function Register({ additionalFields, userRegisterEndpoint = '/v1
       if (!formData['password-again']) setResponseMessage('Please enter your password again.');
       if (formData['password'] !== formData['password-again']) setResponseMessage('Passwords do not match.');
     }
+    let registerResponse;
+    try {
+      // TODO fix the stupid double submission.
+      registerResponse = (
+        await axios
+          .post(`${authConfig.authServer}${userRegisterEndpoint}`, {
+            ...formData,
+          })
+          .catch((exception: AxiosError) => exception.response)
+      ).data;
+    } catch (exception) {
+      console.error(exception);
+      registerResponse = null;
+    }
 
-    const registerResponse = (
-      await axios
-        .post(`${authConfig.authServer}${userRegisterEndpoint}`, {
-          ...formData,
-        })
-        .catch((exception: AxiosError) => exception.response)
-    ).data;
     // TODO Check for status 418 which is app disabled by admin.
-    setResponseMessage(registerResponse.detail);
-    if (registerResponse.otp_uri) {
+    setResponseMessage(registerResponse?.detail);
+    if (registerResponse?.otp_uri) {
       router.push(`/user/login?otp_uri=${registerResponse.otp_uri}`);
     }
   };
   useEffect(() => {
     // TODO Assert that there are no dupes or empty strings in additionalFields (after trimming and lowercasing)
   }, [additionalFields]);
+  useEffect(() => {
+    if (!submitted && formRef.current && authConfig.authModes.magical) {
+      setSubmitted(true);
+      formRef.current.requestSubmit();
+    }
+  }, []);
   return (
-    <AuthCard title='Create Account' description='Welcome, please complete your registration.' showBackButton>
-      <form onSubmit={submitForm} className='flex flex-col gap-4'>
-        {/* {authConfig.register.heading && <Typography variant='h2'>{authConfig.register.heading}</Typography>} */}
+    <div className={authConfig.authModes.magical ? ' invisible' : ''}>
+      <AuthCard title='Create Account' description='Welcome, please complete your registration.' showBackButton>
+        <form onSubmit={submitForm} className='flex flex-col gap-4' ref={formRef}>
+          {/* {authConfig.register.heading && <Typography variant='h2'>{authConfig.register.heading}</Typography>} */}
 
-        <input type='hidden' id='email' name='email' value={getCookie('email')} />
-        {authConfig.authModes.basic && (
-          <>
-            <PasswordField />
-            <PasswordField id='password-again' name='password-again' label='Password (Again)' />
-          </>
-        )}
-        {additionalFields &&
-          additionalFields.length > 0 &&
-          additionalFields.map((field) => (
-            <TextField key={field} id={field} label={toTitleCase(field)} variant='outlined' name={field} />
-          ))}
-        {authConfig.recaptchaSiteKey && (
-          <Box
-            sx={{
-              my: '0.8rem',
-            }}
-          >
-            <ReCAPTCHA
-              sitekey={authConfig.recaptchaSiteKey}
-              onChange={(token: string | null) => {
-                setCaptcha(token);
+          <input type='hidden' id='email' name='email' value={getCookie('email')} />
+          {authConfig.authModes.basic && (
+            <>
+              <PasswordField />
+              <PasswordField id='password-again' name='password-again' label='Password (Again)' />
+            </>
+          )}
+          {additionalFields &&
+            additionalFields.length > 0 &&
+            additionalFields.map((field) => (
+              <TextField key={field} id={field} label={toTitleCase(field)} variant='outlined' name={field} />
+            ))}
+          {authConfig.recaptchaSiteKey && (
+            <Box
+              sx={{
+                my: '0.8rem',
               }}
-            />
-          </Box>
-        )}
-        <Button type='submit'>Register</Button>
-        {responseMessage && <AuthCard.ResponseMessage>{responseMessage}</AuthCard.ResponseMessage>}
-      </form>
-    </AuthCard>
+            >
+              <ReCAPTCHA
+                sitekey={authConfig.recaptchaSiteKey}
+                onChange={(token: string | null) => {
+                  setCaptcha(token);
+                }}
+              />
+            </Box>
+          )}
+          <Button type='submit'>Register</Button>
+          {responseMessage && <AuthCard.ResponseMessage>{responseMessage}</AuthCard.ResponseMessage>}
+        </form>
+      </AuthCard>
+    </div>
   );
 }
