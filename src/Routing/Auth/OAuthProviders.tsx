@@ -200,7 +200,7 @@ const providers = {
   },
   GitHub: {
     client_id: process.env.NEXT_PUBLIC_GITHUB_CLIENT_ID,
-    scope: 'user:email',
+    scope: process.env.NEXT_PUBLIC_GITHUB_SCOPES || 'user:email',
     uri: 'https://github.com/login/oauth/authorize',
     params: {},
     icon: <GitHub />,
@@ -214,7 +214,7 @@ const providers = {
   },
   Google: {
     client_id: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID,
-    scope: 'profile email https://www.googleapis.com/auth/gmail.send',
+    scope: process.env.NEXT_PUBLIC_GOOGLE_SCOPES || 'profile email https://www.googleapis.com/auth/gmail.send',
     uri: 'https://accounts.google.com/o/oauth2/v2/auth',
     params: {
       access_type: 'offline',
@@ -273,6 +273,7 @@ const providers = {
   Microsoft: {
     client_id: process.env.NEXT_PUBLIC_MICROSOFT_CLIENT_ID,
     scope:
+      process.env.NEXT_PUBLIC_MICROSOFT_SCOPES ||
       'https://graph.microsoft.com/User.Read https://graph.microsoft.com/Mail.Send https://graph.microsoft.com/Calendars.ReadWrite.Shared',
     uri: 'https://login.microsoftonline.com/common/oauth2/v2.0/authorize',
     params: {},
