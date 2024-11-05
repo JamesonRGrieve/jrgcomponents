@@ -1,7 +1,7 @@
 'use client';
 
 import React, { ReactNode, useCallback, useContext, useMemo } from 'react';
-
+import deepMerge from '../../utils/Merge';
 import OAuth2Login from 'react-simple-oauth2-login';
 
 import { useRouter } from 'next/navigation';
@@ -14,7 +14,8 @@ export type OAuthProps = {
 };
 export default function OAuth({ overrides }: OAuthProps): ReactNode {
   const router = useRouter();
-  const oAuthProviders = useMemo(() => ({ ...providers, ...overrides }) as typeof providers, [providers, overrides]);
+  const oAuthProviders = useMemo(() => deepMerge(providers, overrides) as typeof providers, [providers, overrides]);
+  console.log('OAuth Providers: ', oAuthProviders);
   const onOAuth2 = useCallback(
     (response: any) => {
       const redirect = getCookie('href') ?? '/';

@@ -12,13 +12,14 @@ import { AuthenticationContext } from './AuthenticationContext';
 import assert from '../../utils/Assert';
 import OrganizationalUnit, { OrganizationalUnitProps } from './OU';
 import ErrorPage, { ErrorPageProps } from './ErrorPage';
+import deepMerge from '../../utils/Merge';
 
 // Add the new function to check for OAuth client IDs
 const isOAuth2Enabled = (): boolean => {
   const microsoftClientId = process.env.NEXT_PUBLIC_MICROSOFT_CLIENT_ID;
   const googleClientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
   const githubClientId = process.env.NEXT_PUBLIC_GITHUB_CLIENT_ID;
-  
+
   return !!(microsoftClientId || googleClientId || githubClientId);
 };
 
@@ -119,10 +120,8 @@ export default function AuthRouter({
   corePagesConfig?: AuthenticationConfig;
   additionalPages: { [key: string]: ReactNode };
 }) {
-  corePagesConfig = {
-    ...pageConfigDefaults,
-    ...corePagesConfig,
-  };
+  corePagesConfig = deepMerge(pageConfigDefaults, corePagesConfig);
+
   console.log('Basic', process.env.NEXT_PUBLIC_ALLOW_BASIC_SIGN_IN);
   console.log('Magical', process.env.NEXT_PUBLIC_ALLOW_MAGICAL_SIGN_IN);
   console.log('OAuth2', isOAuth2Enabled()); // Added OAuth2 logging
